@@ -112,7 +112,7 @@ public:
     if (_host)
       logger_ = _host->get_logger();
     else
-      logger_ = 0;
+      logger_ = API_LOGGER;
   }
 
   //! \brief log a debug message with format
