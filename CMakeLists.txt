@@ -5,7 +5,7 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 set(MAJOR_VERSION "1")
 set(MINOR_VERSION "13")
-set(PATCH_VERSION "3")
+set(PATCH_VERSION "4")
 set(VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
 if (NOT DEFINED CMAKE_INSTALL_PREFIX AND CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -19,7 +19,7 @@ pkg_check_modules(TANGO tango REQUIRED)
 pkg_check_modules(YAT yat REQUIRED)
 
 if (UNIX)
-    add_definitions(-O2 -g -gstabs+ -std=c++0x -Wall -Wextra -DYAT4TANGO_PROJECT_VERSION=1.13.3 -DYAT4TANGO_PROJECT_NAME=YAT)
+    add_definitions(-O2 -g -gstabs+ -std=c++0x -Wall -Wextra -DYAT4TANGO_PROJECT_VERSION=1.13.4 -DYAT4TANGO_PROJECT_NAME=YAT4Tango)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-z,defs")
 endif()
 

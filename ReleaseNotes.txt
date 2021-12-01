@@ -1,20 +1,32 @@
 YAT4Tango history file
 
+1.13.4 (2021/12/01)
+===================
+
+Fixes
+    TangoLogAdapter
+        If _host parameter is null then use the API_LOGGER to prevent seg fault.
+        In this case, log messages will be redirected to the admin device associated
+        to the device server.
+
 1.13.3 (2021/09/23)
 ===================
 
 Additions
     TangoLogAdapter
-        Objets inherited from TangoLogAdapter can now use those methods for message logging with formatting:
+        Objets inherited from TangoLogAdapter can now use those methods for message
+        logging with formatting:
         debug(), info(), warn(), error(), fatal()
         which internally use the yat::Format class.
-        usage : 
+        usage :
         debug("Message with two arguments: first: {}, second: {}.").arg(value_1).arg(value_2);
         -> see <yat4tango/LogHelper.h>
+        -> see Format class in <yat/utils/String.h> for format specification
 
 Changes
     DeviceTask
-        This class now inherite from TangoLogAdapter instead of Tango::LogAdapter in order to benefit from the new log methods using yat::Format
+        This class now inherite from TangoLogAdapter instead of Tango::LogAdapter
+        in order to benefit from the new log methods using yat::Format
         -> see <yat4tango/DeviceTask.h>
 
 1.13.2 (2021/07/07)
@@ -30,7 +42,7 @@ Additions
 
 Changes
     Due to compilation probem (and because of use of a timeval struct),
-    the ArchEventPusher class will not available on windows plateform 
+    the ArchEventPusher class will not available on windows plateform
     in this release
 
 1.13.0 (2021/04/08)
@@ -40,7 +52,7 @@ Changes
     class ArchEventPusher
         3s sleeping removed.
         Incoming events are bufferize when errors occured
- 
+
     class FileAppender
         possible crash fixed at init_device in case of I/O error
 

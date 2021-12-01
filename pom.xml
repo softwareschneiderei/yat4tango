@@ -13,7 +13,7 @@
 
   <artifactId>YAT4Tango-${aol}-${library}-${mode}</artifactId>
 
-  <version>1.13.4-SNAPSHOT</version>
+  <version>1.13.4</version>
 
   <packaging>nar</packaging>
 
