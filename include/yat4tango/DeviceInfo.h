@@ -11,9 +11,9 @@
 //
 // Copyright (C) 2006-2016 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -48,10 +48,10 @@ namespace yat4tango
 {
 
 // ============================================================================
-//! \class DeviceInfo 
+//! \class DeviceInfo
 //! \brief Add an 'info' attribute that provide system information about the device
 //!
-//! \b Usage: 
+//! \b Usage:
 //! - Initialize the DeviceInfo in the device initialization function (i.e. the *init_device()*
 //! function). This is the first thing to do before any other action. For instance:
 //! \verbatim yat4tango::DeviceInfo::initialize(this); \endverbatim
@@ -64,10 +64,12 @@ namespace yat4tango
 class YAT4TANGO_DECL DeviceInfo
 {
 public:
-   //! \brief Initialization of the inner appender.
-   //! 
-   //! \param associated_device The Tango device to log.
-   //! \param max_log_buffer_depth 
+   //! \brief Initialization.
+   //!
+   //! \param associated_device host device
+   //! \param project_name The device project name
+   //! \param project_name The device project version
+   //! \param attr_name The name of the attribute that will expose versions information (default is 'info')
    //! \exception DEVICE_ERROR Thrown when an error occurs while initializing the logger.
    static void initialize (Tango::DeviceImpl* associated_device,
                            const std::string& project_name,
@@ -75,17 +77,17 @@ public:
                            const std::string& attr_name = "info");
 
    //! \brief Termination.
-   //! 
+   //!
    //! \param associated_device The associated Tango device.
    //! \exception DEVICE_ERROR Thrown when an error occurs while releasing the logger.
    static void release (Tango::DeviceImpl* associated_device);
 
    //! \brief Add a project version.
-   //! 
+   //!
    //! \param version dependency version string
    static void add_dependency(Tango::DeviceImpl* hd, const std::string& name, const std::string& version);
 
-  //! \brief Does nothing! 
+  //! \brief Does nothing!
   //!
   //! Inherited from log4tango::DeviceInfo virtual interface.
   virtual void close ();
@@ -94,13 +96,13 @@ private:
 
   typedef std::deque<std::string> StringBuffer;
 
-  //- InnerAppender repository 
+  //- InnerAppender repository
   typedef std::map<Tango::DeviceImpl*, DeviceInfo*> DeviceInfoRepository;
   typedef DeviceInfoRepository::value_type DeviceInfoEntry;
   typedef DeviceInfoRepository::iterator DeviceInfoIterator;
   typedef DeviceInfoRepository::const_iterator DeviceInfoConstIterator;
 
-  //- provide the yat4tango::DynamicAttributeReadCallback with access to read_callback 
+  //- provide the yat4tango::DynamicAttributeReadCallback with access to read_callback
   friend class DynamicAttributeReadCallback;
 
   //- Ctor

@@ -43,8 +43,9 @@ namespace yat4tango
 {
 
 //=============================================================================
-///
+//!
 //! \class Logging
+//!
 //! \brief Aggregation class to ease logging management
 //!
 //! This class provides a simplier way to declare & use the logging classes of
@@ -62,25 +63,30 @@ namespace yat4tango
 //! max_file_size_kb = 1000        ('1000') min file size before archiving
 //! max_file_days = 90             ('5') how many days before old log files are deleted
 //! debug_level = false            ('true') store debug level messages or not
+//! \endverbatim
 //!
 //=============================================================================
 class YAT4TANGO_DECL Logging
 {
 public:
+  //! \brief Initialize this host and configuration property name
+  //!
+  //! \param device_p Host device
+  //! \param prop_name Name of the configuration property
   static void initialize(Tango::DeviceImpl* device_p, const std::string& prop_name);
   static void initialize(Tango::DeviceImpl* device_p);
   static void release(Tango::DeviceImpl* device_p);
 
-  //!- Close/rename log files and move them into a new folder named
+  //! \brief Close/rename log files and move them into a new folder named
   //!  '<domain>_<family>_<member>.yyyymmddHHMMSS'
   static void archive_and_reset(Tango::DeviceImpl* device_p);
 
-  //- Clear the log attribute
-  //- Same effect as calling InnerAppender::clear()
+  //! \brief Clear the log attribute
+  //!
+  //! Same effect as calling InnerAppender::clear()
   static void clear_log(Tango::DeviceImpl* device_p);
 };
 
 } // namespace
 
 #endif // _LOGGING_H_
-

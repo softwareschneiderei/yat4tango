@@ -11,9 +11,9 @@
 //
 // Copyright (c) 2004-2016 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -44,9 +44,9 @@
 //! The topics dealt in YAT4Tango library are:
 //!
 //!   - Advanced Threading:
-//!     - yat4tango::DeviceTask 
+//!     - yat4tango::DeviceTask
 //!
-//!   - Device Dynamic Interface: 
+//!   - Device Dynamic Interface:
 //!     - yat4tango::DynamicInterfaceManager (\subpage DynInterfacePage "see example")
 //!     - yat4tango::DynamicCommand,
 //!     - yat4tango::DynamicCommandManager
@@ -62,8 +62,13 @@
 //!     - yat4tango::AttributeGroup
 //!     - yat4tango::AttributeGroupReply
 //!
-//!   - Logging: 
+//!   - Events:
+//!     - yat4tango::ArchEventPusher
+//!
+//!   - Logging management:
+//!     - yat4tango::Logging
 //!     - yat4tango::InnerAppender
+//!     - yat4tango::FileAppender
 //!     - yat4tango::TangoLogAdapter
 //!     - yat4tango::TraceHelper
 //!
@@ -78,7 +83,10 @@
 //!     - yat4tango::YATDevFailed
 //!     - yat4tango::TangoYATException
 //!
-//!   - The following classes are \b OBSOLETE: 
+//!   - Misc:
+//!     - yat4tango::DeviceInfo
+//!
+//!   - The following classes are \b OBSOLETE:
 //!     - yat4tango::ThreadSafeDeviceProxy
 //!     - yat4tango::ThreadSafeDeviceProxyHelper
 //!
