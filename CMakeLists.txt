@@ -19,7 +19,7 @@ pkg_check_modules(TANGO tango REQUIRED)
 pkg_check_modules(YAT yat REQUIRED)
 
 if (UNIX)
-    add_definitions(-O2 -g -gstabs+ -std=c++0x -Wall -Wextra -DYAT4TANGO_PROJECT_VERSION=1.13.4 -DYAT4TANGO_PROJECT_NAME=YAT4Tango)
+    add_definitions(-O2 -g -gstabs+ -std=c++0x -Wall -Wextra -DYAT4TANGO_PROJECT_VERSION=${VERSION} -DYAT4TANGO_PROJECT_NAME=YAT4TANGO)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-z,defs")
 endif()
 
