@@ -6,12 +6,12 @@
   <parent>
     <artifactId>super-pom-C-CPP-tango</artifactId>
     <groupId>fr.soleil</groupId>
-    <version>18.1.2</version>
+    <version>21.2.5-64</version>
   </parent>
 
   <groupId>fr.soleil.lib</groupId>
   <artifactId>YAT4Tango-${aol}-shared-${mode}</artifactId>
-  <version>1.13.3</version>
+  <version>1.13.4</version>
 
   <packaging>nar</packaging>
   <name>YAT4Tango</name>
@@ -38,7 +38,12 @@
   </scm>
 
 	<properties>
-        <libs-64bits>C:\VC_12_MAVEN\LIB_VC12_64</libs-64bits>
+		<YAT.version>1.18.7</YAT.version> 
+		
+        <libs-64bits>//filer2.ica.synchrotron-soleil.fr/ica/LIB_VC12_64</libs-64bits>
+		
+		<yat-lib>${libs-64bits}\yat\${YAT.version}\lib\</yat-lib>
+		<yat-include>${libs-64bits}\yat\${YAT.version}\include\</yat-include>
 
 		<tango-lib>${libs-64bits}\tango\win64\lib\vc12_dll\</tango-lib>
 		<tango-include>${libs-64bits}\tango\win64\include\vc12\</tango-include>
@@ -48,11 +53,6 @@
 
 		<omniorb-lib>${tango-lib}</omniorb-lib>
 		<omniorb-include>${tango-include}</omniorb-include>
-
-		<!-- <yat-lib>${libs-64bits}\yat\target\nar\lib\amd64-Windows-msvc\shared\</yat-lib>
-		<yat-include>${libs-64bits}\yat\target\nar\include\</yat-include> -->
-		<yat-lib>T:\DEV\flosvn\YAT-1.17.5\target\nar\lib\amd64-Windows-msvc\shared\</yat-lib>
-		<yat-include>T:\DEV\flosvn\YAT-1.17.5\target\nar\include\</yat-include>
 
 		<log4tango-lib>${tango-lib}</log4tango-lib>
 		<log4tango-include>${tango-include}</log4tango-include>
@@ -113,7 +113,7 @@
 
 					<!-- yat 64 bits -->
 					<lib>
-						<name>YAT-amd64-Windows-msvc12-shared-release-1.17.5</name>
+						<name>YAT-amd64-Windows-msvc12-shared-release-${YAT.version}</name>
 						<type>shared</type>
 						<directory>${yat-lib}</directory>
 					</lib>

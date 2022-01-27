@@ -11,7 +11,7 @@
 
   <groupId>fr.soleil.lib</groupId>
   <artifactId>YAT4Tango-amd64-Linux-gcc-shared-${mode}</artifactId>
-  <version>1.13.3</version>
+  <version>1.13.4</version>
 
   <packaging>nar</packaging>
   <name>YAT4Tango</name>
@@ -36,11 +36,21 @@
       <timezone>1</timezone>
     </developer>
   </developers>
+  
   <scm>
     <connection>${scm.connection.svn.tango-cs}/share/yat4tango/trunk</connection>
     <developerConnection>${scm.developerConnection.svn.tango-cs}/share/yat4tango/trunk</developerConnection>
     <url>${scm.url.svn.tango-cs}/share/yat4tango/trunk</url>
   </scm>
+  
+  <dependencies>
+    <dependency>
+      <groupId>fr.soleil.lib</groupId>
+      <artifactId>YAT-amd64-Linux-gcc-shared-${mode}</artifactId>
+	  <version>1.18.7</version>
+    </dependency>
+   </dependencies>
+   
   <build>
     <plugins>
       <!--plugin>
@@ -192,11 +202,5 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>fr.soleil.lib</groupId>
-      <artifactId>YAT-amd64-Linux-gcc-shared-${mode}</artifactId>
-	  <version>1.17.5</version>
-    </dependency>
-   </dependencies>
+  
 </project>
