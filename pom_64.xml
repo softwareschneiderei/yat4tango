@@ -11,7 +11,7 @@
 
   <groupId>fr.soleil.lib</groupId>
   <artifactId>YAT4Tango-amd64-Linux-gcc-shared-${mode}</artifactId>
-  <version>1.13.4</version>
+  <version>1.13.5</version>
 
   <packaging>nar</packaging>
   <name>YAT4Tango</name>
