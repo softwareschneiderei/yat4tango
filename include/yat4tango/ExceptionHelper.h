@@ -235,6 +235,31 @@ namespace yat4tango
   }
 
 //=============================================================================
+//! \brief YAT_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX MACRO
+//!
+//! \param _yat_ex The yat exception.
+//! \param prefix a prefix inserted before each log message.
+//=============================================================================
+#define YAT_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX(_yat_ex, prefix) \
+  const yat::Exception::ErrorList & el = _yat_ex.errors; \
+  for( std::size_t i = 0; i < el.size(); ++i) \
+  { \
+    switch (el[i].severity) \
+    { \
+      case yat::WARN: \
+        WARN_STREAM << prefix << el[i].reason << ". " << el[i].desc << ". " << el[i].origin << ENDLOG; \
+        break; \
+      case yat::PANIC: \
+        FATAL_STREAM << prefix << el[i].reason << ". " << el[i].desc << ". " << el[i].origin << ENDLOG; \
+        break; \
+      case yat::ERR: \
+      default: \
+        ERROR_STREAM << prefix << el[i].reason << ". " << el[i].desc << ". " << el[i].origin << ENDLOG; \
+        break; \
+    } \
+  }
+
+//=============================================================================
 //! \brief TANGO_EXCEPTION_TO_LOG_STREAM MACRO
 //!
 //! \param _tango_ex The corresponding Tango exception.
@@ -254,6 +279,31 @@ namespace yat4tango
       case Tango::ERR: \
       default: \
         ERROR_STREAM << el[i].reason << ". " << el[i].desc << ". " << el[i].origin << ENDLOG; \
+        break; \
+    } \
+  }
+
+//=============================================================================
+//! \brief TANGO_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX MACRO
+//!
+//! \param _tango_ex The corresponding Tango exception.
+//! \param prefix a prefix inserted before each log message.
+//=============================================================================
+#define TANGO_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX(_tango_ex) \
+  const Tango::DevErrorList & el = _tango_ex.errors; \
+  for( std::size_t i = 0; i < el.length(); ++i) \
+  { \
+    switch (el[i].severity) \
+    { \
+      case Tango::WARN: \
+        WARN_STREAM << prefix << el[i].reason << ". " << el[i].desc << ". " << el[i].origin << ENDLOG; \
+        break; \
+      case Tango::PANIC: \
+        FATAL_STREAM << prefix << el[i].reason << ". " << el[i].desc << ". " << el[i].origin << ENDLOG; \
+        break; \
+      case Tango::ERR: \
+      default: \
+        ERROR_STREAM << prefix << el[i].reason << ". " << el[i].desc << ". " << el[i].origin << ENDLOG; \
         break; \
     } \
   }

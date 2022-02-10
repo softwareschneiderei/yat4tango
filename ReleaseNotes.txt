@@ -1,5 +1,16 @@
 YAT4Tango history file
 
+1.13.5 (2022/02/10)
+===================
+
+Additions
+    Logging helpers
+        New macros YAT_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX
+        & TANGO_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX
+        It allow to log exceptions error stacks with a prefix to insert at the
+        begining for each line
+        -> see <yat4tango/ExceptionHelper.h>
+
 1.13.4 (2021/12/01)
 ===================
 
