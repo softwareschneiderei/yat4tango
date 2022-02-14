@@ -37,26 +37,26 @@
     <url>${scm.url.svn.tango-cs}/share/yat4tango/trunk</url>
   </scm>
 
-	<properties>
-		<YAT.version>1.18.7</YAT.version> 
-		
+  <properties>
+    <YAT.version>1.18.8</YAT.version>
+
         <libs-64bits>//filer2.ica.synchrotron-soleil.fr/ica/LIB_VC12_64</libs-64bits>
-		
-		<yat-lib>${libs-64bits}\yat\${YAT.version}\lib\</yat-lib>
-		<yat-include>${libs-64bits}\yat\${YAT.version}\include\</yat-include>
 
-		<tango-lib>${libs-64bits}\tango\win64\lib\vc12_dll\</tango-lib>
-		<tango-include>${libs-64bits}\tango\win64\include\vc12\</tango-include>
+    <yat-lib>${libs-64bits}\yat\${YAT.version}\lib\</yat-lib>
+    <yat-include>${libs-64bits}\yat\${YAT.version}\include\</yat-include>
 
-		<zeromq-lib>${tango-lib}</zeromq-lib>
-		<zeromq-include>${tango-include}</zeromq-include>
+    <tango-lib>${libs-64bits}\tango\win64\lib\vc12_dll\</tango-lib>
+    <tango-include>${libs-64bits}\tango\win64\include\vc12\</tango-include>
 
-		<omniorb-lib>${tango-lib}</omniorb-lib>
-		<omniorb-include>${tango-include}</omniorb-include>
+    <zeromq-lib>${tango-lib}</zeromq-lib>
+    <zeromq-include>${tango-include}</zeromq-include>
 
-		<log4tango-lib>${tango-lib}</log4tango-lib>
-		<log4tango-include>${tango-include}</log4tango-include>
-	</properties>
+    <omniorb-lib>${tango-lib}</omniorb-lib>
+    <omniorb-include>${tango-include}</omniorb-include>
+
+    <log4tango-lib>${tango-lib}</log4tango-lib>
+    <log4tango-include>${tango-include}</log4tango-include>
+  </properties>
 
   <build>
     <plugins>
@@ -71,88 +71,88 @@
       <plugin>
         <groupId>org.freehep</groupId>
         <artifactId>freehep-nar-plugin</artifactId>
-		<version>2.0-alpha-17-SOLEIL</version>
+    <version>2.0-alpha-17-SOLEIL</version>
         <configuration>
           <cpp>
             <sourceDirectory>src</sourceDirectory>
             <includePaths>
                 <includePath>include</includePath>
-				<includePath>${yat-include}</includePath>
-				<includePath>${zeromq-include}</includePath>
-				<includePath>${tango-include}</includePath>
-				<includePath>${omniorb-include}</includePath>
-				<includePath>$(log4tango-include}</includePath>
+        <includePath>${yat-include}</includePath>
+        <includePath>${zeromq-include}</includePath>
+        <includePath>${tango-include}</includePath>
+        <includePath>${omniorb-include}</includePath>
+        <includePath>$(log4tango-include}</includePath>
             </includePaths>
             <defines>
               <define>YAT4TANGO_PROJECT_VERSION=${project.version}</define>
               <define>YAT4TANGO_PROJECT_NAME=${project.name}</define>
             </defines>
           </cpp>
-			<libraries>
-				<library>
-					<type>shared</type>
-				</library>
-			</libraries>
+      <libraries>
+        <library>
+          <type>shared</type>
+        </library>
+      </libraries>
 
-			<linker>
-				<libs>
-					<!-- libtango 64 bits -->
-					<lib>
-						<name>tango</name>
-						<type>shared</type>
-						<directory>${tango-lib}</directory>
-					</lib>
+      <linker>
+        <libs>
+          <!-- libtango 64 bits -->
+          <lib>
+            <name>tango</name>
+            <type>shared</type>
+            <directory>${tango-lib}</directory>
+          </lib>
 
-					<!-- log4tango 64 bits -->
-					<lib>
-						<name>log4tango</name>
-						<type>shared</type>
-						<directory>${log4tango-lib}</directory>
-					</lib>
+          <!-- log4tango 64 bits -->
+          <lib>
+            <name>log4tango</name>
+            <type>shared</type>
+            <directory>${log4tango-lib}</directory>
+          </lib>
 
 
-					<!-- yat 64 bits -->
-					<lib>
-						<name>YAT-amd64-Windows-msvc12-shared-release-${YAT.version}</name>
-						<type>shared</type>
-						<directory>${yat-lib}</directory>
-					</lib>
+          <!-- yat 64 bits -->
+          <lib>
+            <name>YAT-amd64-Windows-msvc12-shared-release-${YAT.version}</name>
+            <type>shared</type>
+            <directory>${yat-lib}</directory>
+          </lib>
 
-					<!-- omniorb 64 bits -->
-					<lib>
-						<name>omnithread_rt</name>
-						<type>shared</type>
-						<directory>${omniorb-lib}</directory>
-					</lib>
+          <!-- omniorb 64 bits -->
+          <lib>
+            <name>omnithread_rt</name>
+            <type>shared</type>
+            <directory>${omniorb-lib}</directory>
+          </lib>
 
-					<lib>
-						<name>omniORB4_rt</name>
-						<type>shared</type>
-						<directory>${omniorb-lib}</directory>
-					</lib>
+          <lib>
+            <name>omniORB4_rt</name>
+            <type>shared</type>
+            <directory>${omniorb-lib}</directory>
+          </lib>
 
-					<lib>
-						<name>omniDynamic4_rt</name>
-						<type>shared</type>
-						<directory>${omniorb-lib}</directory>
-					</lib>
+          <lib>
+            <name>omniDynamic4_rt</name>
+            <type>shared</type>
+            <directory>${omniorb-lib}</directory>
+          </lib>
 
-					<lib>
-						<name>COS421_rt</name>
-						<type>shared</type>
-						<directory>${omniorb-lib}</directory>
-					</lib>
+          <lib>
+            <name>COS421_rt</name>
+            <type>shared</type>
+            <directory>${omniorb-lib}</directory>
+          </lib>
 
-					<!-- zeromq 64 bits -->
-					<lib>
-						<name>zmq</name>
-						<type>shared</type>
-						<directory>${zeromq-lib}</directory>
-					</lib>
-				</libs>
-			</linker>
+          <!-- zeromq 64 bits -->
+          <lib>
+            <name>zmq</name>
+            <type>shared</type>
+            <directory>${zeromq-lib}</directory>
+          </lib>
+        </libs>
+      </linker>
 
-			<specificConfigurations>
+      <specificConfigurations>
             <specificConfiguration>
               <id>YAT win32</id>
               <activation>

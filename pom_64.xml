@@ -36,21 +36,21 @@
       <timezone>1</timezone>
     </developer>
   </developers>
-  
+
   <scm>
     <connection>${scm.connection.svn.tango-cs}/share/yat4tango/trunk</connection>
     <developerConnection>${scm.developerConnection.svn.tango-cs}/share/yat4tango/trunk</developerConnection>
     <url>${scm.url.svn.tango-cs}/share/yat4tango/trunk</url>
   </scm>
-  
+
   <dependencies>
     <dependency>
       <groupId>fr.soleil.lib</groupId>
       <artifactId>YAT-amd64-Linux-gcc-shared-${mode}</artifactId>
-	  <version>1.18.7</version>
+    <version>1.18.8</version>
     </dependency>
    </dependencies>
-   
+
   <build>
     <plugins>
       <!--plugin>
@@ -108,12 +108,12 @@
               </activation>
               <cpp>
 
-				<includePaths>
-					<includePath>${libs-64bits}/libtango8-devel-8.1.2-16.el6.maxlab.x86_64/usr/include/tango</includePath>
-					<includePath>${libs-64bits}/liblog4tango5-devel-5.0.0-16.el6.maxlab.x86_64/usr/include/tango</includePath>
-					<includePath>${libs-64bits}/omniORB-devel-4.1.7-1.el6.x86_64/usr/include</includePath>
-					<includePath>${libs-64bits}/zeromq-3.2.5/include</includePath>
-				</includePaths>
+        <includePaths>
+          <includePath>${libs-64bits}/libtango8-devel-8.1.2-16.el6.maxlab.x86_64/usr/include/tango</includePath>
+          <includePath>${libs-64bits}/liblog4tango5-devel-5.0.0-16.el6.maxlab.x86_64/usr/include/tango</includePath>
+          <includePath>${libs-64bits}/omniORB-devel-4.1.7-1.el6.x86_64/usr/include</includePath>
+          <includePath>${libs-64bits}/zeromq-3.2.5/include</includePath>
+        </includePaths>
 
                 <options>
                   <option>-Wno-uninitialized</option>
@@ -123,64 +123,64 @@
                 </options>
               </cpp>
 
-			<linker>
+      <linker>
                 <libs>
-					<lib>
-						<!-- omniORB4 (1.6) 64 -->
-						<name>omniORB4</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
-					</lib>
+          <lib>
+            <!-- omniORB4 (1.6) 64 -->
+            <name>omniORB4</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
+          </lib>
 
-					<lib>
-						<!-- omniDynamic4 (1.6) 64 -->
-						<name>omniDynamic4</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
-					</lib>
+          <lib>
+            <!-- omniDynamic4 (1.6) 64 -->
+            <name>omniDynamic4</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
+          </lib>
 
-					<lib>
-						<!-- COS4 (1.6) 64 -->
-						<name>COS4</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
-					</lib>
+          <lib>
+            <!-- COS4 (1.6) 64 -->
+            <name>COS4</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
+          </lib>
 
-					<lib>
-						<!-- omniCodeSets4 (3.4) 64 -->
-						<name>omniCodeSets4</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
-					</lib>
+          <lib>
+            <!-- omniCodeSets4 (3.4) 64 -->
+            <name>omniCodeSets4</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
+          </lib>
 
-					<lib>
-						<!-- omnithread (3.4) 64 -->
-						<name>omnithread</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
-					</lib>
+          <lib>
+            <!-- omnithread (3.4) 64 -->
+            <name>omnithread</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/omniORB-4.1.7-1.el6.x86_64/usr/lib64</directory>
+          </lib>
 
-					<lib>
-						<!-- zmq (3.X.Y) 64 -->
-						<name>zmq</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/zeromq-3.2.5/lib/</directory>
-					</lib>
+          <lib>
+            <!-- zmq (3.X.Y) 64 -->
+            <name>zmq</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/zeromq-3.2.5/lib/</directory>
+          </lib>
 
-					<lib>
-						<!-- tango (8.0.5) 64 -->
-						<name>tango</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/libtango8-8.1.2-16.el6.maxlab.x86_64/usr/lib64</directory>
-					</lib>
+          <lib>
+            <!-- tango (8.0.5) 64 -->
+            <name>tango</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/libtango8-8.1.2-16.el6.maxlab.x86_64/usr/lib64</directory>
+          </lib>
 
-					<lib>
-						<!-- log4tango (4.0.7) 64 -->
-						<name>log4tango</name>
-						<type>shared</type>
-						<directory>${libs-64bits}/liblog4tango5-5.0.0-16.el6.maxlab.x86_64/usr/lib64</directory>
-					</lib>
-				</libs>
+          <lib>
+            <!-- log4tango (4.0.7) 64 -->
+            <name>log4tango</name>
+            <type>shared</type>
+            <directory>${libs-64bits}/liblog4tango5-5.0.0-16.el6.maxlab.x86_64/usr/lib64</directory>
+          </lib>
+        </libs>
             </linker>
             </specificConfiguration>
             <specificConfiguration>
@@ -202,5 +202,5 @@
       </plugin>
     </plugins>
   </build>
-  
+
 </project>
