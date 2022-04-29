@@ -1,0 +1,636 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		37438E8E139A077500FFE333 /* yat4tango-i386 */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 37438E8F139A077500FFE333 /* Build configuration list for PBXAggregateTarget "yat4tango-i386" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "yat4tango-i386";
+			productName = yat4tango;
+		};
+		37F7D105139A0BE400E2A86A /* yat4tango-x86_64 */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 37F7D106139A0BE400E2A86A /* Build configuration list for PBXAggregateTarget "yat4tango-x86_64" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "yat4tango-x86_64";
+			productName = yat4tango;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXFileReference section */
+		37ADC7FC139A23AF00990B54 /* CommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonHeader.h; sourceTree = "<group>"; };
+		37ADC7FD139A23AF00990B54 /* DeviceTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceTask.h; sourceTree = "<group>"; };
+		37ADC7FE139A23AF00990B54 /* DeviceTask.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = DeviceTask.i; sourceTree = "<group>"; };
+		37ADC7FF139A23AF00990B54 /* DynamicAttr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicAttr.h; sourceTree = "<group>"; };
+		37ADC800139A23AF00990B54 /* DynamicAttr.tpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DynamicAttr.tpp; sourceTree = "<group>"; };
+		37ADC801139A23AF00990B54 /* DynamicAttrHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicAttrHelper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		37ADC802139A23AF00990B54 /* DynamicAttrHelper.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = DynamicAttrHelper.i; sourceTree = "<group>"; };
+		37ADC803139A23AF00990B54 /* DynamicAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicAttribute.h; sourceTree = "<group>"; };
+		37ADC804139A23AF00990B54 /* DynamicAttributeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicAttributeManager.h; sourceTree = "<group>"; };
+		37ADC805139A23AF00990B54 /* ExceptionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExceptionHelper.h; sourceTree = "<group>"; };
+		37ADC806139A23AF00990B54 /* Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Export.h; sourceTree = "<group>"; };
+		37ADC807139A23AF00990B54 /* ForwardedAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForwardedAttribute.h; sourceTree = "<group>"; };
+		37ADC808139A23AF00990B54 /* InnerAppender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InnerAppender.h; sourceTree = "<group>"; };
+		37ADC809139A23AF00990B54 /* LogHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogHelper.h; sourceTree = "<group>"; };
+		37ADC80A139A23AF00990B54 /* MonitoredAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoredAttribute.h; sourceTree = "<group>"; };
+		37ADC80B139A23AF00990B54 /* MonitoredDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoredDevice.h; sourceTree = "<group>"; };
+		37ADC80C139A23AF00990B54 /* MonitoredDeviceTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoredDeviceTask.h; sourceTree = "<group>"; };
+		37ADC80D139A23AF00990B54 /* PlugInAttr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlugInAttr.h; sourceTree = "<group>"; };
+		37ADC80E139A23AF00990B54 /* PlugInAttr.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = PlugInAttr.i; sourceTree = "<group>"; };
+		37ADC80F139A23AF00990B54 /* PlugInAttr.tpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PlugInAttr.tpp; sourceTree = "<group>"; };
+		37ADC810139A23AF00990B54 /* PlugInHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlugInHelper.h; sourceTree = "<group>"; };
+		37ADC811139A23AF00990B54 /* PlugInHelper.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = PlugInHelper.i; sourceTree = "<group>"; };
+		37ADC812139A23AF00990B54 /* ThreadSafeDeviceProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeDeviceProxy.h; sourceTree = "<group>"; };
+		37ADC813139A23AF00990B54 /* ThreadSafeDeviceProxy.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; path = ThreadSafeDeviceProxy.i; sourceTree = "<group>"; };
+		37ADC814139A23AF00990B54 /* ThreadSafeDeviceProxyHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadSafeDeviceProxyHelper.h; sourceTree = "<group>"; };
+		37ADC815139A23AF00990B54 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		37ADC81A139A23C700990B54 /* common_target.opt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common_target.opt; sourceTree = "<group>"; };
+		37ADC81B139A23C700990B54 /* tango.opt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tango.opt; sourceTree = "<group>"; };
+		37ADC81D139A23C700990B54 /* common_target.opt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = common_target.opt; sourceTree = "<group>"; };
+		37ADC81E139A23C700990B54 /* tango.opt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tango.opt; sourceTree = "<group>"; };
+		37ADC81F139A23C700990B54 /* DeviceTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceTask.cpp; sourceTree = "<group>"; };
+		37ADC820139A23C700990B54 /* DynamicAttr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicAttr.cpp; sourceTree = "<group>"; };
+		37ADC821139A23C700990B54 /* DynamicAttrHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicAttrHelper.cpp; sourceTree = "<group>"; };
+		37ADC822139A23C700990B54 /* DynamicAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicAttribute.cpp; sourceTree = "<group>"; };
+		37ADC823139A23C700990B54 /* DynamicAttributeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DynamicAttributeManager.cpp; sourceTree = "<group>"; };
+		37ADC824139A23C700990B54 /* ExceptionHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExceptionHelper.cpp; sourceTree = "<group>"; };
+		37ADC826139A23C700990B54 /* InnerAppender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InnerAppender.cpp; sourceTree = "<group>"; };
+		37ADC828139A23C700990B54 /* Makefile.linux */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.linux; sourceTree = "<group>"; };
+		37ADC829139A23C700990B54 /* Makefile.macosx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.macosx; sourceTree = "<group>"; };
+		37ADC82B139A23C700990B54 /* MonitoredAttribute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonitoredAttribute.cpp; sourceTree = "<group>"; };
+		37ADC82C139A23C700990B54 /* MonitoredDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonitoredDevice.cpp; sourceTree = "<group>"; };
+		37ADC82D139A23C700990B54 /* MonitoredDeviceTask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MonitoredDeviceTask.cpp; sourceTree = "<group>"; };
+		37ADC831139A23C700990B54 /* PlugInAttr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlugInAttr.cpp; sourceTree = "<group>"; };
+		37ADC832139A23C700990B54 /* PlugInHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlugInHelper.cpp; sourceTree = "<group>"; };
+		37ADC833139A23C700990B54 /* ThreadSafeDeviceProxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadSafeDeviceProxy.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		37ADC7F9139A23AF00990B54 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				37ADC7FB139A23AF00990B54 /* yat4tango */,
+			);
+			name = include;
+			path = ../../include;
+			sourceTree = "<group>";
+		};
+		37ADC7FB139A23AF00990B54 /* yat4tango */ = {
+			isa = PBXGroup;
+			children = (
+				37ADC7FC139A23AF00990B54 /* CommonHeader.h */,
+				37ADC7FD139A23AF00990B54 /* DeviceTask.h */,
+				37ADC7FE139A23AF00990B54 /* DeviceTask.i */,
+				37ADC7FF139A23AF00990B54 /* DynamicAttr.h */,
+				37ADC800139A23AF00990B54 /* DynamicAttr.tpp */,
+				37ADC801139A23AF00990B54 /* DynamicAttrHelper.h */,
+				37ADC802139A23AF00990B54 /* DynamicAttrHelper.i */,
+				37ADC803139A23AF00990B54 /* DynamicAttribute.h */,
+				37ADC804139A23AF00990B54 /* DynamicAttributeManager.h */,
+				37ADC805139A23AF00990B54 /* ExceptionHelper.h */,
+				37ADC806139A23AF00990B54 /* Export.h */,
+				37ADC807139A23AF00990B54 /* ForwardedAttribute.h */,
+				37ADC808139A23AF00990B54 /* InnerAppender.h */,
+				37ADC809139A23AF00990B54 /* LogHelper.h */,
+				37ADC80A139A23AF00990B54 /* MonitoredAttribute.h */,
+				37ADC80B139A23AF00990B54 /* MonitoredDevice.h */,
+				37ADC80C139A23AF00990B54 /* MonitoredDeviceTask.h */,
+				37ADC80D139A23AF00990B54 /* PlugInAttr.h */,
+				37ADC80E139A23AF00990B54 /* PlugInAttr.i */,
+				37ADC80F139A23AF00990B54 /* PlugInAttr.tpp */,
+				37ADC810139A23AF00990B54 /* PlugInHelper.h */,
+				37ADC811139A23AF00990B54 /* PlugInHelper.i */,
+				37ADC812139A23AF00990B54 /* ThreadSafeDeviceProxy.h */,
+				37ADC813139A23AF00990B54 /* ThreadSafeDeviceProxy.i */,
+				37ADC814139A23AF00990B54 /* ThreadSafeDeviceProxyHelper.h */,
+				37ADC815139A23AF00990B54 /* Types.h */,
+			);
+			path = yat4tango;
+			sourceTree = "<group>";
+		};
+		37ADC817139A23C700990B54 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				37ADC818139A23C700990B54 /* build */,
+				37ADC81F139A23C700990B54 /* DeviceTask.cpp */,
+				37ADC820139A23C700990B54 /* DynamicAttr.cpp */,
+				37ADC821139A23C700990B54 /* DynamicAttrHelper.cpp */,
+				37ADC822139A23C700990B54 /* DynamicAttribute.cpp */,
+				37ADC823139A23C700990B54 /* DynamicAttributeManager.cpp */,
+				37ADC824139A23C700990B54 /* ExceptionHelper.cpp */,
+				37ADC826139A23C700990B54 /* InnerAppender.cpp */,
+				37ADC828139A23C700990B54 /* Makefile.linux */,
+				37ADC829139A23C700990B54 /* Makefile.macosx */,
+				37ADC82B139A23C700990B54 /* MonitoredAttribute.cpp */,
+				37ADC82C139A23C700990B54 /* MonitoredDevice.cpp */,
+				37ADC82D139A23C700990B54 /* MonitoredDeviceTask.cpp */,
+				37ADC831139A23C700990B54 /* PlugInAttr.cpp */,
+				37ADC832139A23C700990B54 /* PlugInHelper.cpp */,
+				37ADC833139A23C700990B54 /* ThreadSafeDeviceProxy.cpp */,
+			);
+			name = src;
+			path = ../../src;
+			sourceTree = "<group>";
+		};
+		37ADC818139A23C700990B54 /* build */ = {
+			isa = PBXGroup;
+			children = (
+				37ADC819139A23C700990B54 /* linux */,
+				37ADC81C139A23C700990B54 /* macosx */,
+			);
+			path = build;
+			sourceTree = "<group>";
+		};
+		37ADC819139A23C700990B54 /* linux */ = {
+			isa = PBXGroup;
+			children = (
+				37ADC81A139A23C700990B54 /* common_target.opt */,
+				37ADC81B139A23C700990B54 /* tango.opt */,
+			);
+			path = linux;
+			sourceTree = "<group>";
+		};
+		37ADC81C139A23C700990B54 /* macosx */ = {
+			isa = PBXGroup;
+			children = (
+				37ADC81D139A23C700990B54 /* common_target.opt */,
+				37ADC81E139A23C700990B54 /* tango.opt */,
+			);
+			path = macosx;
+			sourceTree = "<group>";
+		};
+		37D9FC7A13995D1D007B503A = {
+			isa = PBXGroup;
+			children = (
+				37ADC7F9139A23AF00990B54 /* include */,
+				37ADC817139A23C700990B54 /* src */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			wrapsLines = 0;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		3719E418139AA4990077CC24 /* sample-threaded-device */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-f ./Makefile.macosx $(ACTION) $(YAT_BUILD_OPTIONS) ARCH_TYPE=i386";
+			buildConfigurationList = 3719E419139AA4990077CC24 /* Build configuration list for PBXLegacyTarget "sample-threaded-device" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = ../../samples/threaded_device/src;
+			dependencies = (
+			);
+			name = "sample-threaded-device";
+			passBuildSettingsInEnvironment = 1;
+			productName = "sample-threaded-device";
+		};
+		37438E70139A06FD00FFE333 /* yat4tango-static-x86_64 */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-f ./Makefile.macosx $(ACTION) $(YAT_BUILD_OPTIONS) PROJECT_TYPE=STATIC_LIB ARCH_TYPE=x86_64";
+			buildConfigurationList = 37438E71139A06FD00FFE333 /* Build configuration list for PBXLegacyTarget "yat4tango-static-x86_64" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = ../../src;
+			dependencies = (
+			);
+			name = "yat4tango-static-x86_64";
+			passBuildSettingsInEnvironment = 1;
+			productName = yat4tango;
+		};
+		37438E7A139A072000FFE333 /* yat4tango-shared-i386 */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-f ./Makefile.macosx $(ACTION) $(YAT_BUILD_OPTIONS) PROJECT_TYPE=SHARED_LIB ARCH_TYPE=i386";
+			buildConfigurationList = 37438E7B139A072000FFE333 /* Build configuration list for PBXLegacyTarget "yat4tango-shared-i386" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = ../../src;
+			dependencies = (
+			);
+			name = "yat4tango-shared-i386";
+			passBuildSettingsInEnvironment = 1;
+			productName = yat4tango;
+		};
+		37438E84139A073200FFE333 /* yat4tango-shared-x86_64 */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-f ./Makefile.macosx $(ACTION) $(YAT_BUILD_OPTIONS) PROJECT_TYPE=SHARED_LIB  ARCH_TYPE=x86_64";
+			buildConfigurationList = 37438E85139A073200FFE333 /* Build configuration list for PBXLegacyTarget "yat4tango-shared-x86_64" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = ../../src;
+			dependencies = (
+			);
+			name = "yat4tango-shared-x86_64";
+			passBuildSettingsInEnvironment = 1;
+			productName = yat4tango;
+		};
+		37D9FC8113995D1D007B503A /* yat4tango-static-i386 */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-f ./Makefile.macosx $(ACTION) $(YAT_BUILD_OPTIONS) PROJECT_TYPE=STATIC_LIB ARCH_TYPE=i386";
+			buildConfigurationList = 37D9FC8413995D1D007B503A /* Build configuration list for PBXLegacyTarget "yat4tango-static-i386" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = ../../src;
+			dependencies = (
+			);
+			name = "yat4tango-static-i386";
+			passBuildSettingsInEnvironment = 1;
+			productName = yat4tango;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		37D9FC7C13995D1D007B503A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+				ORGANIZATIONNAME = none;
+			};
+			buildConfigurationList = 37D9FC7F13995D1D007B503A /* Build configuration list for PBXProject "yat4tango" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 37D9FC7A13995D1D007B503A;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				37438E8E139A077500FFE333 /* yat4tango-i386 */,
+				37D9FC8113995D1D007B503A /* yat4tango-static-i386 */,
+				37438E7A139A072000FFE333 /* yat4tango-shared-i386 */,
+				37F7D105139A0BE400E2A86A /* yat4tango-x86_64 */,
+				37438E70139A06FD00FFE333 /* yat4tango-static-x86_64 */,
+				37438E84139A073200FFE333 /* yat4tango-shared-x86_64 */,
+				3719E418139AA4990077CC24 /* sample-threaded-device */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		3719E41A139AA4990077CC24 /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = "yat4tango-debug";
+		};
+		3719E41B139AA4990077CC24 /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = "yat4tango-release";
+		};
+		37438E79139A06FD00FFE333 /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-static-x86_64";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=DEBUG";
+			};
+			name = "yat4tango-debug";
+		};
+		37438E83139A072000FFE333 /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-shared-i386";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=DEBUG";
+			};
+			name = "yat4tango-debug";
+		};
+		37438E8D139A073200FFE333 /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-shared-x86_64";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=DEBUG";
+			};
+			name = "yat4tango-debug";
+		};
+		37438E97139A077500FFE333 /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "yat4tango-debug";
+		};
+		37A3C7FD13995FE800CD9217 /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = 4.2;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = "yat4tango-debug";
+		};
+		37A3C7FE13995FE800CD9217 /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-static-i386";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=DEBUG";
+			};
+			name = "yat4tango-debug";
+		};
+		37F7D10E139A0BE400E2A86A /* yat4tango-debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				PRODUCT_NAME = "yat4tango-x86_64";
+			};
+			name = "yat4tango-debug";
+		};
+		37F7D10F139A0F3500E2A86A /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = 4.2;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = "yat4tango-release";
+		};
+		37F7D110139A0F3500E2A86A /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = "yat4tango-release";
+		};
+		37F7D111139A0F3500E2A86A /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-static-i386";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=OPTIMIZED";
+			};
+			name = "yat4tango-release";
+		};
+		37F7D112139A0F3500E2A86A /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-shared-i386";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=OPTIMIZED";
+			};
+			name = "yat4tango-release";
+		};
+		37F7D113139A0F3500E2A86A /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				PRODUCT_NAME = "yat4tango-x86_64";
+			};
+			name = "yat4tango-release";
+		};
+		37F7D114139A0F3500E2A86A /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-static-x86_64";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=OPTIMIZED";
+			};
+			name = "yat4tango-release";
+		};
+		37F7D115139A0F3500E2A86A /* yat4tango-release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "yat4tango-shared-x86_64";
+				YAT_BUILD_OPTIONS = "RELEASE_TYPE=OPTIMIZED";
+			};
+			name = "yat4tango-release";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3719E419139AA4990077CC24 /* Build configuration list for PBXLegacyTarget "sample-threaded-device" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3719E41A139AA4990077CC24 /* yat4tango-debug */,
+				3719E41B139AA4990077CC24 /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+		37438E71139A06FD00FFE333 /* Build configuration list for PBXLegacyTarget "yat4tango-static-x86_64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37438E79139A06FD00FFE333 /* yat4tango-debug */,
+				37F7D114139A0F3500E2A86A /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+		37438E7B139A072000FFE333 /* Build configuration list for PBXLegacyTarget "yat4tango-shared-i386" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37438E83139A072000FFE333 /* yat4tango-debug */,
+				37F7D112139A0F3500E2A86A /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+		37438E85139A073200FFE333 /* Build configuration list for PBXLegacyTarget "yat4tango-shared-x86_64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37438E8D139A073200FFE333 /* yat4tango-debug */,
+				37F7D115139A0F3500E2A86A /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+		37438E8F139A077500FFE333 /* Build configuration list for PBXAggregateTarget "yat4tango-i386" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37438E97139A077500FFE333 /* yat4tango-debug */,
+				37F7D110139A0F3500E2A86A /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+		37D9FC7F13995D1D007B503A /* Build configuration list for PBXProject "yat4tango" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37A3C7FD13995FE800CD9217 /* yat4tango-debug */,
+				37F7D10F139A0F3500E2A86A /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+		37D9FC8413995D1D007B503A /* Build configuration list for PBXLegacyTarget "yat4tango-static-i386" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37A3C7FE13995FE800CD9217 /* yat4tango-debug */,
+				37F7D111139A0F3500E2A86A /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+		37F7D106139A0BE400E2A86A /* Build configuration list for PBXAggregateTarget "yat4tango-x86_64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37F7D10E139A0BE400E2A86A /* yat4tango-debug */,
+				37F7D113139A0F3500E2A86A /* yat4tango-release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "yat4tango-release";
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 37D9FC7C13995D1D007B503A /* Project object */;
+}

@@ -1,0 +1,40 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=New Native Application Configuration
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=
+Debugger Shell=
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+Display Demangle Names=true
+Display Static Members=true
+EnvironmentGroup=TangoEnv
+Executable=file:///home/nicolas/libraries/yat4tango-svn-trunk/samples/events_consumer_task/target/nar/bin/i386-Linux-g++/ds_EventsConsumerTask
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+GDB Path=
+Project Target=
+Remote GDB Config Script=
+Remote GDB Run Script=
+Remote GDB Shell Script=
+Start With=ApplicationOutput
+Use External Terminal=false
+Working Directory=file:///home/nicolas/libraries/yat4tango-svn-trunk/samples/events_consumer_task/target/nar/bin/i386-Linux-g++
+isExecutable=true
+
+[MakeBuilder]
+Additional Options=-o
+Default Make Environment Profile=TangoEnv
+Default Target=install
+Make Binary=mvn
+
+[Project]
+VersionControlSupport=kdevsubversion

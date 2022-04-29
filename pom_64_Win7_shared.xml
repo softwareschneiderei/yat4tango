@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>super-pom-C-CPP-tango</artifactId>
+    <groupId>fr.soleil</groupId>
+    <version>18.1.2</version>
+  </parent>
+
+  <groupId>fr.soleil.lib</groupId>
+  <artifactId>YAT4Tango-${aol}-shared-${mode}</artifactId>
+  <version>1.13.3</version>
+
+  <packaging>nar</packaging>
+  <name>YAT4Tango</name>
+  <description>YAT4Tango library</description>
+
+  <developers>
+    <developer>
+      <id>leclercq</id>
+      <name>Nicolas Leclercq</name>
+      <email>nicolas.leclercq@synchrotron-soleil.fr</email>
+      <url>http://controle/</url>
+      <organization>Synchrotron Soleil</organization>
+      <organizationUrl>http://www.synchrotron-soleil.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>1</timezone>
+    </developer>
+  </developers>
+  <scm>
+    <connection>${scm.connection.svn.tango-cs}/share/yat4tango/trunk</connection>
+    <developerConnection>${scm.developerConnection.svn.tango-cs}/share/yat4tango/trunk</developerConnection>
+    <url>${scm.url.svn.tango-cs}/share/yat4tango/trunk</url>
+  </scm>
+
+	<properties>
+        <libs-64bits>C:\VC_12_MAVEN\LIB_VC12_64</libs-64bits>
+
+		<tango-lib>${libs-64bits}\tango\win64\lib\vc12_dll\</tango-lib>
+		<tango-include>${libs-64bits}\tango\win64\include\vc12\</tango-include>
+
+		<zeromq-lib>${tango-lib}</zeromq-lib>
+		<zeromq-include>${tango-include}</zeromq-include>
+
+		<omniorb-lib>${tango-lib}</omniorb-lib>
+		<omniorb-include>${tango-include}</omniorb-include>
+
+		<!-- <yat-lib>${libs-64bits}\yat\target\nar\lib\amd64-Windows-msvc\shared\</yat-lib>
+		<yat-include>${libs-64bits}\yat\target\nar\include\</yat-include> -->
+		<yat-lib>T:\DEV\flosvn\YAT-1.17.5\target\nar\lib\amd64-Windows-msvc\shared\</yat-lib>
+		<yat-include>T:\DEV\flosvn\YAT-1.17.5\target\nar\include\</yat-include>
+
+		<log4tango-lib>${tango-lib}</log4tango-lib>
+		<log4tango-include>${tango-include}</log4tango-include>
+	</properties>
+
+  <build>
+    <plugins>
+      <plugin>
+          <groupId>fr.soleil.maven.plugins</groupId>
+          <artifactId>maven-check-plugin</artifactId>
+          <configuration>
+            <enable>false</enable>
+          </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.freehep</groupId>
+        <artifactId>freehep-nar-plugin</artifactId>
+		<version>2.0-alpha-17-SOLEIL</version>
+        <configuration>
+          <cpp>
+            <sourceDirectory>src</sourceDirectory>
+            <includePaths>
+                <includePath>include</includePath>
+				<includePath>${yat-include}</includePath>
+				<includePath>${zeromq-include}</includePath>
+				<includePath>${tango-include}</includePath>
+				<includePath>${omniorb-include}</includePath>
+				<includePath>$(log4tango-include}</includePath>
+            </includePaths>
+            <defines>
+              <define>YAT4TANGO_PROJECT_VERSION=${project.version}</define>
+              <define>YAT4TANGO_PROJECT_NAME=${project.name}</define>
+            </defines>
+          </cpp>
+			<libraries>
+				<library>
+					<type>shared</type>
+				</library>
+			</libraries>
+
+			<linker>
+				<libs>
+					<!-- libtango 64 bits -->
+					<lib>
+						<name>tango</name>
+						<type>shared</type>
+						<directory>${tango-lib}</directory>
+					</lib>
+
+					<!-- log4tango 64 bits -->
+					<lib>
+						<name>log4tango</name>
+						<type>shared</type>
+						<directory>${log4tango-lib}</directory>
+					</lib>
+
+
+					<!-- yat 64 bits -->
+					<lib>
+						<name>YAT-amd64-Windows-msvc12-shared-release-1.17.5</name>
+						<type>shared</type>
+						<directory>${yat-lib}</directory>
+					</lib>
+
+					<!-- omniorb 64 bits -->
+					<lib>
+						<name>omnithread_rt</name>
+						<type>shared</type>
+						<directory>${omniorb-lib}</directory>
+					</lib>
+
+					<lib>
+						<name>omniORB4_rt</name>
+						<type>shared</type>
+						<directory>${omniorb-lib}</directory>
+					</lib>
+
+					<lib>
+						<name>omniDynamic4_rt</name>
+						<type>shared</type>
+						<directory>${omniorb-lib}</directory>
+					</lib>
+
+					<lib>
+						<name>COS421_rt</name>
+						<type>shared</type>
+						<directory>${omniorb-lib}</directory>
+					</lib>
+
+					<!-- zeromq 64 bits -->
+					<lib>
+						<name>zmq</name>
+						<type>shared</type>
+						<directory>${zeromq-lib}</directory>
+					</lib>
+				</libs>
+			</linker>
+
+			<specificConfigurations>
+            <specificConfiguration>
+              <id>YAT win32</id>
+              <activation>
+                <os>Windows</os>
+              </activation>
+              <cpp>
+                <defines>
+                  <define>_HAS_CPP0X=0</define>
+                </defines>
+              </cpp>
+            </specificConfiguration>
+            <specificConfiguration>
+              <id>YAT4Tango win32 shared</id>
+              <activation>
+                <os>Windows</os>
+                <libraryType>shared</libraryType>
+              </activation>
+              <cpp>
+                <defines>
+                  <define>YAT_DLL</define>
+                  <define>YAT4TANGO_DLL</define>
+                  <define>YAT4TANGO_BUILD</define>
+                  <define>_HAS_CPP0X=0</define>
+
+                  <define>_WIN32</define>
+                  <define>WIN32</define>
+                  <define>WIN64</define>
+                  <define>_WIN64</define>
+                  <define>WIN32_LEAN_AND_MEAN</define>
+                  <define>NDEBUG</define>
+                  <define>_WINDOWS</define>
+                  <define>_USRDLL</define>
+                  <define>TANGO_HAS_DLL</define>
+                  <define>LOG4TANGO_HAS_DLL</define>
+                </defines>
+              </cpp>
+            </specificConfiguration>
+            <specificConfiguration>
+              <id>YAT4Tango Linux</id>
+              <activation>
+                <os>Linux</os>
+              </activation>
+              <cpp>
+                <options>
+                  <option>-Wno-uninitialized</option>
+                  <option>-Wno-unused-parameter</option>
+                  <option>-Wno-unused-variable</option>
+                  <option>-std=c++0x</option>
+                </options>
+              </cpp>
+            </specificConfiguration>
+            <specificConfiguration>
+              <id>YAT4Tango MacOSX</id>
+              <activation>
+                <os>MacOSX</os>
+              </activation>
+              <cpp>
+                <options>
+                  <option>-Wno-uninitialized</option>
+                  <option>-Wno-unused-parameter</option>
+                  <option>-Wno-unused-variable</option>
+                  <option>-std=c++0x</option>
+                </options>
+              </cpp>
+            </specificConfiguration>
+          </specificConfigurations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

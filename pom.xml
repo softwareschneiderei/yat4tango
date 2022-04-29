@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>super-pom-C-CPP-tango</artifactId>
+    <groupId>fr.soleil</groupId>
+    <version>RELEASE</version>
+  </parent>
+
+  <groupId>fr.soleil.lib</groupId>
+
+  <artifactId>YAT4Tango-${aol}-${library}-${mode}</artifactId>
+
+  <version>1.13.3</version>
+
+  <packaging>nar</packaging>
+
+  <name>YAT4Tango</name>
+  <description>YAT4Tango library</description>
+
+  <developers>
+    <developer>
+      <id>leclercq</id>
+      <name>Nicolas Leclercq</name>
+      <email>nicolas.leclercq@synchrotron-soleil.fr</email>
+      <url>http://controle/</url>
+      <organization>Synchrotron Soleil</organization>
+      <organizationUrl>http://www.synchrotron-soleil.fr</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>1</timezone>
+    </developer>
+  </developers>
+  <scm>
+    <connection>${scm.connection.svn.tango-cs}/share/yat4tango/trunk</connection>
+    <developerConnection>${scm.developerConnection.svn.tango-cs}/share/yat4tango/trunk</developerConnection>
+    <url>${scm.url.svn.tango-cs}/share/yat4tango/trunk</url>
+  </scm>
+  <build>
+    <plugins>
+      <!--plugin>
+          <groupId>fr.soleil.maven.plugins</groupId>
+          <artifactId>maven-check-plugin</artifactId>
+          <configuration>
+            <enable>false</enable>
+          </configuration>
+      </plugin-->
+      <plugin>
+        <groupId>org.freehep</groupId>
+        <artifactId>freehep-nar-plugin</artifactId>
+        <configuration>
+          <cpp>
+            <sourceDirectory>src</sourceDirectory>
+            <includePaths>
+              <includePath>include</includePath>
+            </includePaths>
+            <defines>
+              <define>YAT4TANGO_PROJECT_VERSION=${project.version}</define>
+              <define>YAT4TANGO_PROJECT_NAME=${project.name}</define>
+            </defines>
+          </cpp>
+          <specificConfigurations>
+            <specificConfiguration>
+              <id>YAT win32</id>
+              <activation>
+                <os>Windows</os>
+              </activation>
+              <cpp>
+                <defines>
+                  <define>_HAS_CPP0X=0</define>
+                </defines>
+              </cpp>
+            </specificConfiguration>
+            <specificConfiguration>
+              <id>YAT4Tango win32 shared</id>
+              <activation>
+                <os>Windows</os>
+                <libraryType>shared</libraryType>
+              </activation>
+              <cpp>
+                <defines>
+                  <define>YAT_DLL</define>
+                  <define>YAT4TANGO_DLL</define>
+                  <define>YAT4TANGO_BUILD</define>
+                  <define>_HAS_CPP0X=0</define>
+                </defines>
+              </cpp>
+            </specificConfiguration>
+            <specificConfiguration>
+              <id>YAT4Tango Linux</id>
+              <activation>
+                <os>Linux</os>
+              </activation>
+              <cpp>
+                <options>
+                  <option>-Wno-uninitialized</option>
+                  <option>-Wno-unused-parameter</option>
+                  <option>-Wno-unused-variable</option>
+                  <option>-std=c++0x</option>
+                </options>
+              </cpp>
+            </specificConfiguration>
+            <specificConfiguration>
+              <id>YAT4Tango MacOSX</id>
+              <activation>
+                <os>MacOSX</os>
+              </activation>
+              <cpp>
+                <options>
+                  <option>-Wno-uninitialized</option>
+                  <option>-Wno-unused-parameter</option>
+                  <option>-Wno-unused-variable</option>
+                  <option>-std=c++0x</option>
+                </options>
+              </cpp>
+            </specificConfiguration>
+          </specificConfigurations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>fr.soleil.lib</groupId>
+      <artifactId>YAT-${aol}-${library}-${mode}</artifactId>
+    </dependency>
+	</dependencies>
+</project>
