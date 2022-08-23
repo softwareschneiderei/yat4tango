@@ -982,16 +982,16 @@ public:
   }
 
   //---------------------------------------------------------------------------
-  //  AttributeHelper::snapshot
+  //  AttributeHelper::snapshot_attribute
   //---------------------------------------------------------------------------
   void snapshot_attribute (const std::string& attribute_name, bool throw_exception_on_error = true)
   {
     std::vector<std::string> al(1, attribute_name);
-    snapshot(al, throw_exception_on_error);
+    snapshot_attributes(al, throw_exception_on_error);
   }
   
   //---------------------------------------------------------------------------
-  //  AttributeHelper::snapshot
+  //  AttributeHelper::snapshot_attributes
   //---------------------------------------------------------------------------
   void snapshot_attributes (const std::vector<std::string>& attributes_list, bool throw_exception_on_error = true)
   {
