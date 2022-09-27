@@ -19,6 +19,7 @@ set (source_files
   FileAppender.cpp
   Logging.cpp
   ArchEventPusher.cpp
+  LogHelper.cpp
 )
 
 include_directories(
