@@ -1,5 +1,31 @@
 YAT4Tango history file
 
+1.13.8 (2022/09/28)
+===================
+
+Changes
+    class AttributeHelper
+        method 'snapshot' is deprecated, use 'snapshot_attributes' instead
+    -> see <yat4tango/DeviceProxyHelper.h>
+
+1.13.7 (2022/07/20)
+===================
+
+Changes
+    class DeviceTask
+        DeviceTask::post methods now return the value returned by MessageQ::post
+        in order to be able to know if a message was properly posted,
+        without activating exception throwing in Task configuration
+    -> see <yat4tango/DeviceTask.h>
+
+1.13.6 (2022/07/11)
+===================
+
+Additions
+    LogFormat
+        Added method arg(T*)
+    -> see <yat4tango/LogHelper.h>
+
 1.13.5 (2022/02/10)
 ===================
 
