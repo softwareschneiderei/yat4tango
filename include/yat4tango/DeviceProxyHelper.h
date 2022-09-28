@@ -11,9 +11,9 @@
 //
 // Copyright (c) 2004-2016 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -269,7 +269,7 @@
 
 //=============================================================================
 // _MSEC_SLEEP MACRO
-//============================================================================= 
+//=============================================================================
 #if defined(WIN32)
 # define _MSEC_SLEEP(T) ::Sleep(T)
 #else
@@ -278,7 +278,7 @@
 
 //=============================================================================
 // _HANDLE_TANGO_DEVICE_RETRY_EXCEPTION
-//=============================================================================  
+//=============================================================================
 #define _HANDLE_TANGO_DEVICE_RETRY_EXCEPTION(_cmd, _num_retries) \
   catch (Tango::ConnectionFailed &e) \
   { \
@@ -310,7 +310,7 @@
   { \
     throw; \
   }
-  
+
 //=============================================================================
 // _TANGO_DEVICE_RETRY MACRO
 //=============================================================================
@@ -329,7 +329,7 @@
     } \
   } \
   _HANDLE_TANGO_DEVICE_EXCEPTION(_cmd, _origin)
-  
+
 namespace yat4tango
 {
 
@@ -347,7 +347,7 @@ public:
   {
     if ( ! device_proxy_ )
     {
-      THROW_DEVFAILED("NULL_POINTER", 
+      THROW_DEVFAILED("NULL_POINTER",
                       "unexpected null pointer to Tango::DeviceProxy",
                       "DeviceProxyHelper::get_device_proxy");
     }
@@ -378,7 +378,7 @@ protected:
   //  client_device : Reference to the client device (for logging purpose).
   //---------------------------------------------------------------------------
   HelperBase (const std::string& device_name, Tango::DeviceImpl *client_device = 0)
-    : Tango::LogAdapter(client_device), 
+    : Tango::LogAdapter(client_device),
       device_proxy_(0)
   {
     try
@@ -387,7 +387,7 @@ protected:
     }
     catch (...)
     {
-      delete device_proxy_; 
+      delete device_proxy_;
       device_proxy_ = 0;
       throw;
     }
@@ -434,7 +434,7 @@ public:
   {
     //- noop dtor
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command
   //  exec a DEV_VOID/DEV_VOID TANGO command on the underlying device
@@ -453,7 +453,7 @@ public:
       );
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_inout
   //---------------------------------------------------------------------------
@@ -472,7 +472,7 @@ public:
     }
     return argout;
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_inout
   //  exec a ARG_OUT/ARG_IN TANGO command on the underlying device
@@ -484,8 +484,8 @@ public:
   //  template arg _OUT must be supported by DeviceData::operator>>
   //---------------------------------------------------------------------------
   template <class _IN, class _OUT>
-  void command_inout (const std::string& cmd_name, 
-                      const _IN& argin, 
+  void command_inout (const std::string& cmd_name,
+                      const _IN& argin,
                       _OUT& argout,
                       int num_retries = 1)
   {
@@ -556,8 +556,8 @@ public:
   //  Overloaded commands to  avoid usage of Tango::DevVarXX ARRAY for argout
   //---------------------------------------------------------------------------
   template <class _IN>
-  void command_inout (const std::string&, 
-                      const _IN&, 
+  void command_inout (const std::string&,
+                      const _IN&,
                       Tango::DevVarDoubleStringArray*,
                       int num_retries = 1)
   {
@@ -571,9 +571,9 @@ public:
   //---------------------------------------------------------------------------
   template <class _IN>
   void command_inout (const std::string&,
-                      const _IN&, 
+                      const _IN&,
                       Tango::DevVarLongStringArray*,
-                      int num_retries = 1) 
+                      int num_retries = 1)
   {
     Tango::Except::throw_exception(static_cast<const char*>("WRONG_DATA_TYPE_ERROR"),
                                    static_cast<const char*>("use only std::vector instead of Tango::DevVarXXStringArray"),
@@ -585,8 +585,8 @@ public:
   //  Overloaded commands to  avoid usage of Tango::DevVarXX ARRAY for argout
   //---------------------------------------------------------------------------
   template <class _IN>
-  void command_inout (const std::string&, 
-                      const _IN&, 
+  void command_inout (const std::string&,
+                      const _IN&,
                       Tango::DevVarDoubleStringArray&,
                       int num_retries = 1)
   {
@@ -600,8 +600,8 @@ public:
   //  Overloaded commands to  avoid usage of Tango::DevVarXX ARRAY for argout
   //---------------------------------------------------------------------------
   template <class _IN>
-  void command_inout (const std::string&, 
-                      const _IN&, 
+  void command_inout (const std::string&,
+                      const _IN&,
                       Tango::DevVarLongStringArray&,
                       int num_retries = 1)
   {
@@ -626,7 +626,7 @@ public:
       );
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_in
   //  exec a DEV_VOID/ARG_IN TANGO command on the underlying device
@@ -637,7 +637,7 @@ public:
   //  template arg _IN must be supported by DeviceData::operator<<
   //---------------------------------------------------------------------------
   template <class _IN>
-  void command_in (const std::string& cmd_name, 
+  void command_in (const std::string& cmd_name,
                    const _IN& argin,
                    int num_retries = 1)
   {
@@ -702,7 +702,7 @@ public:
     }
     return argout;
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_out
   //  exec a ARG_OUT/DEV_VOID TANGO command on the underlying device
@@ -712,7 +712,7 @@ public:
   //  template arg _OUT must be supported by DeviceData::operator>>
   //---------------------------------------------------------------------------
   template <class _OUT>
-  void command_out (const std::string& cmd_name, 
+  void command_out (const std::string& cmd_name,
                     _OUT& argout,
                     int num_retries = 1)
   {
@@ -734,13 +734,13 @@ public:
       );
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_out
   //  Overloaded commands to  avoid usage of Tango::DevVarDoubleStringArray ARRAY
   //---------------------------------------------------------------------------
   template <class _OUT>
-  void command_out(_OUT, 
+  void command_out(_OUT,
                    Tango::DevVarDoubleStringArray*,
                    int num_retries = 1)
   {
@@ -748,13 +748,13 @@ public:
                                    static_cast<const char*>("use only std::vector instead of Tango::DevVarXXStringArray"),
                                    static_cast<const char*>("bad usage of yat4tango::CommandInOutHelper::command_out"));
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_out
   //  Overloaded commands to  avoid usage of Tango::DevVarLongStringArray ARRAY
   //---------------------------------------------------------------------------
   template <class _OUT>
-  void command_out (_OUT, 
+  void command_out (_OUT,
                     Tango::DevVarLongStringArray*,
                     int num_retries = 1)
   {
@@ -762,13 +762,13 @@ public:
                                    static_cast<const char*>("use only std::vector instead of Tango::DevVarXXStringArray"),
                                    static_cast<const char*>("bad usage of yat4tango::CommandInOutHelper::command_out"));
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_out
   //  Overloaded commands to  avoid usage of Tango::DevVarDoubleStringArray ARRAY
   //---------------------------------------------------------------------------
   template <class _OUT>
-  void command_out(_OUT, 
+  void command_out(_OUT,
                    Tango::DevVarDoubleStringArray&,
                    int num_retries = 1)
   {
@@ -776,13 +776,13 @@ public:
                                    static_cast<const char*>("use only std::vector instead of Tango::DevVarXXStringArray"),
                                    static_cast<const char*>("bad usage of yat4tango::CommandInOutHelper::command_out"));
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_out
   //  Overloaded commands to  avoid usage of Tango::DevVarLongStringArray ARRAY
   //---------------------------------------------------------------------------
   template <class _OUT>
-  void command_out (_OUT, 
+  void command_out (_OUT,
                     Tango::DevVarLongStringArray&,
                     int num_retries = 1)
   {
@@ -790,7 +790,7 @@ public:
                                    static_cast<const char*>("use only std::vector instead of Tango::DevVarXXStringArray"),
                                    static_cast<const char*>("bad usage of yat4tango::CommandInOutHelper::command_out"));
   }
-  
+
   //---------------------------------------------------------------------------
   //  CommandInOutHelper::command_in
   //  exec a DEV_VOID/DEVVAR<X>STRINGARRAY command on the underlying device
@@ -841,7 +841,7 @@ public:
   //---------------------------------------------------------------------------
   typedef std::vector<Tango::DeviceAttribute> AttributeSnapshot;
   typedef std::vector<AttributeSnapshot*> AttributeSnapshots;
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::AttributeHelper  (ctor)
   //  device_name : name of the target device
@@ -852,7 +852,7 @@ public:
   {
     m_da_out.exceptions(Tango::DeviceAttribute::isempty_flag | Tango::DeviceAttribute::wrongtype_flag);
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::~AttributeHelper (dtor)
   //---------------------------------------------------------------------------
@@ -878,8 +878,8 @@ public:
   //  template arg _VAL must be supported by DeviceAttribute::operator<<
   //---------------------------------------------------------------------------
   template <class _VAL>
-  void write_attribute (const std::string& attr_name, 
-                        const _VAL& attr_value, 
+  void write_attribute (const std::string& attr_name,
+                        const _VAL& attr_value,
                         int num_retries = 1)
   {
     if ( device_proxy_ )
@@ -896,7 +896,7 @@ public:
       );
     }
   }
-  
+
 	//---------------------------------------------------------------------------
 	//  AttributeHelper::read_attribute
 	//  reads the specified attribute
@@ -906,8 +906,8 @@ public:
 	//  template arg _VAL must be supported by DeviceAttribute::operator>>
 	//---------------------------------------------------------------------------
   template <class _VAL>
-  void read_attribute (const std::string& attr_name, 
-                       _VAL& attr_value, 
+  void read_attribute (const std::string& attr_name,
+                       _VAL& attr_value,
                        int num_retries = 1)
   {
     if ( device_proxy_ )
@@ -928,7 +928,7 @@ public:
       );
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::read_attribute
   //---------------------------------------------------------------------------
@@ -947,7 +947,7 @@ public:
     }
     return da;
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::write_attribute
   //---------------------------------------------------------------------------
@@ -964,7 +964,7 @@ public:
       );
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::snapshot (for backward compatibility)
   //---------------------------------------------------------------------------
@@ -974,7 +974,7 @@ public:
   }
 
   //---------------------------------------------------------------------------
-  //  AttributeHelper::snapshot (for backward compatibility)
+  //! \deprecated (for backward compatibility)
   //---------------------------------------------------------------------------
   inline void snapshot (const std::vector<std::string>& attributes_list, bool throw_exception_on_error = true)
   {
@@ -989,7 +989,7 @@ public:
     std::vector<std::string> al(1, attribute_name);
     snapshot_attributes(al, throw_exception_on_error);
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::snapshot_attributes
   //---------------------------------------------------------------------------
@@ -1012,14 +1012,14 @@ public:
           (*i) << p; \
         } \
       }
-      
+
     try
     {
       try
       {
-        std::vector<Tango::DeviceAttribute> * vda = 
+        std::vector<Tango::DeviceAttribute> * vda =
             tango_proxy()->read_attributes(const_cast<std::vector<std::string>&>(attributes_list));
-       
+
         for ( std::vector<Tango::DeviceAttribute>::iterator i = vda->begin(); i != vda->end(); )
         {
           bool supported = true;
@@ -1073,7 +1073,7 @@ public:
               supported = false;
               break;
           }
-          if ( supported ) 
+          if ( supported )
           {
             ++i;
           }
@@ -1082,18 +1082,18 @@ public:
             i = vda->erase(i);
           }
         }
-                     
+
         m_attr_snapshots.push_back(vda);
       }
       _HANDLE_TANGO_DEVICE_EXCEPTION("snapshot_attributes", "yat4tango::DeviceProxyHelper::snapshot_attributes");
     }
     catch (...)
     {
-      if ( throw_exception_on_error ) 
+      if ( throw_exception_on_error )
         throw;
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::return snapshoted value of the specified attribute
   //---------------------------------------------------------------------------
@@ -1104,19 +1104,19 @@ public:
       AttributeSnapshot& s = *m_attr_snapshots[i];
       for  ( size_t j = 0; j < s.size(); j++ )
       {
-        if ( s[j].get_name() == attribute_name ) 
+        if ( s[j].get_name() == attribute_name )
           return s[j];
       }
     }
     yat::OSStream oss;
-    oss << "could not found any snapshot for attribute '" 
+    oss << "could not found any snapshot for attribute '"
         << attribute_name
         << "'";
-    THROW_DEVFAILED("ATTRIBUTE_NOT_FOUND", 
-                    oss.str().c_str(), 
+    THROW_DEVFAILED("ATTRIBUTE_NOT_FOUND",
+                    oss.str().c_str(),
                     "DeviceProxyHelper::snapshoted_value");
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::restore_attributes_snapshot
   //---------------------------------------------------------------------------
@@ -1124,17 +1124,17 @@ public:
   {
     if ( m_attr_snapshots.empty() )
       return;
-    
+
     int tmo = tango_proxy()->get_timeout_millis();
-      
+
     tango_proxy()->set_timeout_millis(10000);
 
     //------------------------------------------------------------------------------------------------
     //- NL-SOLEIL: 10/15/2016
     //------------------------------------------------------------------------------------------------
-    //- please don't change the following implementation trying to optimize it using a single call 
-    //- to <write_attributeS> instead of several call to <write_attribute> - this is NOT eaquivalent 
-    //- at all on some devices (the beahavior is purely implementation dependent) - this is especially 
+    //- please don't change the following implementation trying to optimize it using a single call
+    //- to <write_attributeS> instead of several call to <write_attribute> - this is NOT eaquivalent
+    //- at all on some devices (the beahavior is purely implementation dependent) - this is especially
     //- true for those creating/removing dynamic attributes when the value of a given attribute change
     //------------------------------------------------------------------------------------------------
     try
@@ -1156,13 +1156,13 @@ public:
     {
       tango_proxy()->set_timeout_millis(tmo);
 
-      if ( throw_exception_on_error ) 
+      if ( throw_exception_on_error )
         throw;
     }
 
     tango_proxy()->set_timeout_millis(tmo);
   }
-  
+
   //---------------------------------------------------------------------------
   //  AttributeHelper::reset_attribute_snapshots
   //---------------------------------------------------------------------------
@@ -1177,8 +1177,8 @@ public:
 private:
   //- placed here as a workaround due to CORBA::any_var limitations
   Tango::DeviceAttribute m_da_out;
-  
-  //- device snapshot  
+
+  //- device snapshot
   AttributeSnapshots m_attr_snapshots;
 };
 
@@ -1203,21 +1203,21 @@ public:
   }
 
   //! Synchronously wait for state (or any other state)
-  //! @param state wait state 
+  //! @param state wait state
   void sync_wait_state( Tango::DevState state, std::size_t tmo_sec, std::size_t period_ms = 100 )
   {
     priv_sync_wait_state(state, tmo_sec, period_ms, false);
   }
 
   //! Synchronously wait for any state different than the given state
-  //! @param state wait state 
+  //! @param state wait state
   void sync_wait_end_state( Tango::DevState state, std::size_t tmo_sec, std::size_t period_ms = 100 )
   {
     priv_sync_wait_state(state, tmo_sec, period_ms, true);
   }
 
   //! @brief Asynchronously wait for state (or any other state)
-  //! @param state wait state 
+  //! @param state wait state
   //! @param cb notification callback
   void async_wait_state( Tango::DevState state, DeviceProxyHelperStateCallback cb, std::size_t period_ms = 100 )
   {
@@ -1229,7 +1229,7 @@ public:
   }
 
   //! @brief Asynchronously wait for state (or any other state)
-  //! @param state wait state 
+  //! @param state wait state
   //! @param task_p task to notify
   //! @param msg_type message type to post to the task
   void async_wait_state( Tango::DevState state, yat::Task* task_p, std::size_t msg_type, std::size_t period_ms = 100 )
@@ -1243,7 +1243,7 @@ public:
   }
 
   //! @brief Asynchronously wait for any state different than the given state
-  //! @param state wait state 
+  //! @param state wait state
   //! @param cb notification callback
   void async_wait_end_state( Tango::DevState state, DeviceProxyHelperStateCallback cb, std::size_t period_ms = 100 )
   {
@@ -1256,7 +1256,7 @@ public:
   }
 
   //! @brief Asynchronously wait for any state different than the given state
-  //! @param state wait state 
+  //! @param state wait state
   //! @param task_p task to notify
   //! @param msg_type message type to post to the task
   void async_wait_end_state( Tango::DevState state, yat::Task* task_p, std::size_t msg_type, std::size_t period_ms = 100 )
@@ -1282,7 +1282,7 @@ private:
 
     Config() : state(Tango::UNKNOWN), wait_end(false), task_p(0), msg_type(0) {}
   };
-  
+
   //---------------------------------------------------------------------------
   //  PolledStateHelper::priv_sync_wait_state
   //---------------------------------------------------------------------------
@@ -1300,7 +1300,7 @@ private:
             << tango_proxy()->dev_name()
             << " to switch to the expected Tango device state";
         THROW_YAT_ERROR("DEVICE_ERROR", oss.str().c_str(), "PolledStateHelper::sync_wait_state");
-      }      
+      }
       _TANGO_DEVICE_RETRY
       (
         //- try
@@ -1352,7 +1352,7 @@ private:
       config_ptr_.reset();
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  PolledStateHelper::notification
   //---------------------------------------------------------------------------
@@ -1415,7 +1415,7 @@ public:
   {
     //- noop ctor
   }
-    
+
   //---------------------------------------------------------------------------
   //  DeviceProxyHelper::~DeviceProxyHelper (dtor)
   //---------------------------------------------------------------------------
@@ -1423,13 +1423,13 @@ public:
   {
     //- noop dtor
   }
-  
+
   //---------------------------------------------------------------------------
   //  DeviceProxyHelper::ping
   //---------------------------------------------------------------------------
   int ping (int num_retries = 1)
   {
-    int rtt = 0; 
+    int rtt = 0;
     if ( device_proxy_ )
     {
       _TANGO_DEVICE_RETRY
@@ -1443,7 +1443,7 @@ public:
     }
     return rtt;
   }
-  
+
   //---------------------------------------------------------------------------
   //  DeviceProxyHelper::state
   //---------------------------------------------------------------------------
@@ -1463,7 +1463,7 @@ public:
     }
     return ds;
   }
-  
+
   //---------------------------------------------------------------------------
   //  DeviceProxyHelper::status
   //---------------------------------------------------------------------------
@@ -1495,7 +1495,7 @@ public:
   //---------------------------------------------------------------------------
   //  DeviceProxyHelper::snapshot_property
   //---------------------------------------------------------------------------
-  template <typename C> 
+  template <typename C>
   bool snapshot_property (const std::string& property_name, const C& expected_property_value, bool throw_exception_on_error = true)
   {
     bool property_change_required = false;
@@ -1511,7 +1511,7 @@ public:
         std::string current_property_str_value;
         dbds[0] >> current_property_str_value;
 
-        yat::OSStream oss; 
+        yat::OSStream oss;
         oss << expected_property_value;
         std::string expected_property_str_value = oss.str();
 
@@ -1530,13 +1530,13 @@ public:
     }
     catch (...)
     {
-      if ( throw_exception_on_error ) 
+      if ( throw_exception_on_error )
         throw;
     }
 
     return property_change_required;
   }
-  
+
   //---------------------------------------------------------------------------
   //  DeviceProxyHelper::snapshot_properties
   //---------------------------------------------------------------------------
@@ -1544,7 +1544,7 @@ public:
   {
     if ( properties_list.empty() )
       return;
-      
+
     try
     {
       try
@@ -1562,22 +1562,22 @@ public:
     }
     catch (...)
     {
-      if ( throw_exception_on_error ) 
+      if ( throw_exception_on_error )
         throw;
     }
   }
-  
+
   //---------------------------------------------------------------------------
   //  DeviceProxyHelper::put_property
   //---------------------------------------------------------------------------
-  template <typename C> 
+  template <typename C>
   void put_property (const std::string& property_name, const C& new_property_value, bool throw_exception_on_error = true)
   {
     try
     {
       try
       {
-        yat::OSStream oss; 
+        yat::OSStream oss;
         oss << new_property_value;
         std::string new_property_str_value = std::string(oss.str());
         Tango::DbDatum dbd(property_name);
@@ -1590,7 +1590,7 @@ public:
     }
     catch (...)
     {
-      if ( throw_exception_on_error ) 
+      if ( throw_exception_on_error )
         throw;
     }
   }
@@ -1602,7 +1602,7 @@ public:
   {
     if ( m_prop_snapshots.empty() )
       return;
-    
+
     try
     {
       try
@@ -1622,7 +1622,7 @@ public:
     }
     catch (...)
     {
-      if ( throw_exception_on_error ) 
+      if ( throw_exception_on_error )
         throw;
     }
   }
@@ -1632,7 +1632,7 @@ public:
   //---------------------------------------------------------------------------
   void restore (Tango::DevState expected_post_init_state = Tango::UNKNOWN, std::size_t tmo_sec = 10, const RestoreSnapshotsOrder o = PROP_FIRST)
   {
-    if ( PROP_FIRST == o ) 
+    if ( PROP_FIRST == o )
     {
       restore_properties_snapshot(expected_post_init_state, tmo_sec);
       restore_attributes_snapshot();
@@ -1664,6 +1664,6 @@ private:
   //---------------------------------------------------------------------------
   PropertiesSnapshot m_prop_snapshots;
 };
-  
+
 } //- namespace tango
 
