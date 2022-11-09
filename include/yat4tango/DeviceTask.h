@@ -378,7 +378,7 @@ template <typename T> void DeviceTask::wait_msg_handled (size_t msg_type,
 //! \brief 'Deleter' object to instanciate when using yat::SharedPtr<yat::Task>
 //! \brief or with implicite instantiation whith yat::UniquePtr<yat::Task, yat::TaskExiter>
 // ============================================================================
-struct DeviceTaskExiter
+struct YAT4TANGO_DECL DeviceTaskExiter
 {
   //! \brief operator().
   //! \param object The object to delete.
