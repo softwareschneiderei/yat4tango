@@ -177,7 +177,7 @@ public:
   }
 
 private:
-  LogFormat(const std::string& s, int l, log4tango::Logger* p): yat::Format(s),
+  LogFormat(const std::string& s, int l, log4tango::Logger* p): yat::Format(s, false),
    level_(l), logger_(p)  {  }
 
   // unused & unusable
