@@ -334,9 +334,9 @@ private:
 class YAT4TANGO_DECL TraceHelper
 {
 public:
-  TraceHelper(const char *_func_name, Tango::DeviceImpl * _this=0) {};
-  TraceHelper(const char* _func_name, Tango::LogAdapter * _this=0) {};
-  TraceHelper(const char* _func_name, TangoLogAdapter * _this=0) {};
+  TraceHelper(const char* /*_func_name*/, Tango::DeviceImpl* /*_this=0*/) {};
+  TraceHelper(const char* /*_func_name*/, Tango::LogAdapter* /*_this=0*/) {};
+  TraceHelper(const char* /*_func_name*/, TangoLogAdapter* /*_this=0*/) {};
 };
 #   define YAT4TANGO_TRACE(func_name)
 #   define YAT4TANGO_TRACE_STATIC(func_name)
