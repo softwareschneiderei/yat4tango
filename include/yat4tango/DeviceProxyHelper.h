@@ -1034,6 +1034,7 @@ public:
                 HANDLE_SNAPSHOT_CASE(Tango::DevVarCharArray);
                 break;
             case Tango::DEV_SHORT:
+            case Tango::DEV_ENUM:
             case Tango::DEVVAR_SHORTARRAY:
                 HANDLE_SNAPSHOT_CASE(Tango::DevVarShortArray);
                 break;
