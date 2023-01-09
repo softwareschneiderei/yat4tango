@@ -232,7 +232,7 @@ public:
   void set_periodic_msg_period (size_t p_msecs);
 
   //! \brief Periodic message period accessor.
-  size_t get_periodic_msg_period () const;
+  double get_periodic_msg_period () const;
 
   //! \brief Enable/disable periodic messages.
   //! \param enable True = enabled, false = disabled.

@@ -4,9 +4,9 @@
 //
 // Copyright (C) 2006-2014 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -14,7 +14,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -30,11 +30,11 @@ namespace yat4tango
 // ============================================================================
 // DeviceTask::post
 // ============================================================================
-YAT_INLINE void DeviceTask::post (yat::Message * _msg, size_t _tmo_msecs)
+YAT_INLINE int DeviceTask::post (yat::Message * _msg, size_t _tmo_msecs)
 {
   try
   {
-    this->yt()->post(_msg, _tmo_msecs);
+    return this->yt()->post(_msg, _tmo_msecs);
   }
   catch (const yat::Exception& ye)
   {
@@ -45,11 +45,11 @@ YAT_INLINE void DeviceTask::post (yat::Message * _msg, size_t _tmo_msecs)
 // ============================================================================
 // DeviceTask::post
 // ============================================================================
-YAT_INLINE void DeviceTask::post (size_t msg_type, size_t tmo_msecs)
+YAT_INLINE int DeviceTask::post (size_t msg_type, size_t tmo_msecs)
 {
   try
   {
-    this->yt()->post(msg_type, tmo_msecs);
+    return this->yt()->post(msg_type, tmo_msecs);
   }
   catch (const yat::Exception& ye)
   {
@@ -91,121 +91,121 @@ YAT_INLINE void DeviceTask::wait_msg_handled (size_t msg_type, size_t tmo_msecs)
 // DeviceTask::
 // ============================================================================
 YAT_INLINE void DeviceTask::set_timeout_msg_period (size_t p)
-{ 
-  this->yt()->set_timeout_msg_period(p); 
-} 
+{
+  this->yt()->set_timeout_msg_period(p);
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE size_t DeviceTask::get_timeout_msg_period () const
-{ 
-  return this->yt()->get_timeout_msg_period(); 
-} 
+{
+  return this->yt()->get_timeout_msg_period();
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE void DeviceTask::enable_timeout_msg (bool p)
-{ 
-  this->yt()->enable_timeout_msg(p); 
-} 
+{
+  this->yt()->enable_timeout_msg(p);
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE bool DeviceTask::timeout_msg_enabled () const
-{ 
-  return this->yt()->timeout_msg_enabled(); 
-} 
+{
+  return this->yt()->timeout_msg_enabled();
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE void DeviceTask::set_periodic_msg_period (size_t p)
-{ 
-  this->yt()->set_periodic_msg_period(p); 
-} 
+{
+  this->yt()->set_periodic_msg_period(p);
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
-YAT_INLINE size_t DeviceTask::get_periodic_msg_period () const
-{ 
-  return this->yt()->get_periodic_msg_period(); 
-} 
+YAT_INLINE double DeviceTask::get_periodic_msg_period () const
+{
+  return this->yt()->get_periodic_msg_period();
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE void DeviceTask::enable_periodic_msg (bool p)
-{ 
-  this->yt()->enable_periodic_msg(p); 
-} 
+{
+  this->yt()->enable_periodic_msg(p);
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE bool DeviceTask::periodic_msg_enabled () const
-{ 
-  return this->yt()->periodic_msg_enabled(); 
-} 
+{
+  return this->yt()->periodic_msg_enabled();
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE void DeviceTask::msgq_wm_unit (yat::MessageQ::WmUnit p)
-{ 
-  this->yt()->msgq_wm_unit(p); 
-} 
+{
+  this->yt()->msgq_wm_unit(p);
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE yat::MessageQ::WmUnit DeviceTask::msgq_wm_unit () const
-{ 
-  return this->yt()->msgq_wm_unit(); 
-} 
+{
+  return this->yt()->msgq_wm_unit();
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE void DeviceTask::msgq_lo_wm (size_t p)
-{ 
-  this->yt()->msgq_lo_wm(p); 
-} 
+{
+  this->yt()->msgq_lo_wm(p);
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE size_t DeviceTask::msgq_lo_wm () const
-{ 
-  return this->yt()->msgq_lo_wm(); 
-} 
+{
+  return this->yt()->msgq_lo_wm();
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE void DeviceTask::msgq_hi_wm (size_t p)
-{ 
-  this->yt()->msgq_hi_wm(p); 
-} 
+{
+  this->yt()->msgq_hi_wm(p);
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE size_t DeviceTask::msgq_hi_wm () const
-{ 
-  return this->yt()->msgq_hi_wm(); 
-} 
+{
+  return this->yt()->msgq_hi_wm();
+}
 
 // ============================================================================
 // DeviceTask::
 // ============================================================================
 YAT_INLINE const yat::MessageQ::Statistics& DeviceTask::msgq_statistics ()
-{ 
+{
   return this->yt()->msgq_statistics();
-} 
+}
 
 // ============================================================================
 // DeviceTask::yt
@@ -228,7 +228,7 @@ YAT_INLINE void DeviceTask::throw_on_post_msg_timeout (bool strategy)
 {
 	return this->yt()->throw_on_post_msg_timeout(strategy);
 }
-  
+
 // ============================================================================
 // DeviceTask::reset_msgq_statistics
 // ============================================================================
