@@ -1,5 +1,19 @@
 YAT4Tango history file
 
+1.13.10 (2023/01/16)
+====================
+
+Fixes
+    Some compilation warnings
+
+Changes
+    class DeviceTask
+        Method get_periodic_msg_period now return a 'double' instead of a 'size_t'
+    -> see <yat4tango/DeviceTask.h>
+
+    class DeviceProxyHelper
+        Support of DEV_ENUM type when using snapshot methods
+
 1.13.9 (2022/12/15)
 ===================
 
