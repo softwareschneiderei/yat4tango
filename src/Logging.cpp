@@ -90,7 +90,7 @@ void init_innerappender(Tango::DeviceImpl* device_p, const yat::CfgFile& cfg_f, 
   {
     cfg.set_columns(columns);
   }
-  catch(const yat::Exception& e)
+  catch(const yat::Exception&)
   {
     cfg.set_columns(INNER_APPENDER_DEFAULT_LAYOUT);
   }
@@ -98,7 +98,7 @@ void init_innerappender(Tango::DeviceImpl* device_p, const yat::CfgFile& cfg_f, 
   {
     cfg.set_order(order);
   }
-  catch(const yat::Exception& e)
+  catch(const yat::Exception&)
   {
     cfg.set_order(INNER_APPENDER_DEFAULT_ORDER);
   }

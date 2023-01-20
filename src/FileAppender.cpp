@@ -77,7 +77,7 @@ public:
       m_max_total_size = 1000000LL * FILE_APPENDER_MAXVALUE_MAX_ABSOLUTE_SIZE;
 
     if( m_max_total_size < 3 * m_max_file_size )
-      m_max_file_size = m_max_total_size / 3;
+      m_max_file_size = (std::size_t)(m_max_total_size / 3);
 
 #ifdef YAT_LINUX
     m_min_available_bytes = min_available_mb * 1000000; // mbytes -> bytes
@@ -214,7 +214,7 @@ public:
 
       if( m_min_available_bytes > 0  )
       {
-        struct yat::FileName::FSStat fs_stat = fn.file_system_statistics();
+        yat::FileName::FSStat fs_stat = fn.file_system_statistics();
         available_bytes = fs_stat.avail;
       }
 
