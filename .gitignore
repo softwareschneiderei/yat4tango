@@ -1,1 +1,6 @@
 /target/
+y4t.sublime-project
+y4t.sublime-workspace
+CMakeFiles
+test_package
+pom_win.xml
