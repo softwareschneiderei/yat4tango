@@ -185,7 +185,7 @@ public:
 
   //! \brief Fill the inner appender with previous messages
   //!
-  //! \param vec ordered messages
+  //! \param associated_device associated host device
   static void fill_inner_appender(Tango::DeviceImpl* associated_device);
 
   //! \brief Always returns false!

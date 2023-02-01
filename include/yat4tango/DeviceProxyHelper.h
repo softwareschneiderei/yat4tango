@@ -1198,6 +1198,10 @@ YAT_DEFINE_CALLBACK(DeviceProxyHelperStateCallback, DeviceProxyHelperStateNotifi
 class PolledStateHelper : public virtual HelperBase
 {
 public:
+  //! Constructor
+  //!
+  //! @param device_name device name to watch
+  //! @param client_device host device
   PolledStateHelper( const std::string& device_name, Tango::DeviceImpl *client_device = 0 )
     : HelperBase(device_name, client_device)
   {
@@ -1205,6 +1209,8 @@ public:
 
   //! Synchronously wait for state (or any other state)
   //! @param state wait state
+  //! @param tmo_sec wait timeout in seconds
+  //! @param period_ms polling period of the state attribute
   void sync_wait_state( Tango::DevState state, std::size_t tmo_sec, std::size_t period_ms = 100 )
   {
     priv_sync_wait_state(state, tmo_sec, period_ms, false);
@@ -1212,6 +1218,8 @@ public:
 
   //! Synchronously wait for any state different than the given state
   //! @param state wait state
+  //! @param tmo_sec wait timeout in seconds
+  //! @param period_ms polling period of the state attribute
   void sync_wait_end_state( Tango::DevState state, std::size_t tmo_sec, std::size_t period_ms = 100 )
   {
     priv_sync_wait_state(state, tmo_sec, period_ms, true);
@@ -1220,6 +1228,7 @@ public:
   //! @brief Asynchronously wait for state (or any other state)
   //! @param state wait state
   //! @param cb notification callback
+  //! @param period_ms polling period of the state attribute
   void async_wait_state( Tango::DevState state, DeviceProxyHelperStateCallback cb, std::size_t period_ms = 100 )
   {
     config_ptr_ = new Config;
@@ -1233,6 +1242,7 @@ public:
   //! @param state wait state
   //! @param task_p task to notify
   //! @param msg_type message type to post to the task
+  //! @param period_ms polling period of the state attribute
   void async_wait_state( Tango::DevState state, yat::Task* task_p, std::size_t msg_type, std::size_t period_ms = 100 )
   {
     config_ptr_ = new Config;
@@ -1246,6 +1256,7 @@ public:
   //! @brief Asynchronously wait for any state different than the given state
   //! @param state wait state
   //! @param cb notification callback
+  //! @param period_ms polling period of the state attribute
   void async_wait_end_state( Tango::DevState state, DeviceProxyHelperStateCallback cb, std::size_t period_ms = 100 )
   {
     config_ptr_ = new Config;
@@ -1260,6 +1271,7 @@ public:
   //! @param state wait state
   //! @param task_p task to notify
   //! @param msg_type message type to post to the task
+  //! @param period_ms polling period of the state attribute
   void async_wait_end_state( Tango::DevState state, yat::Task* task_p, std::size_t msg_type, std::size_t period_ms = 100 )
   {
     config_ptr_ = new Config;

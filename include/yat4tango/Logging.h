@@ -78,7 +78,7 @@ public:
   static void release(Tango::DeviceImpl* device_p);
 
   //! \brief Close/rename log files and move them into a new folder named
-  //!  '<domain>_<family>_<member>.yyyymmddHHMMSS'
+  //!  "<domain>_<family>_<member>.yyyymmddHHMMSS"
   static void archive_and_reset(Tango::DeviceImpl* device_p);
 
   //! \brief Clear the log attribute

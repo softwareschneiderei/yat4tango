@@ -11,9 +11,9 @@
 //
 // Copyright (C) 2006-2009  The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -46,7 +46,7 @@
 
 // ==============================================================================
 //! \name MACRO for manipulation of Device data.
-//@{ 
+//@{
 // ==============================================================================
 #define FULL_CMD_NAME(C) device_proxy_->dev_name() + "::" + C
 #define FULL_ATTR_NAME(A) device_proxy_->dev_name() + "/" + A
@@ -82,12 +82,12 @@
 namespace yat4tango
 {
 	// ============================================================================
-	//! \class HelperBase 
+	//! \class HelperBase
 	//! \brief The ThreadSafeDeviceProxy helper base class. -- \b Obsolete class since Tango 7 --
 	//!
 	//! \remark Since Tango 7 (resp. 8), the Tango::DeviceProxy class is fully (resp. optionally)
 	//! thread safe.
-	//! 
+	//!
 	//! This class provides a helper implementation for ThreadSafeDeviceProxy usage.
 	//! It inherits from the concrete helpers (CommandInOutHelper and AttributeHelper).
 	//!
@@ -97,7 +97,7 @@ namespace yat4tango
 	class YAT4TANGO_EXPORT HelperBase : public Tango::LogAdapter
 	{
 	public:
-		
+
 		//! \brief Gets the Device proxy.
 		//!
 		//! Returns the underlying Device proxy.
@@ -105,7 +105,7 @@ namespace yat4tango
 		{
 			return this->device_proxy_->unsafe_proxy();
 		}
-		
+
 		//! \brief Operator->.
 		//!
 		//! Returns the underlying Device proxy.
@@ -114,9 +114,9 @@ namespace yat4tango
 			return this->device_proxy_->unsafe_proxy();
 		}
 	protected:
-		
+
 		//! \brief Constructor.
-		//! 
+		//!
 		//! \param device_name The name of the target Device.
 		//! \param client_device Reference to the client Device (for logging purpose).
 		HelperBase (const std::string& device_name, Tango::DeviceImpl *client_device = 0)
@@ -134,7 +134,7 @@ namespace yat4tango
 				 if (device_proxy_) {delete device_proxy_; device_proxy_ = 0;}
 				);
 		}
-		
+
 		//! \brief Destructor.
 		virtual ~HelperBase ()
 		{
@@ -144,46 +144,44 @@ namespace yat4tango
 				device_proxy_ = 0;
 			}
 		}
-		
+
 		//! The underlying device proxy.
 		adtb::ThreadSafeDeviceProxy * device_proxy_;
 	};
-	
+
 	// ============================================================================
-	//! \class CommandInOutHelper 
-	//! \brief The ThreadSafeDeviceProxy helper for a Device command. -- \b Obsolete 
+	//! \class CommandInOutHelper
+	//! \brief The ThreadSafeDeviceProxy helper for a Device command. -- \b Obsolete
 	//! class since Tango 7 --
 	//!
-	//! \remark Since Tango 7 (resp. 8), the Tango::DeviceProxy class is fully 
+	//! \remark Since Tango 7 (resp. 8), the Tango::DeviceProxy class is fully
 	//! (resp. optionally) thread safe.
 	//!
 	//! This class provides a helper implementation for a Device command usage.
-	//! Some examples of ThreadSafeDeviceProxy usage are given here: 
-	//! \ref ThreadSafe "Thread safe device proxy examples"
-	//! 
+	//!
 	//! Inherits from yat4tango::HelperBase class.
 	//!
 	// ============================================================================
 	class YAT4TANGO_EXPORT CommandInOutHelper : public virtual HelperBase
 	{
 	public:
-		
+
 		//! \brief Constructor.
 		//!
 		//! \param device_name The name of the target Device.
-		//! \param client_device Reference to the client device (for logging purpose).		
+		//! \param client_device Reference to the client device (for logging purpose).
 		CommandInOutHelper (const std::string& device_name, Tango::DeviceImpl *client_device = 0)
 			: HelperBase(device_name, client_device)
 		{
 			dd_out_.exceptions(Tango::DeviceData::isempty_flag | Tango::DeviceData::wrongtype_flag);
 		}
-		
-		//! \brief Destructor.		
+
+		//! \brief Destructor.
 		virtual ~CommandInOutHelper ()
 		{
 			//- noop dtor
 		}
-		
+
 		//---------------------------------------------------------------------------
 		//! \brief Executes a command with no input and no output argument.
 		//!
@@ -193,8 +191,8 @@ namespace yat4tango
         //! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
-#undef command_inout	// Must avoid macro expansion 
-#endif	
+#undef command_inout	// Must avoid macro expansion
+#endif
 		void internal_command (const std::string& cmd_name,
 			                     std::string file,
 			                     int line)
@@ -221,9 +219,9 @@ namespace yat4tango
 		//! \brief Executes a command with input and output arguments.
 		//!
 		//! Executes a \<_OUT\>/\<_IN\> Tango command on the underlying Device.
-		//! - Template parameter \<_IN\> is the generic type for argin; must be supported 
+		//! - Template parameter \<_IN\> is the generic type for argin; must be supported
 		//! by DeviceData::operator<<.
-		//! - Template parameter \<_OUT\> is the generic type for argout; must be supported 
+		//! - Template parameter \<_OUT\> is the generic type for argout; must be supported
 		//! by DeviceData::operator>>.
 		//!
 		//! \param cmd_name The command's name.
@@ -233,13 +231,13 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
-#undef command_inout	// Must avoid macro expansion 
+#undef command_inout	// Must avoid macro expansion
 #endif
 		template <class _IN, class _OUT>
-			void internal_command_inout (const std::string& cmd_name, 
-                                   const _IN& argin, 
-                                   _OUT& argout, 
-                                   std::string file = __FILE__, 
+			void internal_command_inout (const std::string& cmd_name,
+                                   const _IN& argin,
+                                   _OUT& argout,
+                                   std::string file = __FILE__,
                                    int line= __LINE__)
 		{
 			if (device_proxy_)
@@ -272,15 +270,15 @@ namespace yat4tango
 		}
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #define command_inout internal_command_inout
-#endif				
+#endif
 		//---------------------------------------------------------------------------
 		//! \brief Executes a command with input and output arguments.
 		//!
-		//! Executes a DevVar\<X\>StringArray/DevVar\<X\>StringArray Tango command on the 
+		//! Executes a DevVar\<X\>StringArray/DevVar\<X\>StringArray Tango command on the
 		//! underlying Device.
-		//! - Template parameter \<_IN\> is the generic type for numerical part of argin; 
+		//! - Template parameter \<_IN\> is the generic type for numerical part of argin;
 		//! must be supported by DeviceData::insert().
-		//! - Template parameter \<_OUT\> is the generic type for numerical part of argout; 
+		//! - Template parameter \<_OUT\> is the generic type for numerical part of argout;
 		//! must be supported by DeviceData::extract().
 		//!
 		//! \param cmd_name The command's name.
@@ -292,7 +290,7 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
-#undef command_inout	// Must avoid macro expansion 
+#undef command_inout	// Must avoid macro expansion
 #endif
 		template <class _IN, class _OUT>
 		void internal_command_inout (const std::string& cmd_name,
@@ -306,7 +304,7 @@ namespace yat4tango
 			if (this->device_proxy_)
 			{
 				Tango::DeviceData dd_in;
-				dd_in.insert(const_cast<std::vector<_IN>&>(_nv_in), 
+				dd_in.insert(const_cast<std::vector<_IN>&>(_nv_in),
 					           const_cast<std::vector<std::string>&>(_sv_in));
 				_DEV_TRY_FILE_LINE
 					(
@@ -347,7 +345,7 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 		template <class _IN>
-			void internal_command_inout (const std::string& cmd_name, 
+			void internal_command_inout (const std::string& cmd_name,
                                    const _IN& argin,
                                    Tango::DevVarDoubleStringArray* argout,
                                    std::string file = __FILE__,
@@ -356,9 +354,9 @@ namespace yat4tango
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_inout:Use only STL vector instead of DevVarDoubleStringArray *****")
 #endif
-			TangoSys_OMemStream o; 
-			o << " [" << file << "::" << line << "]" << std::ends; 
-			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"), 
+			TangoSys_OMemStream o;
+			o << " [" << file << "::" << line << "]" << std::ends;
+			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 				                             static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
 				                             static_cast<const char*>(o.str().c_str()));
 		}
@@ -375,18 +373,18 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 		template <class _IN>
-		void internal_command_inout (const std::string& cmd_name, 
-                                 const _IN& argin, 
+		void internal_command_inout (const std::string& cmd_name,
+                                 const _IN& argin,
                                  Tango::DevVarLongStringArray* argout,
-                                 std::string file = __FILE__, 
+                                 std::string file = __FILE__,
                                  int line = __LINE__)
 		{
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_inout:Use only STL vector instead of DevVarLongStringArray *****")
 #endif
-			TangoSys_OMemStream o; 
-			o << " [" << file << "::" << line << "]" << std::ends; 
-			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"), 
+			TangoSys_OMemStream o;
+			o << " [" << file << "::" << line << "]" << std::ends;
+			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 				                             static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
 				                             static_cast<const char*>(o.str().c_str()));
 		}
@@ -404,7 +402,7 @@ namespace yat4tango
 		//---------------------------------------------------------------------------
 		template <class _IN>
 		void internal_command_inout (const std::string& cmd_name,
-                                 const _IN& argin, 
+                                 const _IN& argin,
                                  Tango::DevVarDoubleStringArray& argout,
                                  std::string file = __FILE__,
                                  int line = __LINE__)
@@ -412,13 +410,13 @@ namespace yat4tango
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_inout:Use only STL vector instead of DevVarDoubleStringArray *****")
 #endif
-			TangoSys_OMemStream o; 
-			o << " [" << file << "::" << line << "]" << std::ends; 
-			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"), 
+			TangoSys_OMemStream o;
+			o << " [" << file << "::" << line << "]" << std::ends;
+			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 				                             static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
 				                             static_cast<const char*>(o.str().c_str()));
 		}
-		
+
 		//---------------------------------------------------------------------------
 		//! \brief Overloaded command to avoid usage of DevVar\<X\>Array for argout.
 		//!
@@ -431,18 +429,18 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 		template <class _IN>
-		void internal_command_inout (const std::string& cmd_name, 
-                                 const _IN& argin, 
+		void internal_command_inout (const std::string& cmd_name,
+                                 const _IN& argin,
                                  Tango::DevVarLongStringArray& argout,
-                                 std::string file= __FILE__, 
+                                 std::string file= __FILE__,
                                  int line= __LINE__)
 		{
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_inout:Use only STL vector instead of DevVarLongStringArray *****")
 #endif
-			TangoSys_OMemStream o; 
-			o << " [" << file << "::" << line << "]" << std::ends; 
-			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"), 
+			TangoSys_OMemStream o;
+			o << " [" << file << "::" << line << "]" << std::ends;
+			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 			                             	 static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
 				                             static_cast<const char*>(o.str().c_str()));
 		}
@@ -452,7 +450,7 @@ namespace yat4tango
 		//! \brief Executes a command with input argument.
 		//!
 		//! Executes a DEV_VOID/ARG_IN Tango command on the underlying Device.
-		//! - Template parameter \<_IN\> is the generic type argin; 
+		//! - Template parameter \<_IN\> is the generic type argin;
 		//! must be supported by DeviceData::operator<<.
 		//!
 		//! \param cmd_name The command's name.
@@ -493,7 +491,7 @@ namespace yat4tango
 		//! \brief Executes a command with input argument.
 		//!
 		//! Executes a DEV_VOID/DevVar\<X\>StringArray Tango command on the underlying Device.
-		//! - Template parameter \<_IN\> is the generic type for numerical part of argin; 
+		//! - Template parameter \<_IN\> is the generic type for numerical part of argin;
 		//! must be supported by DeviceData::insert().
 		//!
 		//! \param cmd_name The command's name.
@@ -503,19 +501,19 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
-#undef command_inout	// Must avoid macro expansion 
+#undef command_inout	// Must avoid macro expansion
 #endif
 		template <class _IN>
-			void internal_command_in (const std::string& cmd_name, 
-                          			const std::vector<_IN>& _nv_in, 
-                          			const std::vector<std::string>& _sv_in, 
+			void internal_command_in (const std::string& cmd_name,
+                          			const std::vector<_IN>& _nv_in,
+                          			const std::vector<std::string>& _sv_in,
                                 std::string file = __FILE__,
                                 int line = __LINE__)
 		{
 			if (this->device_proxy_)
 			{
 				Tango::DeviceData dd_in;
-				dd_in.insert(const_cast<std::vector<_IN>&>(_nv_in), 
+				dd_in.insert(const_cast<std::vector<_IN>&>(_nv_in),
 					           const_cast<std::vector<std::string>&>(_sv_in));
 				_DEV_TRY_FILE_LINE
 					(
@@ -530,7 +528,7 @@ namespace yat4tango
 					);
 			}
 		}
-		
+
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #define command_inout internal_command_inout
 #endif
@@ -538,7 +536,7 @@ namespace yat4tango
 		//! \brief Executes a command with output argument.
 		//!
 		//! Executes a ARG_OUT/DEV_VOID Tango command on the underlying Device.
-		//! - Template parameter \<_OUT\> is the generic type for argout; must be 
+		//! - Template parameter \<_OUT\> is the generic type for argout; must be
 		//! supported by DeviceData::operator>>.
 		//!
 		//! \param cmd_name The command's name.
@@ -547,12 +545,12 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
-#undef command_inout	// Must avoid macro expansion 
+#undef command_inout	// Must avoid macro expansion
 #endif
 		template <class _OUT>
-			void internal_command_out (const std::string& cmd_name, 
-                                 _OUT& argout,  
-                                 std::string file = __FILE__, 
+			void internal_command_out (const std::string& cmd_name,
+                                 _OUT& argout,
+                                 std::string file = __FILE__,
                                  int line = __LINE__)
 		{
 			if (this->device_proxy_)
@@ -584,7 +582,7 @@ namespace yat4tango
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #define command_inout internal_command_inout
 #endif
-		
+
 		//---------------------------------------------------------------------------
 		//! \brief Overloaded command to avoid usage of DevVar\<X\>Array for argout.
 		//!
@@ -595,8 +593,8 @@ namespace yat4tango
 		//! \param file File extension (predefined system MACRO).
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
-		template <class _OUT>  
-			void internal_command_out(_OUT dummy, 
+		template <class _OUT>
+			void internal_command_out(_OUT dummy,
                                 Tango::DevVarDoubleStringArray* argout,
                                 std::string file = __FILE__,
                                 int line = __LINE__)
@@ -604,7 +602,7 @@ namespace yat4tango
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_out:Use only STL vector instead of DevVarDoubleStringArray *****")
 #endif
-			TangoSys_OMemStream o; 
+			TangoSys_OMemStream o;
 			o << " [" << file << "::" << line << "]" << std::ends;
 			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 				                             static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
@@ -621,18 +619,18 @@ namespace yat4tango
 		//! \param file File extension (predefined system MACRO).
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
-		template <class _OUT>    
-			void internal_command_out (_OUT dummy, 
+		template <class _OUT>
+			void internal_command_out (_OUT dummy,
                                  Tango::DevVarLongStringArray* argout,
-                                 std::string file = __FILE__, 
+                                 std::string file = __FILE__,
                                  int line = __LINE__)
 		{
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_out:Use only STL vector instead of DevVarLongStringArray *****")
 #endif
-			TangoSys_OMemStream o; 
-			o << " [" << file << "::" << line << "]" << std::ends; 
-			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"), 
+			TangoSys_OMemStream o;
+			o << " [" << file << "::" << line << "]" << std::ends;
+			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 				                             static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
 				                             static_cast<const char*>(o.str().c_str()));
 		}
@@ -647,18 +645,18 @@ namespace yat4tango
 		//! \param file File extension (predefined system MACRO).
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
-		template <class _OUT> 
-			void internal_command_out(_OUT dummy, 
+		template <class _OUT>
+			void internal_command_out(_OUT dummy,
                                 Tango::DevVarDoubleStringArray& argout,
-                                std::string file = __FILE__, 
+                                std::string file = __FILE__,
                                 int line = __LINE__)
 		{
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_out:Use only STL vector instead of DevVarDoubleStringArray *****")
 #endif
-			TangoSys_OMemStream o; 
-			o << " [" << file << "::" << line << "]" << std::ends; 
-			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"), 
+			TangoSys_OMemStream o;
+			o << " [" << file << "::" << line << "]" << std::ends;
+			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 				                             static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
 				                             static_cast<const char*>(o.str().c_str()));
 		}
@@ -674,18 +672,18 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 
-		template <class _OUT> 
-			void internal_command_out (_OUT dummy, 
+		template <class _OUT>
+			void internal_command_out (_OUT dummy,
                                  Tango::DevVarLongStringArray& argout,
-                                 std::string file = __FILE__, 
+                                 std::string file = __FILE__,
                                  int line = __LINE__)
 		{
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
 #pragma message  (" TANGO WARNING ***** command_out:Use only STL vector instead of DevVarLongStringArray *****")
 #endif
 			TangoSys_OMemStream o;
-			o << " [" << file << "::" << line << "]" << std::ends; 
-			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"), 
+			o << " [" << file << "::" << line << "]" << std::ends;
+			Tango::Except::throw_exception(static_cast<const char*>("TANGO_WRONG_DATA_ERROR"),
 				                             static_cast<const char*>("Use only STL vector instead of DevVarXXStringArray"),
 				                             static_cast<const char*>(o.str().c_str()));
 		}
@@ -694,7 +692,7 @@ namespace yat4tango
 		//! \brief Executes a command with output argument.
 		//!
 		//! Executes a DEV_VOID/DevVar\<X\>StringArray Tango command on the underlying Device.
-		//! - Template parameter \<_OUT\> is the generic type for argout; must be 
+		//! - Template parameter \<_OUT\> is the generic type for argout; must be
 		//! supported by DeviceData::extract().
 		//!
 		//! \param cmd_name The command's name.
@@ -704,7 +702,7 @@ namespace yat4tango
 		//! \param line Line number extension (predefined system MACRO).
 		//---------------------------------------------------------------------------
 #if (defined(_MSC_VER) && _MSC_VER < 1300)
-#undef command_inout	// Must avoid macro expansion 
+#undef command_inout	// Must avoid macro expansion
 #endif
 		template <class _OUT>
 		void internal_command_out (const std::string& cmd_name,
@@ -750,24 +748,22 @@ private:
 
 
 // ============================================================================
-//! \class AttributeHelper 
-//! \brief The ThreadSafeDeviceProxy helper for a Device attribute. -- \b Obsolete 
+//! \class AttributeHelper
+//! \brief The ThreadSafeDeviceProxy helper for a Device attribute. -- \b Obsolete
 //! class since Tango 7 --
 //!
 //! \remark Since Tango 7 (resp. 8), the Tango::DeviceProxy class is fully (resp. optionally)
 //! thread safe.
 //!
 //! This class provides a helper implementation for a Device attribute usage.
-//! Some examples of ThreadSafeDeviceProxy usage are given here: 
-//! \ref ThreadSafe "Thread safe device proxy examples"
-//! 
+//!
 //! Inherits from yat4tango::HelperBase class.
 //!
 // ============================================================================
 class YAT4TANGO_EXPORT AttributeHelper : public virtual HelperBase
 {
 public:
-	
+
 	//! \brief Constructor.
 	//!
 	//! \param device_name Name of the target Device.
@@ -777,7 +773,7 @@ public:
 	{
 		da_out_.exceptions(Tango::DeviceAttribute::isempty_flag | Tango::DeviceAttribute::wrongtype_flag);
 	}
-	
+
 	//! \brief Destructor.
 	virtual ~AttributeHelper ()
 	{
@@ -787,7 +783,7 @@ public:
 	//! \brief Gets Device's attribute.
 	//!
 	//! Returns the last read Device attribute.
-	Tango::DeviceAttribute get_device_attribute () 
+	Tango::DeviceAttribute get_device_attribute ()
 	{
 		return da_out_;
 	}
@@ -796,7 +792,7 @@ public:
 	//! \brief Writes the specified attribute.
 	//!
 	//! Writes the specified value in the specified attribute.
-	//! - Template parameter \<_VAL\> is the generic type for attribute's value; 
+	//! - Template parameter \<_VAL\> is the generic type for attribute's value;
 	//! must be supported by DeviceAttribute::operator<<.
 	//!
 	//! \param attr_name The attribute's name.
@@ -805,7 +801,7 @@ public:
 	//! \param line Line number extension (predefined system MACRO).
 	//---------------------------------------------------------------------------
 	template <class _VAL>
-	void internal_write_attribute (const std::string& attr_name, 
+	void internal_write_attribute (const std::string& attr_name,
                                  const _VAL& attr_value,
                                  std::string file = __FILE__,
                                  int line = __LINE__)
@@ -832,7 +828,7 @@ public:
 	//---------------------------------------------------------------------------
 	//! \brief Reads the specified attribute.
 	//!
-	//! - Template parameter \<_VAL\> is the generic type for attribute's value; 
+	//! - Template parameter \<_VAL\> is the generic type for attribute's value;
 	//! must be supported by DeviceAttribute::operator>>.
 	//!
 	//! \param attr_name The attribute's name.
@@ -855,7 +851,7 @@ public:
   				//- what do we tried
   				std::string("read_attribute on ") + FULL_ATTR_NAME(attr_name),
   				//- origin
-  				"AttributeHelper::read_attribute", 
+  				"AttributeHelper::read_attribute",
   				file,
   				line
 				);
@@ -866,7 +862,7 @@ public:
   				//- what do we tried
   				std::string("DeviceAttribute::operator>> on data returned by ") + FULL_ATTR_NAME(attr_name),
   				//- origin
-  				"AttributeHelper::read_attribute", 
+  				"AttributeHelper::read_attribute",
   				file,
   				line
 				);
@@ -876,7 +872,7 @@ public:
 	//---------------------------------------------------------------------------
 	//! \brief Reads the specified attribute and gets its write value.
 	//!
-	//! - Template parameter \<_VAL\> is the generic type for write attribute's value; 
+	//! - Template parameter \<_VAL\> is the generic type for write attribute's value;
 	//! must be supported by DeviceAttribute::operator>>.
 	//!
 	//! \param attr_name The attribute's name.
@@ -885,7 +881,7 @@ public:
 	//! \param line Line number extension (predefined system MACRO).
 	//---------------------------------------------------------------------------
 	template <class _VAL>
-		void internal_read_attribute_w (const std::string& attr_name, 
+		void internal_read_attribute_w (const std::string& attr_name,
                                     _VAL& w_attr_value,
                                     std::string file = __FILE__,
                                     int line = __LINE__)
@@ -899,7 +895,7 @@ public:
   				//- what do we tried
   				std::string("read_attribute on ") + FULL_ATTR_NAME(attr_name),
   				//- origin
-  				"AttributeHelper::read_attribute_w", 
+  				"AttributeHelper::read_attribute_w",
   				file,
   				line
 				);
@@ -911,19 +907,19 @@ public:
   				//- what do we tried
   				std::string("new Tango::AttributeProxy : ") + FULL_ATTR_NAME(attr_name),
   				//- origin
-  				"AttributeHelper::read_attribute_w", 
+  				"AttributeHelper::read_attribute_w",
   				file,
   				line
 				);
 			//- Switch on attribute type (to be completed with all tango types!)
 			switch(attr_proxy_->get_config().data_type)
 			{
-		
+
 			case 2://short
 				{
 					w_attr_value = da_out_.ShortSeq[1];
 					break;
-				}	
+				}
 			case 3://long
 				{
 					w_attr_value = da_out_.LongSeq[1];
@@ -944,7 +940,7 @@ public:
 			}
 		}
 	}
-	
+
 private:
 	//- placed here as a workaround due to CORBA::any_var limitations
 	Tango::DeviceAttribute da_out_;
@@ -952,18 +948,16 @@ private:
 };
 
 // ============================================================================
-//! \class ThreadSafeDeviceProxyHelper 
-//! \brief The ThreadSafeDeviceProxy helper for Device attributes and commands. -- \b Obsolete 
+//! \deprecated ThreadSafeDeviceProxyHelper
+//! \brief The ThreadSafeDeviceProxy helper for Device attributes and commands. -- \b Obsolete
 //! class since Tango 7 --
-//! 
+//!
 //! \remark Since Tango 7 (resp. 8), the Tango::DeviceProxy class is fully (resp. optionally)
 //! thread safe.
 //!
 //! This class provides a helper implementation for Device attributes and
 //! commands usage.
-//! Some examples of ThreadSafeDeviceProxy usage are given here: 
-//! \ref ThreadSafe "Thread safe device proxy examples"
-//! 
+//!
 //! Inherits from CommandInOutHelper (for the commands helper) and AttributeHelper
 //! (for the attributes helper) classes.
 //!
@@ -971,7 +965,7 @@ private:
 class YAT4TANGO_EXPORT ThreadSafeDeviceProxyHelper : public CommandInOutHelper, public AttributeHelper
 {
 public:
-	
+
 	//! \brief Constructor.
 	//!
 	//! \param target_device_name Name of the target Device.
@@ -983,7 +977,7 @@ public:
 	{
 		//- noop ctor
 	}
-	
+
 	//! \brief Destructor.
 	virtual ~ThreadSafeDeviceProxyHelper ()
 	{

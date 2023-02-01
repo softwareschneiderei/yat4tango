@@ -138,7 +138,9 @@ public:
   //! \brief Initialization of the inner appender.
   //!
   //! \param associated_device The Tango device to log.
-  //! \param max_log_buffer_depth
+  //! \param max_log_buffer_depth maximum number of log messages to show
+  //! \param attribute_name The attribute name, default is "log"
+  //! \param o the message ordering (asc or reverse_order). ascendent is the default
   //! \exception DEVICE_ERROR Thrown when an error occurs while initializing the logger.
   static void initialize(Tango::DeviceImpl* associated_device,
                          std::size_t max_log_buffer_depth = INNER_APPENDER_DEFAULT_BUFFER_DEPTH,
@@ -149,6 +151,7 @@ public:
   //!
   //! \param associated_device The Tango device to log.
   //! \param cfg the configuration
+  //! \param no_prop if 'true' then don't read configuration from the "Logging" property
   //! \exception DEVICE_ERROR Thrown when an error occurs while initializing the logger.
   static void initialize(Tango::DeviceImpl* associated_device, const Config& cfg, bool no_prop=false);
 
@@ -156,8 +159,7 @@ public:
   //! set reverse order
   //!
   //! \param associated_device The Tango device to log.
-  //! \param cfg the configuration
-  //! \param o the message ordering (reverse_order)
+  //! \param o the message ordering (asc or reverse_order). ascendent is the default
   //! \exception DEVICE_ERROR Thrown when an error occurs while initializing the logger.
   static void initialize(Tango::DeviceImpl* associated_device, Order o);
 
@@ -172,6 +174,7 @@ public:
 
   //! \brief fill log buffer with messages from a previous session
   //!
+  //! \param associated_device The associated Tango device.
   //! \param messages input buffer
   static void fill(Tango::DeviceImpl* associated_device, std::deque<std::string>& messages);
 

@@ -11,9 +11,9 @@
 //
 // Copyright (c) 2004-2016 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -45,13 +45,13 @@
       {
         this->init_dynamic_commands();
       }
-      
+
       //------------------------------------------------------------------
       ~MyClass ()
       {
         this->remove_dynamic_commands();
       }
-      
+
       //------------------------------------------------------------------
       void init_dynamic_commands ()
       {
@@ -72,7 +72,7 @@
         //- add the dynamic command to the device interface
         this->m_dcm.add_command(dci);
       }
-      
+
       //------------------------------------------------------------------
       void remove_dynamic_commands ()
       {
@@ -80,21 +80,21 @@
         //-------------------------------------------------
         this->m_dcm.remove_commands();
       }
-      
+
       //------------------------------------------------------------------
       void execute_callback (yat4tango::DynamicCommandExecuteCallbackData& cbd)
       {
         DEBUG_STREAM << "execute request for dynamic command: "
                       << cbd.dyc->get_name()
                       << std::endl;
-                      
+
         //- extract argin
         Tango::DevULong argin;
         cbd.dyc->get_argin(argin);
-        
+
         //- do some job (let's suppose it also allocate argout)
         Tango::DevVarDoubleArray * argout = this->do_some_job(argin);
-        
+
         //- insert argout
         cbd.dyc->get_argout(argout);
       }
@@ -131,7 +131,7 @@ namespace yat4tango
 class DynamicCommand;
 
 // ============================================================================
-//! \struct ArgIO
+//! \enum ArgIO
 //! \brief Dynamic arguments identifiers
 // ============================================================================
 enum YAT4TANGO_DECL ArgIO
@@ -194,17 +194,17 @@ struct YAT4TANGO_DECL DynamicCommandInfo
   const DynamicCommandInfo& operator= (const DynamicCommandInfo& s);
 
   //! \brief Sets the associated user data.
-  //! 
+  //!
   //! The user data are defined with a generic type \<T\>.
   //! \param d The user data.
   template <typename T> void set_user_data (T* d);
-  
+
   //! \brief Sets the associated user data.
   //!
   //! The user data are defined with a generic type \<T\>.
   //! \param d The user data.
   template <typename T> void set_user_data (const T & d);
-  
+
   //! \brief Returns the associated user data.
   //! Returns null (i.e. 0) in case the user data is not of type T.
   template <typename T> T * get_user_data ();
@@ -223,20 +223,20 @@ struct YAT4TANGO_DECL DynamicCommandInfo
   //!
   //! Default value is to NULL.
   Tango::DeviceImpl * dev;
-  
+
   //! \brief The Tango command description
   Tango::CommandInfo tci;
-  
+
   //! \brief Execute callback.
   DynamicCommandExecuteCallback ecb;
-  
+
 private:
   friend class DynamicInterfaceManager;
   friend class DynamicCommandFactory;
-  
+
   //- user 'abstract' data
   yat::Any uad;
-}; 
+};
 
 // ============================================================================
 //! \class DynamicCommand
@@ -268,7 +268,7 @@ public:
   }
 
   //! \brief Returns the command's data type.
-  //! 
+  //!
   //! See \p "server/tango_const.h/CmdArgType" enumeration for details upon possible return values.
   inline int get_tango_data_type (ArgIO arg) const
   {
@@ -287,12 +287,12 @@ public:
   //! \brief Sets the user data.
   //! \param d Pointer to the user data (generic type \<T\>).
   template <typename T> void set_user_data (T* d);
-  
+
   //! \brief Sets the user data.
   //! \param d Pointer to the user data (generic type \<T\>).
   template <typename T> void set_user_data (const T & d);
 
-  //! \brief Returns the user data (returns NULL is the user dat is not of type T) 
+  //! \brief Returns the user data (returns NULL is the user dat is not of type T)
   template <typename T> T* get_user_data ();
 
   //! \brief Returns the user data.
@@ -313,12 +313,12 @@ public:
 
    //! \brief Output argument insertion helper.
   template <typename T> void set_argout (T& argout);
-  
+
   //! \brief Dumps command information to std::cout.
   void dump () /*const*/;
 
 protected:
-  
+
   //! \brief Constructor.
   // \param dai Dynamic command information.
   DynamicCommand (const DynamicCommandInfo & dai);
@@ -333,7 +333,7 @@ protected:
   //- commands arguments
   CORBA::Any const * argin_;
   CORBA::Any * argout_;
-  
+
 private:
   friend class DynamicCommandManager;
   friend class DynamicCommandFactory;
@@ -405,7 +405,7 @@ void DynamicCommandInfo::get_user_data (T& ud)
 {
   ud = yat::any_cast<T>(uad);
 }
-  
+
 // ============================================================================
 // DynamicCommand::check_argument_data_type
 // ============================================================================
@@ -450,7 +450,7 @@ void DynamicCommand::get_user_data (T& ud)
 {
   this->dci_.get_user_data<T>(ud);
 }
-  
+
 // ============================================================================
 // DynamicCommand::get_argin
 // ============================================================================
@@ -543,7 +543,7 @@ void DynamicCommand::set_argout (T& argout)
   }
   this->argout_ = this->get_tango_command()->insert(argout);
 }
-  
-} //- namespace 
+
+} //- namespace
 
 #endif //- _DYNAMIC_COMMAND_H_

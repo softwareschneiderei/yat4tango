@@ -24,7 +24,7 @@
 // See COPYING file for license details
 //
 // Contact:
-//      Nicolas Leclercq
+//      Stephane Poirier
 //      Synchrotron SOLEIL
 //------------------------------------------------------------------------------
 /*!

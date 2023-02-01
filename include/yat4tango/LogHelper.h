@@ -329,7 +329,7 @@ private:
 
 # else
 // ============================================================================
-//! \class Dummy TraceHelper
+// Dummy TraceHelper class
 // ============================================================================
 class YAT4TANGO_DECL TraceHelper
 {

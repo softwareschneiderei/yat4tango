@@ -11,9 +11,9 @@
 //
 // Copyright (c) 2004-2016 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -61,10 +61,10 @@ namespace yat4tango
 class YAT4TANGO_DECL DynamicCommandManager : public Tango::LogAdapter
 {
 public:
-  //! \brief Constructor. 
+  //! \brief Constructor.
   //! \param _dev The Tango Device handled by the instance.
   DynamicCommandManager (Tango::DeviceImpl * _dev = 0);
-  
+
   //! \brief Destructor.
   //!
   //! Removes all registered dynamic commands from the device.
@@ -86,7 +86,7 @@ public:
 
   //! \brief Adds a dynamic command to the repository.
   //!
-  //! \param da The dynamic command to add.
+  //! \param dc The dynamic command to add.
   //! \exception INITIALIZATION_ERROR Thrown if the manager is not linked to a Tango device.
   //! \exception OPERATION_NOT_ALLOWED Thrown if another dynamic command already exists with same name.
   //! \exception API_ERROR/INTERNAL_ERROR Thrown when adding fails.
@@ -97,19 +97,19 @@ public:
   //! \param dai A list of command's information containing the commands' description.
   //! \exception INITIALIZATION_ERROR Thrown if the manager is not linked to a Tango device.
   //! \exception OPERATION_NOT_ALLOWED Thrown if another dynamic command already exists with same name.
-  //! \exception API_ERROR/INTERNAL_ERROR/UNKNOWN_ERROR Thrown when adding fails.  
+  //! \exception API_ERROR/INTERNAL_ERROR/UNKNOWN_ERROR Thrown when adding fails.
   void add_commands (const std::vector<DynamicCommandInfo>& dai);
 
   //! \brief Removes a dynamic command from the repository.
-  //! 
+  //!
   //! \param an The command's name.
   //! \exception INITIALIZATION_ERROR Thrown if the manager is not linked to a Tango device.
   //! \exception ATTRIBUTE_NOT_FOUND Thrown if command's name is not found.
-  //! \exception INTERNAL_ERROR/UNKNOWN_ERROR Thrown when removing fails.  
+  //! \exception INTERNAL_ERROR/UNKNOWN_ERROR Thrown when removing fails.
   void remove_command (const std::string& an);
 
   //! \brief Removes the dynamic commands from the repository.
-  //! 
+  //!
   //! Removes all the dynamic commands registered.
   //! \exception INITIALIZATION_ERROR Thrown if the manager is not linked to a Tango device.
   //! \exception INTERNAL_ERROR/UNKNOWN_ERROR Thrown on the first error occurring during command's removing.
@@ -136,7 +136,7 @@ private:
   typedef DynamicCommandRepository::value_type DynamicCommandEntry;
   typedef DynamicCommandRepository::iterator DynamicCommandIterator;
   typedef DynamicCommandRepository::const_iterator DynamicCommandConstIterator;
-    
+
   size_t num_pogo_cmd_;
   Tango::DeviceImpl * dev_;
   DynamicCommandRepository rep_;

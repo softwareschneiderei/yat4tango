@@ -11,9 +11,9 @@
 //
 // Copyright (c) 2004-2016 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -44,7 +44,7 @@ namespace yat4tango
 //! \brief List of plugin Tango Device properties.
 //!
 //! The 1st map parameter refers to the property name.
-//! The 2nd map parameter refers to the property data type 
+//! The 2nd map parameter refers to the property data type
 //! (from yat::PlugInPropType enumeration).
 //!
 //! The mapping between yat::PlugInPropType and C++ types is the following:
@@ -89,10 +89,10 @@ typedef std::vector<PlugInPropertyValue> PlugInPropertyValueList;
 typedef std::vector<DynamicAttributeInfo> DynamicAttributeDescriptionList;
 
 // ============================================================================
-//! \class DevicePlugIn 
+//! \class DevicePlugIn
 //! \brief Interface for a Plugin object with Tango Device properties and dynamic attributes.
 //!
-//! This class is a base class for a plugin object which can be configured with 
+//! This class is a base class for a plugin object which can be configured with
 //! Tango Device properties and which can manage Tango Device dynamic attributes.
 //! This abstract class can not be used as this and must be derived.
 //!
@@ -104,12 +104,12 @@ public:
   //! \brief Enumerates the object's Tango Device properties.
   //! \param[out] propInfoList List of properties.
   virtual void enumerate_properties (yat4tango::PlugInPropertyInfoList& propInfoList) const = 0;
-  
+
   //! \brief Sets the object's Tango Device properties.
   //! \param[in] propValueList List of property values to set.
   //!
-  //! The <propValueList> list is filled with property values in the same order 
-  //! than defined in the enumerate_properties() <propInfoList> list.
+  //! The propValueList list is filled with property values in the same order
+  //! than defined in the enumerate_properties() propInfoList list.
   virtual void set_properties (yat4tango::PlugInPropertyValueList& propValueList) = 0;
 
   //! \brief Enumerates the object's attributes.

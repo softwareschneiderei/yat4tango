@@ -69,7 +69,9 @@ public:
 
 	//! \brief Creates a device property if it's doesn't exists in the Tango database
 	//! \param dev_p Pointer to associated device.
-	//! \param name Property's name
+  //! \param dev_prop The device properties object
+  //! \param value The property value
+	//! \param property_name Property's name
   template <class T>
   static void create_property_if_empty(Tango::DeviceImpl* dev_p, Tango::DbData& dev_prop,
                                        T value, std::string property_name);

@@ -335,14 +335,13 @@ namespace yat4tango
   //!
   //! Inherits from Tango::DevFailed class.
   //!
-  //! @notice DEPRECATED
+  //! @remark DEPRECATED
   // ============================================================================
   class YAT4TANGO_DECL TangoYATException : public yat::Exception
   {
   public:
-	  //! \brief Creates a YAT exception from a Tango exception.
-	  //! \param df The Tango exception.
-	  TangoYATException( const Tango::DevFailed& );
+	  // Creates a YAT exception from a Tango exception.
+	  TangoYATException( const Tango::DevFailed&);
   };
 
 #ifdef YAT_WIN32

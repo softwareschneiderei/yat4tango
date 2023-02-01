@@ -68,7 +68,7 @@ public:
    //!
    //! \param associated_device host device
    //! \param project_name The device project name
-   //! \param project_name The device project version
+   //! \param project_version The device project version
    //! \param attr_name The name of the attribute that will expose versions information (default is 'info')
    //! \exception DEVICE_ERROR Thrown when an error occurs while initializing the logger.
    static void initialize (Tango::DeviceImpl* associated_device,
@@ -84,6 +84,8 @@ public:
 
    //! \brief Add a project version.
    //!
+   //! \param hd host device pointer
+   //! \param name dependency name
    //! \param version dependency version string
    static void add_dependency(Tango::DeviceImpl* hd, const std::string& name, const std::string& version);
 

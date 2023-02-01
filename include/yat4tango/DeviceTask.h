@@ -381,7 +381,7 @@ template <typename T> void DeviceTask::wait_msg_handled (size_t msg_type,
 struct YAT4TANGO_DECL DeviceTaskExiter
 {
   //! \brief operator().
-  //! \param object The object to delete.
+  //! \param task The object to delete.
   void operator()(DeviceTask* task);
 };
 
