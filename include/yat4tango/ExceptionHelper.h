@@ -289,7 +289,7 @@ namespace yat4tango
 //! \param _tango_ex The corresponding Tango exception.
 //! \param prefix a prefix inserted before each log message.
 //=============================================================================
-#define TANGO_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX(_tango_ex) \
+#define TANGO_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX(_tango_ex, prefix) \
   const Tango::DevErrorList & el = _tango_ex.errors; \
   for( std::size_t i = 0; i < el.length(); ++i) \
   { \
