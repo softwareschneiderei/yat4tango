@@ -108,6 +108,9 @@ const DynamicAttributeInfo& DynamicAttributeInfo::operator= (const DynamicAttrib
   lan = s.lan;
   cdb = s.cdb;
 
+  read_allowed_states = s.read_allowed_states;
+  write_allowed_states = s.write_allowed_states;
+
   memorized = s.memorized;
   write_memorized_value_at_init = s.write_memorized_value_at_init;
   polling_period_in_ms = s.polling_period_in_ms;
@@ -988,6 +991,37 @@ void DynamicAttribute::fwd_attr_write (DynamicAttributeWriteCallbackData& cbd)
 }
 
 // ============================================================================
+// DynamicAttribute::check_device_state
+// ============================================================================
+void DynamicAttribute::check_device_state(const std::set<Tango::DevState>& states,
+                                          Tango::AttReqType type)
+{
+  if( !states.empty() )
+  {
+    if( states.find(dai_.dev->get_state()) == states.end() )
+    {
+      if( Tango::READ_REQ == type )
+      {
+        THROW_DEVFAILED("DEVICE_ERROR",
+            yat::Format("Read access to dynamic attribute {} is not allowed when "
+                        "the device is in {} state").arg(dai_.tai.name)
+                                                    .arg(dai_.dev->get_state()).cget(),
+                        "yat4tango::DynamicAttribute::check_device_state");
+      }
+      else // Tango::WRITE_REQ
+      {
+        THROW_DEVFAILED("DEVICE_ERROR",
+            yat::Format("Write access to dynamic attribute {} is not allowed when "
+                        "the device is in {} state").arg(dai_.tai.name)
+                                                    .arg(dai_.dev->get_state()).cget(),
+                        "yat4tango::DynamicAttribute::check_device_state");
+
+      }
+    }
+  }
+}
+
+// ============================================================================
 // template class DynamicScalarAttribute
 // ============================================================================
 template <typename T>
@@ -1037,6 +1071,9 @@ public:
                       "this dynamic scalar attribute has no associated <read callback> [this is a programming error]",
                       "yat4tango::DynamicAttribute::read");
     }
+
+    check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
+
     DynamicAttributeReadCallbackData cbd;
     cbd.dev = this->dai_.dev;
     cbd.dya = this;
@@ -1063,6 +1100,9 @@ public:
                       "this writable dynamic scalar attribute has no associated <write callback> [this is a programming error]",
                       "yat4tango::DynamicScalarAttribute::write");
     }
+
+    check_device_state(dai_.write_allowed_states, Tango::WRITE_REQ);
+
     DynamicAttributeWriteCallbackData cbd;
     cbd.dev = this->dai_.dev;
     cbd.dya = this;
@@ -1132,6 +1172,9 @@ public:
                       "this dynamic spectrum attribute has no associated <read callback> [this is a programming error]",
                       "yat4tango::DynamicSpectrumAttribute::read");
     }
+
+    check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
+
     DynamicAttributeReadCallbackData cbd;
     cbd.dev = this->dai_.dev;
     cbd.dya = this;
@@ -1157,6 +1200,9 @@ public:
                       "this writable dynamic spectrum attribute has no associated <write callback> [this is a programming error]",
                       "yat4tango::DynamicSpectrumAttribute::write");
     }
+
+    check_device_state(dai_.write_allowed_states, Tango::WRITE_REQ);
+
     DynamicAttributeWriteCallbackData cbd;
     cbd.dev = this->dai_.dev;
     cbd.dya = this;
@@ -1227,6 +1273,9 @@ public:
                       "this dynamic image attribute has no associated <read callback> [this is a programming error]",
                       "yat4tango::DynamicImageAttribute::read");
     }
+
+    check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
+
     DynamicAttributeReadCallbackData cbd;
     cbd.dev = this->dai_.dev;
     cbd.dya = this;
@@ -1252,6 +1301,9 @@ public:
                       "this writable dynamic image attribute has no associated <write callback> [this is a programming error]",
                       "yat4tango::DynamicImageAttribute::write");
     }
+
+    check_device_state(dai_.write_allowed_states, Tango::WRITE_REQ);
+
     DynamicAttributeWriteCallbackData cbd;
     cbd.dev = this->dai_.dev;
     cbd.dya = this;

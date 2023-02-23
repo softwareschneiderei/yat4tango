@@ -121,6 +121,7 @@
 #include <yat4tango/Export.h>
 #include <yat4tango/Types.h>
 #include <yat4tango/LogHelper.h>
+#include <yat4tango/FormatHelper.h>
 #include <yat4tango/ExceptionHelper.h>
 
 namespace yat4tango
@@ -341,6 +342,12 @@ struct YAT4TANGO_DECL DynamicAttributeInfo
   //! Default value is false.
   bool archive_evt_managed_by_user_code;
 
+  //! \brief allowed states for read request
+  std::set<Tango::DevState> read_allowed_states;
+
+  //! \brief allowed states for write request
+  std::set<Tango::DevState> write_allowed_states;
+
 private:
   friend class DynamicAttributeManager;
   friend class DynamicAttributeFactory;
@@ -556,6 +563,11 @@ protected:
   //! \brief Attach user defined properties to the dynamic attribute.
   //! \param dai The attribute info
   
+  //! \brief check device state before call read or write callback
+  //! throw if state is not in the allowed list
+  void check_device_state(const std::set<Tango::DevState>& states,
+                          Tango::AttReqType type);
+
 private:
   friend class DynamicAttributeManager;
   friend class DynamicAttributeFactory;
