@@ -31,6 +31,9 @@
  * \authors See AUTHORS file
  */
 
+#ifndef _FORMAT_HELPER_H_
+#define _FORMAT_HELPER_H_
+
 //=============================================================================
 // DEPENDENCIES
 //=============================================================================
@@ -55,3 +58,6 @@ namespace yat // formatters have to be defined in the yat namespace
   };
 
 } //- namespace yat
+
+#endif
+
