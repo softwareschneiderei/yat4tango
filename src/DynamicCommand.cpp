@@ -81,6 +81,7 @@ const DynamicCommandInfo& DynamicCommandInfo::operator= (const DynamicCommandInf
   tci = s.tci;
   ecb = s.ecb;
   uad = s.uad;
+  allowed_states = s.allowed_states;
 
   return *this;
 }
@@ -261,6 +262,17 @@ public:
       THROW_DEVFAILED("DEVICE_ERROR",
                       "this dynamic command has no associated <execute callback> [this is a programming error]",
                       "yat4tango::DynamicCommand::execute");
+    }
+
+    //- check device state if necessary
+    if( !dci_.allowed_states.empty() )
+    {
+      if( dci_.allowed_states.find(dci_.dev->get_state()) == dci_.allowed_states.end() )
+        THROW_DEVFAILED("DEVICE_ERROR",
+            yat::Format("Execution of dynamic command {} is not allowed when the "
+                        "device is in {} state").arg(dci_.tci.cmd_name)
+                                                 .arg(dci_.dev->get_state()).cget(),
+                        "yat4tango::DynamicCommand::execute");
     }
 
     //- argIO

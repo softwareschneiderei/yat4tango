@@ -113,6 +113,8 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
+#include <set>
+
 #include <yat/any/Any.h>
 #include <yat/utils/Singleton.h>
 #include <yat/utils/Callback.h>
@@ -120,6 +122,7 @@
 #include <yat4tango/Export.h>
 #include <yat4tango/Types.h>
 #include <yat4tango/LogHelper.h>
+#include <yat4tango/FormatHelper.h>
 #include <yat4tango/ExceptionHelper.h>
 
 namespace yat4tango
@@ -229,6 +232,9 @@ struct YAT4TANGO_DECL DynamicCommandInfo
 
   //! \brief Execute callback.
   DynamicCommandExecuteCallback ecb;
+
+  //! \brief alowed states
+  std::set<Tango::DevState> allowed_states;
 
 private:
   friend class DynamicInterfaceManager;
