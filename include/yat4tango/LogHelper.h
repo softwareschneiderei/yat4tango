@@ -117,7 +117,9 @@ public:
 
   //! \brief log a debug message with format
   //! \verbatim
-  //! debug("A message with an argument value: {}.").arg(value);
+  //! debug("A message with 1st syntax argument: {}.").arg(value);
+  //! debug("A message with 2nd syntax argument: {}.") % value;
+  //! debug("A message with 3rd syntax argument: {}."), value;
   //! \endverbatim
   class LogFormat debug (const std::string& msg_fmt);
   //! \brief log a info message with format
@@ -150,6 +152,21 @@ public:
     try { yat::Format::arg(v); }
     catch(...) {}
     return *this;
+  }
+  template<typename T> LogFormat& operator,(const T& v)
+  {
+    return arg(v);
+  }
+
+  template<typename T> LogFormat& arg(T* p)
+  {
+    try { yat::Format::arg(p); }
+    catch(...) {}
+    return *this;
+  }
+  template<typename T> LogFormat& operator,(T* p)
+  {
+    return arg(p);
   }
 
   ~LogFormat()
