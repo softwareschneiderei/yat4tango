@@ -1,5 +1,34 @@
 YAT4Tango history file
 
+1.13.11 (2023/04/05)
+====================
+
+Fixes
+    One argument was missing in the definition of macro
+    TANGO_EXCEPTION_TO_LOG_STREAM_WITH_PREFIX
+    -> see <yat4tango/ExceptionHelper.h>
+
+Additions
+    class DynamicAttributeInfo
+        new members read_allowed_states & write_allowed_states. Both are
+        std::vector<DevState>. It define the srtates allowed for read & write
+        actions. If not defined all states are allowed in order to not change the
+        behavior.
+    -> see <yat4tango/DynamicAttribute.h>
+
+    class DynamicCommandInfo
+        new member allowed_states (std::vector<DevState>). It define the states
+        allowed when calling for the command. If not defined all states are
+        allowed in order to not change the behavior.
+    -> see <yat4tango/DynamicCommand.h>
+
+    Logging functions (for classes that inherit from yat4tango::TangoLogAdapter)
+        operator,() and operator%() defined in order to shorter syntax
+        Example :
+          info("ga bu {}"), zo;
+        or
+          info("ga bu {}") % zo;
+
 1.13.10 (2023/01/16)
 ====================
 
