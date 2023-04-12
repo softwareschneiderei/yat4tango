@@ -39,8 +39,6 @@
 //=============================================================================
 #include <tango.h>
 #include <yat/utils/String.h>
-#include <yat4tango/ExceptionHelper.h>
-#include <yat4tango/DeviceProxyHelper.h>
 
 namespace yat // formatters have to be defined in the yat namespace
 {
