@@ -1,5 +1,11 @@
 YAT4Tango history file
 
+1.13.12 (2023/04/12)
+====================
+
+Fixes
+    In FormatHelper.h removed useless & conflicting dependencies
+
 1.13.11 (2023/04/05)
 ====================
 
