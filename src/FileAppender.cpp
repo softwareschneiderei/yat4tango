@@ -713,17 +713,16 @@ int FileAppender::_append(const log4tango::LoggingEvent& event)
     try
     {
       const std::string sep(" | ");
+
+      yat::Time tm_log;
+      tm_log.set_double_unix(event.timestamp.get_seconds());
+      tm_log.add_sec(double(event.timestamp.get_microseconds()) / MICROSEC_PER_SEC);
+      tm_log.to_local();
+
       //- reformat the incomming LoggingEvent
       //- date | LEVEL | [thr_id |] logger | message
       std::ostringstream oss;
-    /* Should use the original event timestamp but due to millisec precision
-       we have to use our own timestamp
-    yat::Time tm_log;
-    tm_log.set_double_unix(event.timestamp.get_seconds()
-                           + (double(event.timestamp.get_microseconds()) / MICROSEC_PER_SEC));
-    oss << tm_log.to_string(yat::Time::iso8601_z, yat::Time::microsec) << sep;
-    */
-
+      oss << tm_log.to_string(yat::Time::iso8601_z, yat::Time::microsec) << sep;
       yat::String msg = event.message;
       msg.replace("\n", " - ");
 
