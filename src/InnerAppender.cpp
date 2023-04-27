@@ -531,7 +531,10 @@ void InnerAppender::fill_i(std::deque<std::string>& messages)
     ptr_log->message = line;
 
     std::ostringstream oss;
-    oss << ptr_log->date << " [" << ptr_log->level << "] " << ptr_log->message;
+    oss << ptr_log->date << " [" << ptr_log->level << "] ";
+    for( yat::uint32 i = 0; i < 5 - ptr_log->level.size(); ++i)
+      oss << ' ';
+    oss << ptr_log->message;
     ptr_log->full_message = oss.str();
 
     m_log_buffer.push_back(ptr_log);

@@ -726,7 +726,6 @@ int FileAppender::_append(const log4tango::LoggingEvent& event)
       yat::String msg = event.message;
       msg.replace("\n", " - ");
 
-      oss << yat::CurrentTime().to_string(yat::Time::iso8601_z, yat::Time::microsec) << sep;
       oss.width(5);
       oss << std::left << log4tango::Level::get_name(event.level) << sep;
       oss << std::hex << std::uppercase << event.thread_id << sep;
