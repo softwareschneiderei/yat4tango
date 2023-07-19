@@ -3,7 +3,7 @@ project (yat4tango)
 
 set(MAJOR_VERSION "1")
 set(MINOR_VERSION "13")
-set(PATCH_VERSION "12")
+set(PATCH_VERSION "13")
 set(VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)

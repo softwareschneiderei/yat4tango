@@ -1,5 +1,12 @@
 YAT4Tango history file
 
+1.13.13 (2023/07/19)
+====================
+
+Fixes
+    Logging (FileAppender & InnerAppender)
+        Use the correct timestamp from the tango log event object
+
 1.13.12 (2023/04/12)
 ====================
 

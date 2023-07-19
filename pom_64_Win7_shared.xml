@@ -11,7 +11,7 @@
 
   <groupId>fr.soleil.lib</groupId>
   <artifactId>YAT4Tango-${aol}-shared-${mode}</artifactId>
-  <version>1.13.11</version>
+  <version>1.13.13</version>
 
   <packaging>nar</packaging>
   <name>YAT4Tango</name>
@@ -38,7 +38,7 @@
   </scm>
 
   <properties>
-    <YAT.version>1.18.8</YAT.version>
+    <YAT.version>1.20.2</YAT.version>
 
         <libs-64bits>//filer2.ica.synchrotron-soleil.fr/ica/LIB_VC12_64</libs-64bits>
 
