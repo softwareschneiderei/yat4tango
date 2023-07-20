@@ -1,38 +1,42 @@
+cmake_minimum_required(VERSION 3.15)
 project (yat4tango)
-cmake_minimum_required (VERSION 2.6)
-
-set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 set(MAJOR_VERSION "1")
 set(MINOR_VERSION "13")
 set(PATCH_VERSION "12")
 set(VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}")
 
-if (NOT DEFINED CMAKE_INSTALL_PREFIX AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-  set(LIB_INSTALL_DIR "lib64")
-else()
-  set(LIB_INSTALL_DIR "lib")
-endif()
+option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
-find_package(PkgConfig)
-pkg_check_modules(TANGO tango REQUIRED)
-pkg_check_modules(YAT yat REQUIRED)
+find_package(TANGO CONFIG REQUIRED)
+find_package(YAT CONFIG REQUIRED)
+
+include_directories(${TANGO_INCLUDE_DIRS} ${YAT_INCLUDE_DIRS})
+link_directories(${TANGO_LIBRARY_DIRS} ${YAT_LIBRARY_DIRS})
+
+add_definitions(-DYAT4TANGO_PROJECT_NAME=${PROJECT_NAME})
+add_definitions(-DYAT4TANGO_PROJECT_VERSION=${VERSION})
 
 if (UNIX)
-    add_definitions(-O2 -g -gstabs+ -std=c++0x -Wall -Wextra -DYAT4TANGO_PROJECT_VERSION=${VERSION} -DYAT4TANGO_PROJECT_NAME=YAT4TANGO)
-    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-z,defs")
+    add_definitions(-std=c++0x)
 endif()
 
-include_directories(SYSTEM ${TANGO_INCLUDE_DIRS} ${YAT_INCLUDE_DIRS})
-link_directories(${TANGO_LIBRARY_DIRS} ${YAT_LIBRARY_DIRS})
+if (WIN32)
+    add_compile_definitions(WIN32_LEAN_AND_MEAN)
+endif()
+
+if (WIN32 AND BUILD_SHARED_LIBS MATCHES "ON")
+    add_compile_definitions(YAT4TANGO_DLL)
+    add_compile_definitions(YAT4TANGO_BUILD)
+endif()
 
 add_subdirectory (src)
 
-set(prefix ${CMAKE_INSTALL_PREFIX})
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/yat4tango.pc.in"
-     "${CMAKE_CURRENT_BINARY_DIR}/yat4tango.pc" @ONLY IMMEDIATE)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/yat4tango.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+if (UNIX AND EXISTS ${CMAKE_SOURCE_DIR}/yat4tango.pc.in)
+  configure_file("${CMAKE_SOURCE_DIR}/yat4tango.pc.in"
+      "${CMAKE_BINARY_DIR}/yat4tango.pc" @ONLY IMMEDIATE)
+  install(FILES ${CMAKE_BINARY_DIR}/yat4tango.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+endif()
 
 set(CPACK_PACKAGE_VERSION ${VERSION})
 set(CPACK_PACKAGE_CONTACT "Mihael Koep <mihael.koep@softwareschneiderei.de>")

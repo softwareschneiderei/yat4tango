@@ -22,17 +22,15 @@ set (source_files
   LogHelper.cpp
 )
 
-include_directories(
-  ../include
-)
-
-add_library (yat4tango SHARED ${source_files})
-
+add_library (yat4tango ${source_files})
+target_include_directories(yat4tango PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(yat4tango ${YAT_LIBRARIES} ${TANGO_LIBRARIES})
 
-set_target_properties (yat4tango PROPERTIES VERSION ${VERSION} SOVERSION ${MAJOR_VERSION})
+if(MAJOR_VERSION)
+  set_target_properties (yat4tango PROPERTIES VERSION ${VERSION} SOVERSION ${MAJOR_VERSION})
+endif()
 
-install (DIRECTORY ../include/yat4tango DESTINATION include/
+install (DIRECTORY ${CMAKE_SOURCE_DIR}/include/yat4tango DESTINATION include
   FILES_MATCHING PATTERN "*.h"
   PATTERN "*.tpp"
   PATTERN "*.hpp"
@@ -40,5 +38,9 @@ install (DIRECTORY ../include/yat4tango DESTINATION include/
   PATTERN ".svn" EXCLUDE
   PATTERN "CMakeFiles" EXCLUDE
 )
-install (TARGETS yat4tango LIBRARY DESTINATION ${LIB_INSTALL_DIR})
 
+install(TARGETS yat4tango
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+)
