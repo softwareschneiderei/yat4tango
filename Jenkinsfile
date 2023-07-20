@@ -1,0 +1,1 @@
+conan.create(['el6-gcc44-x86_64-shared', 'el6-gcc44-x86_64-static', 'el6-gcc44-x86-shared', 'el6-gcc44-x86-static', 'el7-gcc48-x86_64-shared', 'el7-gcc48-x86_64-static', 'win7-msvc12-x86-shared', 'win7-msvc12-x86-static', 'win10-msvc12-x86_64-shared', 'win10-msvc12-x86_64-static'])
