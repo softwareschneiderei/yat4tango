@@ -660,8 +660,6 @@ int InnerAppender::_append (const log4tango::LoggingEvent& event)
     //- reformat the incomming LoggingEvent
     LogPtr ptr_log = new Log;
 
-    /* Should use the original event timestamp but due to millisec precision
-       we have to use our own timestamp */
     yat::Time tm_log;
     tm_log.set_double_unix(event.timestamp.get_seconds());
     tm_log.add_sec(double(event.timestamp.get_microseconds()) / MICROSEC_PER_SEC);
