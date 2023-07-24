@@ -14,8 +14,8 @@ find_package(YAT CONFIG REQUIRED)
 include_directories(${TANGO_INCLUDE_DIRS} ${YAT_INCLUDE_DIRS})
 link_directories(${TANGO_LIBRARY_DIRS} ${YAT_LIBRARY_DIRS})
 
-add_definitions(-DYAT4TANGO_PROJECT_NAME=${PROJECT_NAME})
-add_definitions(-DYAT4TANGO_PROJECT_VERSION=${VERSION})
+add_compile_definitions(YAT4TANGO_PROJECT_NAME=${PROJECT_NAME})
+add_compile_definitions(YAT4TANGO_PROJECT_VERSION=${VERSION})
 
 if (UNIX)
     add_definitions(-std=c++0x)
