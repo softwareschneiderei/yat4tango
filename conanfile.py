@@ -59,7 +59,6 @@ class yat4tangoRecipe(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["yat4tango"]
-        self.cpp_info.set_property("cmake_file_name", "YAT4TANGO")
 
         if self.settings.os == "Windows":
             self.cpp_info.defines += ["WIN32_LEAN_AND_MEAN"]
