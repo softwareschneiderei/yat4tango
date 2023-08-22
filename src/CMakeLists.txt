@@ -24,7 +24,7 @@ set (source_files
 
 add_library (yat4tango ${source_files})
 target_include_directories(yat4tango PUBLIC ${CMAKE_SOURCE_DIR}/include)
-target_link_libraries(yat4tango ${YAT_LIBRARIES} ${TANGO_LIBRARIES})
+target_link_libraries(yat4tango ${yat_LIBRARIES} ${cpptango_LIBRARIES})
 
 if(MAJOR_VERSION)
   set_target_properties (yat4tango PROPERTIES VERSION ${VERSION} SOVERSION ${MAJOR_VERSION})

@@ -11,9 +11,6 @@ option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 find_package(cpptango CONFIG REQUIRED)
 find_package(yat CONFIG REQUIRED)
 
-include_directories(${cpptango_INCLUDE_DIRS} ${yat_INCLUDE_DIRS})
-link_directories(${cpptango_LIBRARY_DIRS} ${yat_LIBRARY_DIRS})
-
 add_compile_definitions(YAT4TANGO_PROJECT_NAME=${PROJECT_NAME})
 add_compile_definitions(YAT4TANGO_PROJECT_VERSION=${VERSION})
 
