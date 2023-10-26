@@ -82,4 +82,84 @@ namespace yat4tango
                         yat_sev);
     }
   }
+
+  //------------------------------------------------------------------------
+  void throw_yat_exception()
+  {
+      try
+      {
+          throw;
+      }
+      catch (const yat::Exception&)
+      {
+          throw;
+      }
+      catch (const Tango::DevFailed& df)
+      {
+          THROW_TANGO_TO_YAT_EXCEPTION(df);
+      }
+      catch (const std::exception& std_err)
+      {
+          throw yat::Exception("STD_ERROR", std_err.what(), "??");
+      }
+      catch (...)
+      {
+          throw yat::Exception("UNKNOWN_ERROR", "unknown error caught", "??");
+      }
+  }
+
+  //------------------------------------------------------------------------
+  void throw_yat_exception(const std::string& reason, const std::string& desc,
+                           const std::string& origin)
+  {
+      try
+      {
+          throw_yat_exception();
+      }
+      catch (yat::Exception& err)
+      {
+          err.push_error(reason, desc, origin);
+          throw err;
+      }
+  }
+
+  //------------------------------------------------------------------------
+  void throw_devfailed_exception()
+  {
+      try
+      {
+          throw;
+      }
+      catch (const Tango::DevFailed&)
+      {
+          throw;
+      }
+      catch (const yat::Exception& yat_err)
+      {
+          THROW_YAT_TO_TANGO_EXCEPTION(yat_err);
+      }
+      catch (const std::exception& std_err)
+      {
+          Tango::Except::throw_exception("STD_ERROR", std_err.what(), "??");
+      }
+      catch (...)
+      {
+          Tango::Except::throw_exception("UNKNOWN_ERROR", "unknown error caught", "??");
+      }
+  }
+
+  //------------------------------------------------------------------------
+  void throw_devfailed_exception(const std::string& reason, const std::string& desc,
+                                 const std::string& origin)
+  {
+      try
+      {
+          throw_devfailed_exception();
+      }
+      catch (Tango::DevFailed& err)
+      {
+          Tango::Except::re_throw_exception(err, reason, desc, origin);
+      }
+  }
+
 }

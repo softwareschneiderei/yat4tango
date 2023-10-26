@@ -348,6 +348,25 @@ namespace yat4tango
 #  pragma warning( pop )
 #endif
 
+// =============================================================================
+// Free functions
+// =============================================================================
+
+// =============================================================================
+//!  \brief convert any kind of exception to yat::Exception and rethrow
+void throw_yat_exception();
+
+//!  \brief convert any kind of exception to yat exception, add an error and rethrow
+void throw_yat_exception(const std::string& reason, const std::string& desc,
+                         const std::string& origin);
+
+//!  \brief convert any kind of exception to Tango::DevFailed and rethrow
+void throw_devfailed_exception();
+
+//!  \brief convert any kind of exception to Tango::DevFailed, add an error and rethrow
+void throw_devfailed_exception(const std::string& reason, const std::string& desc,
+                               const std::string& origin);
+
 } // namespace
 
 
