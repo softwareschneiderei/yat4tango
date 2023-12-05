@@ -1,5 +1,14 @@
 YAT4Tango history file
 
+1.13.14 (2023/12/05)
+====================
+
+Additions
+    New free functions to ease error management using exceptions:
+    - throw_yat_exception
+    - throw_devfailed_exception
+    -> see <yat4tango/ExceptionHelper.h>
+
 1.13.13 (2023/07/19)
 ====================
 
