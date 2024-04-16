@@ -395,6 +395,109 @@ struct YAT4TANGO_DECL ForwardedAttributeInfo
 };
 
 // ============================================================================
+// [Internal] base class used for Tango::Attr mapping
+// ============================================================================
+class DynamicAttr
+{
+protected:
+  DynamicAttr() {}
+  virtual ~DynamicAttr() { }
+  void req_read(Tango::Attr* ta_p, Tango::DeviceImpl* dev_p, Tango::Attribute& a);
+  void req_write(Tango::Attr* ta_p, Tango::DeviceImpl* dev_p, Tango::WAttribute& a);
+  bool req_is_allowed(Tango::Attr* ta_p, Tango::DeviceImpl* dev_p, Tango::AttReqType rt);
+};
+
+// ============================================================================
+// [Internal] Tango::Attr mapping in case of scalar attribute
+// ============================================================================
+class DynamicScalarAttr : public DynamicAttr, public Tango::Attr
+{
+  friend class DynamicAttributeClassRepository;
+
+protected:
+  void read(Tango::DeviceImpl* dev_p, Tango::Attribute& a)
+  {
+    req_read(this, dev_p, a);
+  }
+
+  void write(Tango::DeviceImpl* dev_p, Tango::WAttribute& a)
+  {
+    req_write(this, dev_p, a);
+  }
+
+  bool is_allowed(Tango::DeviceImpl* dev_p, Tango::AttReqType rt)
+  {
+    return req_is_allowed(this, dev_p, rt);
+  }
+
+private:
+  DynamicScalarAttr(const DynamicAttributeInfo& dai)
+  : Tango::Attr(dai.lan.c_str(), dai.tai.data_type,
+                dai.tai.disp_level, dai.tai.writable)
+  {}
+};
+
+// ============================================================================
+// [Internal] Tango::Attr mapping in case of spectrum attribute
+// ============================================================================
+class DynamicSpectrumAttr : public DynamicAttr, public Tango::SpectrumAttr
+{
+  friend class DynamicAttributeClassRepository;
+
+protected:
+  void read(Tango::DeviceImpl* dev_p, Tango::Attribute& a)
+  {
+    req_read(this, dev_p, a);
+  }
+
+  void write(Tango::DeviceImpl* dev_p, Tango::WAttribute& a)
+  {
+    req_write(this, dev_p, a);
+  }
+
+  bool is_allowed(Tango::DeviceImpl* dev_p, Tango::AttReqType rt)
+  {
+    return req_is_allowed(this, dev_p, rt);
+  }
+
+private:
+  DynamicSpectrumAttr(const DynamicAttributeInfo& dai)
+  : Tango::SpectrumAttr(dai.lan.c_str(), dai.tai.data_type, dai.tai.writable,
+                dai.tai.max_dim_x, dai.tai.disp_level)
+  {}
+};
+
+// ============================================================================
+// [Internal] Tango::Attr mapping in case of image attribute
+// ============================================================================
+class DynamicImageAttr : public DynamicAttr, public Tango::ImageAttr
+{
+  friend class DynamicAttributeClassRepository;
+
+protected:
+  void read(Tango::DeviceImpl* dev_p, Tango::Attribute& a)
+  {
+    req_read(this, dev_p, a);
+  }
+
+  void write(Tango::DeviceImpl* dev_p, Tango::WAttribute& a)
+  {
+    req_write(this, dev_p, a);
+  }
+
+  bool is_allowed(Tango::DeviceImpl* dev_p, Tango::AttReqType rt)
+  {
+    return req_is_allowed(this, dev_p, rt);
+  }
+
+private:
+  DynamicImageAttr(const DynamicAttributeInfo& dai)
+  : Tango::ImageAttr(dai.lan.c_str(), dai.tai.data_type, dai.tai.writable,
+                dai.tai.max_dim_x, dai.tai.max_dim_y, dai.tai.disp_level)
+  {}
+};
+
+// ============================================================================
 //! \class DynamicAttribute 
 //! \brief The Yat4Tango dynamic attribute.
 //!
@@ -413,6 +516,8 @@ struct YAT4TANGO_DECL ForwardedAttributeInfo
 // ============================================================================
 class YAT4TANGO_DECL DynamicAttribute : public Tango::LogAdapter
 {
+  friend class DynamicAttr;
+
 public:
 
   //! \brief Attaches the specified read callback to the dynamic attribute.
@@ -426,7 +531,10 @@ public:
   //! \brief Returns the underlying Tango attribute.
   //!
   //! This virtual function has to be implemented in derived class.
-  virtual Tango::Attr * get_tango_attribute () = 0;
+  Tango::Attr* get_tango_attribute () { return ta_p_; }
+
+  //! \brief return a reference on the attribute description object
+  inline const DynamicAttributeInfo& get_dai() const { return dai_; }
 
   //! \brief Returns the attribute's name.
   inline const std::string & get_name () const
@@ -568,6 +676,9 @@ protected:
   void check_device_state(const std::set<Tango::DevState>& states,
                           Tango::AttReqType type);
 
+  // Reference to the Tango Attr object (shared among others devices of the same class)
+  Tango::Attr* ta_p_;
+
 private:
   friend class DynamicAttributeManager;
   friend class DynamicAttributeFactory;
@@ -586,6 +697,15 @@ private:
  
   //- removes the attribute properties from the Tango db
   void cleanup_properties ();
+
+  //! \brief client read request
+  void read (Tango::Attribute& a);
+
+  //! \brief write read request
+  void write (Tango::WAttribute& a);
+
+  //! \brief read/write requests allowed ?
+  bool is_allowed (Tango::AttReqType rt);
 
   //- not allowed methods
   DynamicAttribute (DynamicAttribute&);

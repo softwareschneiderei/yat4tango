@@ -1,5 +1,16 @@
 YAT4Tango history file
 
+1.14.0 (2024/04/03)
+===================
+
+Fixes
+    Dynamic attributes now work properly in dservers managing more than one
+    device of one or more different classes (CPPAPIS-249)
+
+Changes
+    Write property values only in case of value change, in order to prevent
+    useless database accesses (CPPAPIS-226)
+
 1.13.14 (2023/12/05)
 ====================
 

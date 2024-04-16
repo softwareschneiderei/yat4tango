@@ -73,6 +73,7 @@ private:
   Tango::DeviceImpl*            m_device_p;
 	yat::LogCatcher*              m_log_catcher_p;
   yat4tango::TangoLogAdapter*   m_tango_log_adapter;
+  static yat::Mutex             s_mtx;
 };
 
 } // namespace

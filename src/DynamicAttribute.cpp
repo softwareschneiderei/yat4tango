@@ -40,7 +40,7 @@
 # include <cctype>
 #endif
 #include "yat/utils/StringTokenizer.h"
-#include "yat4tango/DynamicAttribute.h"
+#include "yat4tango/DynamicAttributeManager.h"
 #include <devapi.h>
 
 namespace yat4tango
@@ -69,8 +69,6 @@ DynamicAttributeInfo::DynamicAttributeInfo ()
     archive_evt_managed_by_user_code(false),
     uad(0)
 {
-  //- std::cout << "DynamicAttributeInfo::dflt-ctor" << std::endl;
-
   tai.max_dim_x = static_cast<int>(LONG_MAX);
   tai.max_dim_y = static_cast<int>(LONG_MAX);
 
@@ -85,8 +83,6 @@ DynamicAttributeInfo::DynamicAttributeInfo ()
 // ============================================================================
 DynamicAttributeInfo::DynamicAttributeInfo (const DynamicAttributeInfo& s)
 {
-  //- std::cout << "DynamicAttributeInfo::copy-ctor" << std::endl;
-
   *this = s;
 }
 
@@ -95,8 +91,6 @@ DynamicAttributeInfo::DynamicAttributeInfo (const DynamicAttributeInfo& s)
 // ============================================================================
 const DynamicAttributeInfo& DynamicAttributeInfo::operator= (const DynamicAttributeInfo& s)
 {
-  //- std::cout << "DynamicAttributeInfo::operator=" << std::endl;
-
   if (&s == this)
     return *this;
 
@@ -285,108 +279,14 @@ const ForwardedAttributeInfo& ForwardedAttributeInfo::operator= (const Forwarded
   return *this;
 }
 
-// ============================================================================
-// set_user_defined_properties
-// ============================================================================
-void set_user_defined_properties (Tango::Attr& a, const DynamicAttributeInfo& i)
-{
-  Tango::UserDefaultAttrProp  p;
-
-  if (i.tai.label.size())
-    p.set_label( i.tai.label.c_str() );
-
-  if (i.tai.description.size())
-    p.set_description( i.tai.description.c_str() );
-
-  if (i.tai.unit.size())
-    p.set_unit( i.tai.unit.c_str() );
-
-  if (i.tai.standard_unit.size())
-    p.set_standard_unit( i.tai.standard_unit.c_str() );
-
-  if (i.tai.display_unit.size())
-    p.set_display_unit( i.tai.display_unit.c_str() );
-
-  if (i.tai.format.size())
-    p.set_format( i.tai.format.c_str() );
-
-  if (i.tai.min_value.size())
-    p.set_min_value( i.tai.min_value.c_str() );
-
-  if (i.tai.max_value.size())
-    p.set_max_value( i.tai.max_value.c_str() );
-
-  if (i.tai.alarms.min_alarm.size())
-    p.set_min_alarm( i.tai.alarms.min_alarm.c_str() );
-
-  if (i.tai.alarms.max_alarm.size())
-    p.set_max_alarm( i.tai.alarms.max_alarm.c_str() );
-
-  if (i.tai.alarms.min_warning.size())
-    p.set_min_warning( i.tai.alarms.min_warning.c_str() );
-
-  if (i.tai.alarms.max_warning.size())
-    p.set_max_warning( i.tai.alarms.max_warning.c_str() );
-
-  if (i.tai.alarms.delta_t.size())
-    p.set_delta_t( i.tai.alarms.delta_t.c_str() );
-
-  if (i.tai.alarms.delta_val.size())
-    p.set_delta_val( i.tai.alarms.delta_val.c_str() );
-
-#if (TANGO_VERSION_MAJOR >= 8)
-  if (i.tai.events.per_event.period.size())
-    p.set_event_period(i.tai.events.per_event.period.c_str());
-
-  if (i.tai.events.ch_event.abs_change.size())
-    p.set_event_abs_change(i.tai.events.ch_event.abs_change.c_str());
-
-  if (i.tai.events.ch_event.rel_change.size())
-    p.set_event_rel_change(i.tai.events.ch_event.rel_change.c_str());
-
-  if (i.tai.events.arch_event.archive_period.size())
-    p.set_archive_event_period(i.tai.events.arch_event.archive_period.c_str());
-
-  if (i.tai.events.arch_event.archive_abs_change.size())
-    p.set_archive_event_abs_change(i.tai.events.arch_event.archive_abs_change.c_str());
-
-  if (i.tai.events.arch_event.archive_rel_change.size())
-    p.set_archive_event_rel_change(i.tai.events.arch_event.archive_rel_change.c_str());
-#endif
-
-#if (TANGO_VERSION_MAJOR >= 9)
-  if (!i.tai.enum_labels.empty())
-    p.set_enum_labels(const_cast<std::vector<std::string>&>(i.tai.enum_labels));
-#endif
-
-  a.set_default_properties(p);
-
-  if ( i.memorized )
-    a.set_memorized();
-
-  if ( i.write_memorized_value_at_init )
-    a.set_memorized_init(true);
-  else
-    a.set_memorized_init(false);
-
-  if ( i.polling_period_in_ms )
-    a.set_polling_period(i.polling_period_in_ms);
-
-  a.set_data_ready_event(i.data_ready_pushed_by_user_code);
-
-  a.set_change_event(i.change_evt_pushed_by_user_code, !i.change_evt_managed_by_user_code);
-
-  a.set_archive_event(i.archive_evt_pushed_by_user_code, !i.archive_evt_managed_by_user_code);
-
-}
 
 // ============================================================================
 // DynamicAttribute::DynamicAttribute
 // ============================================================================
 DynamicAttribute::DynamicAttribute (const DynamicAttributeInfo & i)
- : Tango::LogAdapter(i.dev), dai_(i), dp_(0), da_(0)
+ : Tango::LogAdapter(i.dev), dai_(i), dp_(0), da_(0), ta_p_(0)
 {
-  //- YAT4TANGO_TRACE("DynamicAttribute::DynamicAttribute");
+  ta_p_ = DynamicAttributeClassRepository::register_attribute(this);
 }
 
 // ============================================================================
@@ -398,7 +298,8 @@ DynamicAttribute::~DynamicAttribute ()
 
   //- removes attribute properties from the tango db
   //- !!!!!! this->cleanup_properties() !!!! THIS CAUSES A CRASH !!!!!!
-
+//  std::cout << "~DynamicAttribute " << this << std::endl;
+  //((yat::String*)0)->append("a");
   //- release data (if any)
   delete da_;
 
@@ -526,6 +427,66 @@ void DynamicAttribute::dump () /*const*/
     default: \
       break; \
   }
+
+// ============================================================================
+// DynamicAttribute::read
+// ============================================================================
+void DynamicAttribute::read(Tango::Attribute& a)
+{
+  //- YAT4TANGO_TRACE("DynamicSpectrumAttribute::read");
+  if (this->dai_.rcb.is_empty())
+  {
+    THROW_DEVFAILED("DEVICE_ERROR",
+                    "this dynamic attribute has no associated <read callback> [this is a programming error]",
+                    "yat4tango::DynamicAttribute::read");
+  }
+
+  check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
+//  std::cout << "read request for " << dai_.dev << std::endl;
+
+  DynamicAttributeReadCallbackData cbd;
+  cbd.dev = this->dai_.dev;
+  cbd.dya = this;
+  cbd.tga = &a;
+  this->dai_.rcb(cbd);
+}
+
+// ============================================================================
+// DynamicAttribute::write
+// ============================================================================
+void DynamicAttribute::write(Tango::WAttribute& a)
+{
+  //- YAT4TANGO_TRACE("DynamicSpectrumAttribute::write");
+  Tango::AttrWriteType attr_type = this->get_tango_attribute()->get_writable();
+  if (attr_type != Tango::READ_WRITE && attr_type != Tango::WRITE)
+  {
+    THROW_DEVFAILED("DEVICE_ERROR",
+                    "this dynamic attribute is not writable!",
+                    "yat4tango::DynamicAttribute::write");
+  }
+  if (this->dai_.wcb.is_empty())
+  {
+    THROW_DEVFAILED("DEVICE_ERROR",
+                    "this writable dynamic attribute has no associated <write callback> [this is a programming error]",
+                    "yat4tango::DynamicAttribute::write");
+  }
+
+  check_device_state(dai_.write_allowed_states, Tango::WRITE_REQ);
+
+  DynamicAttributeWriteCallbackData cbd;
+  cbd.dev = this->dai_.dev;
+  cbd.dya = this;
+  cbd.tga = &a;
+  this->dai_.wcb(cbd);
+}
+
+// ============================================================================
+// DynamicAttribute::is_allowed
+// ============================================================================
+bool DynamicAttribute::is_allowed(Tango::AttReqType)
+{
+  return true;
+}
 
 // ============================================================================
 // DynamicAttribute::fwd_attr_read_data
@@ -1025,298 +986,39 @@ void DynamicAttribute::check_device_state(const std::set<Tango::DevState>& state
 // template class DynamicScalarAttribute
 // ============================================================================
 template <typename T>
-class DynamicScalarAttribute : public Tango::Attr, public DynamicAttribute
+class DynamicScalarAttribute : public DynamicAttribute
 {
 public:
-  //---------------------------------------------------------------------------
-  //- ctor
-  //---------------------------------------------------------------------------
-  DynamicScalarAttribute (const DynamicAttributeInfo& i)
-    : Tango::Attr (i.lan.c_str(), i.tai.data_type, i.tai.disp_level, i.tai.writable),
-      DynamicAttribute (i)
-  {
-    //- YAT4TANGO_TRACE("DynamicScalarAttribute::DynamicScalarAttribute");
-    set_user_defined_properties(*this, i);
-  }
-  //---------------------------------------------------------------------------
-  //- dtor
-  //---------------------------------------------------------------------------
-  ~DynamicScalarAttribute()
-  {
-    //- YAT4TANGO_TRACE("DynamicScalarAttribute::~DynamicScalarAttribute");
-  }
-  //---------------------------------------------------------------------------
-  //- returns the underlying Tango::Attr
-  //---------------------------------------------------------------------------
-  virtual Tango::Attr * get_tango_attribute ()
-  {
-    return this;
-  }
-  //---------------------------------------------------------------------------
+  DynamicScalarAttribute (const DynamicAttributeInfo& i) : DynamicAttribute (i) {}
+
   //- returns the underlying Tango data type of this DynamicAttribute
-  //---------------------------------------------------------------------------
-  virtual int get_tango_data_type () const
-  {
-    return TangoTraits<T>::type_id;
-  }
-  //---------------------------------------------------------------------------
-  //- called by Tango on client <read> request
-  //---------------------------------------------------------------------------
-  virtual void read (Tango::DeviceImpl*, Tango::Attribute& a)
-  {
-    //- YAT4TANGO_TRACE("DynamicScalarAttribute::read");
-    if (this->dai_.rcb.is_empty())
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this dynamic scalar attribute has no associated <read callback> [this is a programming error]",
-                      "yat4tango::DynamicAttribute::read");
-    }
-
-    check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
-
-    DynamicAttributeReadCallbackData cbd;
-    cbd.dev = this->dai_.dev;
-    cbd.dya = this;
-    cbd.tga = &a;
-    this->dai_.rcb(cbd);
-  }
-  //---------------------------------------------------------------------------
-  //- called by Tango on client <read> request
-  //---------------------------------------------------------------------------
-  virtual void write (Tango::DeviceImpl*, Tango::WAttribute& a)
-  {
-    //- YAT4TANGO_TRACE("DynamicScalarAttribute::write");
-
-    Tango::AttrWriteType attr_type = this->get_writable();
-    if (attr_type != Tango::READ_WRITE && attr_type != Tango::WRITE)
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this dynamic scalar attribute is not writable!",
-                      "yat4tango::DynamicScalarAttribute::write");
-    }
-    if (this->dai_.wcb.is_empty())
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this writable dynamic scalar attribute has no associated <write callback> [this is a programming error]",
-                      "yat4tango::DynamicScalarAttribute::write");
-    }
-
-    check_device_state(dai_.write_allowed_states, Tango::WRITE_REQ);
-
-    DynamicAttributeWriteCallbackData cbd;
-    cbd.dev = this->dai_.dev;
-    cbd.dya = this;
-    cbd.tga = &a;
-    this->dai_.wcb(cbd);
-  }
-  //---------------------------------------------------------------------------
-  //- is_allowed --------------------------------------------------------------
-  //---------------------------------------------------------------------------
-	virtual bool is_allowed (Tango::DeviceImpl *, Tango::AttReqType)
-	{
-		return true;
-	}
+  virtual int get_tango_data_type () const { return TangoTraits<T>::type_id; }
 };
 
 // ============================================================================
 // template class DynamicSpectrumAttribute
 // ============================================================================
 template <typename T>
-class DynamicSpectrumAttribute : public Tango::SpectrumAttr, public DynamicAttribute
+class DynamicSpectrumAttribute : public DynamicAttribute
 {
 public:
-  //---------------------------------------------------------------------------
-  //- ctor
-  //---------------------------------------------------------------------------
-  DynamicSpectrumAttribute (const DynamicAttributeInfo& i)
-    : Tango::SpectrumAttr (i.lan.c_str(),
-                           i.tai.data_type,
-                           i.tai.writable,
-                           i.tai.max_dim_x,
-                           i.tai.disp_level),
-      DynamicAttribute (i)
-  {
-    //- YAT4TANGO_TRACE("DynamicSpectrumAttribute::DynamicSpectrumAttribute");
-    set_user_defined_properties(*this, i);
-  }
-  //---------------------------------------------------------------------------
-  //- dtor
-  //---------------------------------------------------------------------------
-  ~DynamicSpectrumAttribute()
-  {
-    //- YAT4TANGO_TRACE("DynamicSpectrumAttribute::~DynamicSpectrumAttribute");
-  }
-  //---------------------------------------------------------------------------
-  //- returns the underlying Tango::Attr
-  //---------------------------------------------------------------------------
-  virtual Tango::Attr * get_tango_attribute ()
-  {
-    return this;
-  }
-  //---------------------------------------------------------------------------
+  DynamicSpectrumAttribute (const DynamicAttributeInfo& i) : DynamicAttribute (i) {}
+
   //- returns the underlying Tango data type of this DynamicAttribute
-  //---------------------------------------------------------------------------
-  virtual int get_tango_data_type () const
-  {
-    return TangoTraits<T>::type_id;
-  }
-  //---------------------------------------------------------------------------
-  //- called by Tango on client <read> request
-  //---------------------------------------------------------------------------
-  virtual void read (Tango::DeviceImpl*, Tango::Attribute& a)
-  {
-    //- YAT4TANGO_TRACE("DynamicSpectrumAttribute::read");
-    if (this->dai_.rcb.is_empty())
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this dynamic spectrum attribute has no associated <read callback> [this is a programming error]",
-                      "yat4tango::DynamicSpectrumAttribute::read");
-    }
-
-    check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
-
-    DynamicAttributeReadCallbackData cbd;
-    cbd.dev = this->dai_.dev;
-    cbd.dya = this;
-    cbd.tga = &a;
-    this->dai_.rcb(cbd);
-  }
-  //---------------------------------------------------------------------------
-  //- called by Tango on client <read> request
-  //---------------------------------------------------------------------------
-  virtual void write (Tango::DeviceImpl*, Tango::WAttribute& a)
-  {
-    //- YAT4TANGO_TRACE("DynamicSpectrumAttribute::write");
-    Tango::AttrWriteType attr_type = this->get_writable();
-    if (attr_type != Tango::READ_WRITE && attr_type != Tango::WRITE)
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this dynamic spectrum attribute is not writable!",
-                      "yat4tango::DynamicSpectrumAttribute::write");
-    }
-    if (this->dai_.wcb.is_empty())
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this writable dynamic spectrum attribute has no associated <write callback> [this is a programming error]",
-                      "yat4tango::DynamicSpectrumAttribute::write");
-    }
-
-    check_device_state(dai_.write_allowed_states, Tango::WRITE_REQ);
-
-    DynamicAttributeWriteCallbackData cbd;
-    cbd.dev = this->dai_.dev;
-    cbd.dya = this;
-    cbd.tga = &a;
-    this->dai_.wcb(cbd);
-  }
-  //---------------------------------------------------------------------------
-  //- is_allowed
-  //---------------------------------------------------------------------------
-	virtual bool is_allowed (Tango::DeviceImpl *, Tango::AttReqType)
-	{
-		return true;
-	}
+  virtual int get_tango_data_type () const { return TangoTraits<T>::type_id; }
 };
 
 // ============================================================================
 // template class DynamicImageAttribute
 // ============================================================================
 template <typename T>
-class DynamicImageAttribute : public Tango::ImageAttr, public DynamicAttribute
+class DynamicImageAttribute : public DynamicAttribute
 {
 public:
-  //---------------------------------------------------------------------------
-  //- ctor
-  //---------------------------------------------------------------------------
-  DynamicImageAttribute (const DynamicAttributeInfo& i)
-    : Tango::ImageAttr (i.lan.c_str(),
-                        i.tai.data_type,
-                        i.tai.writable,
-                        i.tai.max_dim_x,
-                        i.tai.max_dim_y,
-                        i.tai.disp_level),
-      DynamicAttribute (i)
-  {
-    //- YAT4TANGO_TRACE("DynamicImageAttribute::DynamicImageAttribute");
-    set_user_defined_properties(*this, i);
-  }
-  //---------------------------------------------------------------------------
-  //- dtor
-  //---------------------------------------------------------------------------
-  ~DynamicImageAttribute ()
-  {
-    //- no log here, crash otherwise!
-  }
-  //---------------------------------------------------------------------------
-  //- returns the underlying Tango::Attr
-  //---------------------------------------------------------------------------
-  virtual Tango::Attr * get_tango_attribute ()
-  {
-    return this;
-  }
-  //---------------------------------------------------------------------------
+  DynamicImageAttribute (const DynamicAttributeInfo& i) : DynamicAttribute (i) {}
+
   //- returns the underlying Tango data type of this DynamicAttribute
-  //---------------------------------------------------------------------------
-  virtual int get_tango_data_type () const
-  {
-    return TangoTraits<T>::type_id;
-  }
-  //---------------------------------------------------------------------------
-  //- called by Tango on client <read> request
-  //---------------------------------------------------------------------------
-  virtual void read (Tango::DeviceImpl*, Tango::Attribute& a)
-  {
-    //- YAT4TANGO_TRACE("DynamicImageAttribute::read");
-    if (this->dai_.rcb.is_empty())
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this dynamic image attribute has no associated <read callback> [this is a programming error]",
-                      "yat4tango::DynamicImageAttribute::read");
-    }
-
-    check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
-
-    DynamicAttributeReadCallbackData cbd;
-    cbd.dev = this->dai_.dev;
-    cbd.dya = this;
-    cbd.tga = &a;
-    this->dai_.rcb(cbd);
-  }
-  //---------------------------------------------------------------------------
-  //- called by Tango on client <read> request
-  //---------------------------------------------------------------------------
-  virtual void write (Tango::DeviceImpl*, Tango::WAttribute& a)
-  {
-    //- YAT4TANGO_TRACE("DynamicImageAttribute::write");
-    Tango::AttrWriteType attr_type = this->get_writable();
-    if (attr_type != Tango::READ_WRITE && attr_type != Tango::WRITE)
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this dynamic image attribute is not writable!",
-                      "yat4tango::DynamicImageAttribute::write");
-    }
-    if (this->dai_.wcb.is_empty())
-    {
-      THROW_DEVFAILED("DEVICE_ERROR",
-                      "this writable dynamic image attribute has no associated <write callback> [this is a programming error]",
-                      "yat4tango::DynamicImageAttribute::write");
-    }
-
-    check_device_state(dai_.write_allowed_states, Tango::WRITE_REQ);
-
-    DynamicAttributeWriteCallbackData cbd;
-    cbd.dev = this->dai_.dev;
-    cbd.dya = this;
-    cbd.tga = &a;
-    this->dai_.wcb(cbd);
-  }
-  //---------------------------------------------------------------------------
-  //- is_allowed
-  //---------------------------------------------------------------------------
-	virtual bool is_allowed (Tango::DeviceImpl *, Tango::AttReqType)
-	{
-		return true;
-	}
+  virtual int get_tango_data_type () const { return TangoTraits<T>::type_id; }
 };
 
 // ============================================================================
@@ -1531,6 +1233,7 @@ DynamicAttribute * DynamicAttributeFactory::create_attribute (const yat4tango::D
                     "DynamicAttributeFactory::create_attribute");
   }
 
+//  std::cout << "Dynamic attribute created " << da << std::endl;
 	return da;
 }
 

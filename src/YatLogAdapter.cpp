@@ -11,9 +11,9 @@
 //
 // Copyright (C) 2006-2016 The Tango Community
 //
-// The YAT4Tango library is free software; you can redistribute it and/or 
-// modify it under the terms of the GNU General Public License as published 
-// by the Free Software Foundation; either version 2 of the License, or (at 
+// The YAT4Tango library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License as published
+// by the Free Software Foundation; either version 2 of the License, or (at
 // your option) any later version.
 //
 // The YAT4Tango library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
 // Public License for more details.
 //
-// See COPYING file for license details  
+// See COPYING file for license details
 //
 // Contact:
 //      Nicolas Leclercq
@@ -31,19 +31,26 @@
  * \authors See AUTHORS file
  */
 
+#include <yat/threading/Mutex.h>
 #include <yat4tango/YatLogAdapter.h>
 
 namespace yat4tango
 {
+
+yat::Mutex YatLogAdapter::s_mtx;
 
 //=============================================================================
 // YatLogAdapter::initialize
 //=============================================================================
 void YatLogAdapter::initialize(Tango::DeviceImpl* device_p)
 {
-	yat::LogManager::init(yat::LOG_VERBOSE);
-  instance().m_tango_log_adapter = new yat4tango::TangoLogAdapter(device_p);
-	instance().m_log_catcher_p = new yat::LogCatcher(&instance());
+  yat::AutoMutex<> _lock(s_mtx);
+	if( NULL == instance().m_tango_log_adapter )
+	{
+		yat::LogManager::init(yat::LOG_VERBOSE);
+	  instance().m_tango_log_adapter = new yat4tango::TangoLogAdapter(device_p);
+		instance().m_log_catcher_p = new yat::LogCatcher(&instance());
+	}
 }
 
 //=============================================================================
@@ -79,8 +86,15 @@ void YatLogAdapter::log(yat::ELogLevel log_level, yat::pcsz log_type, const std:
 //=============================================================================
 void YatLogAdapter::release()
 {
-	delete instance().m_tango_log_adapter;
-	delete instance().m_log_catcher_p;
+  yat::AutoMutex<> _lock(s_mtx);
+
+  if( instance().m_tango_log_adapter )
+  {
+		delete instance().m_tango_log_adapter;
+		delete instance().m_log_catcher_p;
+		instance().m_tango_log_adapter = 0;
+		instance().m_log_catcher_p = 0;
+	}
 }
 
 } // namespace

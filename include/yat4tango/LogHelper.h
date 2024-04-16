@@ -340,9 +340,9 @@ private:
 };
 
 #   define YAT4TANGO_TRACE(func_name) \
-      yat::TraceHelper yat_trace_helper( (func_name), this )
+      TraceHelper yat_trace_helper( (func_name), this )
 #   define YAT4TANGO_TRACE_STATIC(func_name) \
-      yat::TraceHelper yat_trace_helper( (func_name) )
+      TraceHelper yat_trace_helper( (func_name) )
 
 # else
 // ============================================================================

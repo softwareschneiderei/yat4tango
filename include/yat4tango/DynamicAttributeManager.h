@@ -46,6 +46,31 @@ namespace yat4tango
 {
 
 // ============================================================================
+// DynamicAttributeRepository
+// The dynamic attribute class repository.
+// This is an internal object class
+// ============================================================================
+class DynamicAttributeClassRepository : public yat::Singleton<DynamicAttributeClassRepository>
+{
+public:
+  typedef std::vector<Tango::Attr*> Attrs;
+  typedef std::pair<Tango::Attr*, Tango::DeviceImpl*> AttrDev;
+  typedef std::map<Tango::DeviceClass*, Attrs> MapClassAttrs;
+  typedef std::map<Tango::Attr*, yat::uint16> AttrNbDevs;
+  typedef std::map<AttrDev, DynamicAttribute*> AttrMap;
+
+  static Tango::Attr* register_attribute(DynamicAttribute* da_p);
+  static void unregister_attribute(Tango::Attr* attr_p, Tango::DeviceImpl* dev_p);
+  static DynamicAttribute* get_dyn_attribute(Tango::Attr* ta_p, Tango::DeviceImpl* dev_p);
+
+private:
+  MapClassAttrs class_attr_map_;
+  AttrNbDevs    attr_nb_devs_map_;
+  AttrMap       attrs_map_;
+  static yat::Mutex s_mtx_;
+};
+
+// ============================================================================
 //! \class DynamicAttributeManager
 //! \brief The dynamic attribute manager.
 //!
@@ -59,7 +84,7 @@ namespace yat4tango
 //!
 // ============================================================================
 
-class YAT4TANGO_DECL DynamicAttributeManager : public Tango::LogAdapter
+class YAT4TANGO_DECL DynamicAttributeManager : public TangoLogAdapter
 {
 public:
   //! \brief Constructor. 

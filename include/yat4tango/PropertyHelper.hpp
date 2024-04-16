@@ -27,9 +27,126 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
+#include <iostream>
+#include <limits>
+#include <yat/threading/Mutex.h>
 
 namespace yat4tango
 {
+
+//-------------------------------------------------------------------------
+// Comparison functors specialization for floatting point numbers
+//-------------------------------------------------------------------------
+template<>
+struct PropertyHelper::ValueComp<float>
+{
+  bool operator()(const float& v1, const float& v2)
+  {
+    return yat::fp_is_equal(v1, v2, std::numeric_limits<float>::epsilon());
+  }
+};
+
+template<>
+struct PropertyHelper::ValueComp<double>
+{
+  bool operator()(const double& v1, const double& v2)
+  {
+    return yat::fp_is_equal(v1, v2, std::numeric_limits<double>::epsilon());
+  }
+};
+
+template<>
+struct PropertyHelper::ValueComp< std::vector<float> >
+{
+  bool operator()(const std::vector<float>& v1, const std::vector<float>& v2)
+  {
+    if( v1.size() != v2.size() )
+      return false;
+
+    for( std::size_t i = 0; i < v1.size(); ++i )
+    {
+      if( !yat::fp_is_equal(v1[i], v2[i], std::numeric_limits<float>::epsilon()) )
+        return false;
+    }
+    return true;
+  }
+};
+
+template<>
+struct PropertyHelper::ValueComp< std::vector<double> >
+{
+  bool operator()(const std::vector<double>& v1, const std::vector<double>& v2)
+  {
+    if( v1.size() != v2.size() )
+      return false;
+
+    for( std::size_t i = 0; i < v1.size(); ++i )
+    {
+      if( !yat::fp_is_equal(v1[i], v2[i], std::numeric_limits<double>::epsilon()) )
+        return false;
+    }
+    return true;
+  }
+};
+
+//-------------------------------------------------------------------------
+// PropertyHelper::value_cache
+//-------------------------------------------------------------------------
+template <class T>
+bool PropertyHelper::value_cache(Tango::DeviceImpl* dev_p,
+                                 const std::string& name, T val,
+                                 std::map<DevAttrPair, T>* values_cache_p,
+                                 bool store)
+{
+  typedef typename std::map<DevAttrPair, T>::const_iterator MapIterator;
+  static yat::Mutex s_mtx;
+
+  // look for last memorized value
+  DevAttrPair key = std::make_pair(dev_p, name);
+
+  if( store )
+  {
+    yat::AutoMutex<> lock(s_mtx);
+    (*values_cache_p)[key] = val;
+    return false;
+  }
+  else
+  {
+    MapIterator it;
+    T last_val;
+    {
+      yat::AutoMutex<> lock(s_mtx);
+      it = (*values_cache_p).find(key);
+      if( (*values_cache_p).end() == it )
+      {
+        // Value not cached yet
+        return true;
+      }
+      else
+        last_val = it->second;
+    }
+
+    if( PropertyHelper::ValueComp<T>()(last_val, val) )
+      return false;
+
+    // The requested val is different than the old one => update cache
+    return true;
+  }
+}
+
+//-------------------------------------------------------------------------
+// PropertyHelper::cache_property_value
+//-------------------------------------------------------------------------
+template <class T>
+bool PropertyHelper::cache_property_value(Tango::DeviceImpl* dev_p,
+                                          const std::string& property_name,
+                                          T val, bool store)
+{
+  typedef typename std::map<DevAttrPair, T> LastMemValues;
+  static LastMemValues s_memorized_values;
+
+  return value_cache(dev_p, property_name, val, &s_memorized_values, store);
+}
 
 //-------------------------------------------------------------------------
 // PropertyHelper::set_property
@@ -45,21 +162,26 @@ void PropertyHelper::set_property(Tango::DeviceImpl* dev_p, const std::string& p
                                    static_cast<const char*>("PropertyHelper::set_property"));
   }
 
-  Tango::DbDatum current_value(property_name);
-  current_value << value;
-  Tango::DbData db_data;
-  db_data.push_back(current_value);
-  try
+  if( cache_property_value(dev_p, property_name, value, false) )
   {
-    dev_p->get_db_device()->put_property(db_data);
-  }
-  catch (Tango::DevFailed &df)
-  {
-    //- rethrow exception
-    Tango::Except::re_throw_exception(df,
-                                      static_cast<const char*>("TANGO_DEVICE_ERROR"),
-                                      static_cast<const char*>(std::string(df.errors[0].desc).c_str()),
-                                      static_cast<const char*>("PropertyHelper::set_property"));
+    Tango::DbDatum current_value(property_name);
+    current_value << value;
+    Tango::DbData db_data;
+    db_data.push_back(current_value);
+    try
+    {
+      dev_p->get_db_device()->put_property(db_data);
+      // Store value in cache
+      cache_property_value(dev_p, property_name, value, true);
+    }
+    catch (Tango::DevFailed &df)
+    {
+      //- rethrow exception
+      Tango::Except::re_throw_exception(df,
+                                        static_cast<const char*>("TANGO_DEVICE_ERROR"),
+                                        static_cast<const char*>(std::string(df.errors[0].desc).c_str()),
+                                        static_cast<const char*>("PropertyHelper::set_property"));
+    }
   }
 }
 
@@ -94,6 +216,7 @@ T PropertyHelper::get_property(Tango::DeviceImpl* dev_p, const std::string& prop
                                       static_cast<const char*>("PropertyHelper::get_property"));
   }
   db_data[0] >> value;
+  cache_property_value(dev_p, property_name, value, true);
   return value;
 }
 
@@ -129,6 +252,8 @@ void PropertyHelper::create_property_if_empty(Tango::DeviceImpl* dev_p,
     try
     {
       dev_p->get_db_device()->put_property(db_data);
+      // Store value in cache
+      cache_property_value(dev_p, property_name, value, true);
     }
     catch (Tango::DevFailed &df)
     {
@@ -142,6 +267,20 @@ void PropertyHelper::create_property_if_empty(Tango::DeviceImpl* dev_p,
 }
 
 #define PROP_VALUE_NAME "__value"
+
+//-------------------------------------------------------------------------
+// PropertyHelper::cache_memorized_attribute
+//-------------------------------------------------------------------------
+template <class T>
+bool PropertyHelper::cache_memorized_attribute(Tango::DeviceImpl* dev_p,
+                                               const std::string& attribute_name,
+                                               T val, bool store)
+{
+  typedef typename std::map<DevAttrPair, T> LastMemValues;
+  static LastMemValues s_memorized_values;
+
+  return value_cache(dev_p, attribute_name, val, &s_memorized_values, store);
+}
 
 //-------------------------------------------------------------------------
 // PropertyHelper::set_memorized_attribute
@@ -158,28 +297,34 @@ void PropertyHelper::set_memorized_attribute(Tango::DeviceImpl* dev_p,
                                    static_cast<const char*>("PropertyHelper::set_memorized_attribute"));
   }
 
-  Tango::DbData properties;
-
-  Tango::DbDatum prop_attr_name(attribute_name);
-  prop_attr_name << 1L;
-  properties.push_back(prop_attr_name);
-
-  Tango::DbDatum prop_name( PROP_VALUE_NAME );
-  prop_name << val;
-
-  properties.push_back(prop_name);
-
-  try
+  // Check value from cache or database
+  if( cache_memorized_attribute(dev_p, attribute_name, val, false) )
   {
-    dev_p->get_db_device()->put_attribute_property(properties);
-  }
-  catch (Tango::DevFailed &df)
-  {
-    //- rethrow exception
-    Tango::Except::re_throw_exception(df,
-                                      static_cast<const char*>("TANGO_DEVICE_ERROR"),
-                                      static_cast<const char*>(std::string(df.errors[0].desc).c_str()),
-                                      static_cast<const char*>("PropertyHelper::create_property_if_empty"));
+    Tango::DbData properties;
+
+    Tango::DbDatum prop_attr_name(attribute_name);
+    prop_attr_name << 1L;
+    properties.push_back(prop_attr_name);
+
+    Tango::DbDatum prop_name( PROP_VALUE_NAME );
+    prop_name << val;
+
+    properties.push_back(prop_name);
+
+    try
+    {
+      dev_p->get_db_device()->put_attribute_property(properties);
+      // Store value in cache
+      cache_memorized_attribute(dev_p, attribute_name, val, true);
+    }
+    catch (Tango::DevFailed &df)
+    {
+      //- rethrow exception
+      Tango::Except::re_throw_exception(df,
+                                        static_cast<const char*>("TANGO_DEVICE_ERROR"),
+                                        static_cast<const char*>(std::string(df.errors[0].desc).c_str()),
+                                        static_cast<const char*>("PropertyHelper::create_property_if_empty"));
+    }
   }
 }
 
@@ -210,6 +355,7 @@ T PropertyHelper::get_memorized_attribute(Tango::DeviceImpl* dev_p,
       dev_prop[i] >> value;
       if( dev_prop[i].name == PROP_VALUE_NAME )
       {
+        cache_memorized_attribute(dev_p, attribute_name, value, true);
         return value;
       }
     }
@@ -262,6 +408,7 @@ T PropertyHelper::get_memorized_attribute(Tango::DeviceImpl* dev_p,
       dev_prop[i] >> value;
       if( dev_prop[i].name == PROP_VALUE_NAME )
       {
+        cache_memorized_attribute(dev_p, attribute_name, value, true);
         return value;
       }
     }

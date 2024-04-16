@@ -95,6 +95,30 @@ public:
   //! \param default_value defaul value if there is no memorized value
   template <class T>
   static T get_memorized_attribute(Tango::DeviceImpl* dev_p, const std::string& name, T default_value);
+
+private:
+  typedef std::pair<Tango::DeviceImpl*, std::string> DevAttrPair;
+
+  template <class T>
+  static bool cache_memorized_attribute(Tango::DeviceImpl* dev_p,
+                                 const std::string& attribute_name, T val, bool store);
+  template <class T>
+  static bool cache_property_value(Tango::DeviceImpl* dev_p,
+                                 const std::string& property_name, T val, bool store);
+  template <class T>
+  static bool value_cache(Tango::DeviceImpl* dev_p, const std::string& name,
+                          T val, std::map<DevAttrPair, T>* values_cache_p,
+                          bool store);
+
+  template<typename T>
+  struct ValueComp
+  {
+    bool operator()(const T& v1, const T& v2)
+    {
+      return (v1 == v2);
+    }
+  };
+
 };
 
 } // namespace
