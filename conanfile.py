@@ -24,7 +24,7 @@ class yat4tangoRecipe(ConanFile):
     
     def requirements(self):
         self.requires("cpptango/9.2.5@soleil/stable", transitive_headers=True, transitive_libs=True)
-        self.requires("yat/1.21.0@soleil/stable", transitive_headers=True, transitive_libs=True)
+        self.requires("yat/1.21.1@soleil/stable", transitive_headers=True, transitive_libs=True)
 
     def config_options(self):
         if self.settings.os == "Windows":
