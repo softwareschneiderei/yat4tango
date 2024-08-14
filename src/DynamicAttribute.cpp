@@ -279,6 +279,100 @@ const ForwardedAttributeInfo& ForwardedAttributeInfo::operator= (const Forwarded
   return *this;
 }
 
+// ============================================================================
+// set_user_defined_properties
+// ============================================================================
+void set_user_defined_properties (Tango::Attr& a, const DynamicAttributeInfo& i)
+{
+  Tango::UserDefaultAttrProp  p;
+
+  if (i.tai.label.size())
+    p.set_label( i.tai.label.c_str() );
+
+  if (i.tai.description.size())
+    p.set_description( i.tai.description.c_str() );
+
+  if (i.tai.unit.size())
+    p.set_unit( i.tai.unit.c_str() );
+
+  if (i.tai.standard_unit.size())
+    p.set_standard_unit( i.tai.standard_unit.c_str() );
+
+  if (i.tai.display_unit.size())
+    p.set_display_unit( i.tai.display_unit.c_str() );
+
+  if (i.tai.format.size())
+    p.set_format( i.tai.format.c_str() );
+
+  if (i.tai.min_value.size())
+    p.set_min_value( i.tai.min_value.c_str() );
+
+  if (i.tai.max_value.size())
+    p.set_max_value( i.tai.max_value.c_str() );
+
+  if (i.tai.alarms.min_alarm.size())
+    p.set_min_alarm( i.tai.alarms.min_alarm.c_str() );
+
+  if (i.tai.alarms.max_alarm.size())
+    p.set_max_alarm( i.tai.alarms.max_alarm.c_str() );
+
+  if (i.tai.alarms.min_warning.size())
+    p.set_min_warning( i.tai.alarms.min_warning.c_str() );
+
+  if (i.tai.alarms.max_warning.size())
+    p.set_max_warning( i.tai.alarms.max_warning.c_str() );
+
+  if (i.tai.alarms.delta_t.size())
+    p.set_delta_t( i.tai.alarms.delta_t.c_str() );
+
+  if (i.tai.alarms.delta_val.size())
+    p.set_delta_val( i.tai.alarms.delta_val.c_str() );
+
+#if (TANGO_VERSION_MAJOR >= 8)
+  if (i.tai.events.per_event.period.size())
+    p.set_event_period(i.tai.events.per_event.period.c_str());
+
+  if (i.tai.events.ch_event.abs_change.size())
+    p.set_event_abs_change(i.tai.events.ch_event.abs_change.c_str());
+
+  if (i.tai.events.ch_event.rel_change.size())
+    p.set_event_rel_change(i.tai.events.ch_event.rel_change.c_str());
+
+  if (i.tai.events.arch_event.archive_period.size())
+    p.set_archive_event_period(i.tai.events.arch_event.archive_period.c_str());
+
+  if (i.tai.events.arch_event.archive_abs_change.size())
+    p.set_archive_event_abs_change(i.tai.events.arch_event.archive_abs_change.c_str());
+
+  if (i.tai.events.arch_event.archive_rel_change.size())
+    p.set_archive_event_rel_change(i.tai.events.arch_event.archive_rel_change.c_str());
+#endif
+
+#if (TANGO_VERSION_MAJOR >= 9)
+  if (!i.tai.enum_labels.empty())
+    p.set_enum_labels(const_cast<std::vector<std::string>&>(i.tai.enum_labels));
+#endif
+
+  a.set_default_properties(p);
+
+  if ( i.memorized )
+    a.set_memorized();
+
+  if ( i.write_memorized_value_at_init )
+    a.set_memorized_init(true);
+  else
+    a.set_memorized_init(false);
+
+  if ( i.polling_period_in_ms )
+    a.set_polling_period(i.polling_period_in_ms);
+
+  a.set_data_ready_event(i.data_ready_pushed_by_user_code);
+
+  a.set_change_event(i.change_evt_pushed_by_user_code, !i.change_evt_managed_by_user_code);
+
+  a.set_archive_event(i.archive_evt_pushed_by_user_code, !i.archive_evt_managed_by_user_code);
+
+}
 
 // ============================================================================
 // DynamicAttribute::DynamicAttribute
@@ -286,7 +380,25 @@ const ForwardedAttributeInfo& ForwardedAttributeInfo::operator= (const Forwarded
 DynamicAttribute::DynamicAttribute (const DynamicAttributeInfo & i)
  : Tango::LogAdapter(i.dev), dai_(i), dp_(0), da_(0), ta_p_(0)
 {
-  ta_p_ = DynamicAttributeClassRepository::register_attribute(this);
+  ta_p_ = DynamicAttributeClassRepository::get_tango_attribute(this);
+  if( !ta_p_ )
+  {
+    switch( dai_.tai.data_format )
+    {
+      case Tango::SCALAR:
+        ta_p_ = new DynamicScalarAttr(dai_);
+        break;
+      case Tango::SPECTRUM:
+        ta_p_ = new DynamicSpectrumAttr(dai_);
+        break;
+      case Tango::IMAGE:
+        ta_p_ = new DynamicImageAttr(dai_);
+        break;
+      case Tango::FMT_UNKNOWN:
+        throw yat::Exception("ERROR", "Unknown data format", "DynamicAttributeClassRepository::register_attribute");
+    }
+    set_user_defined_properties(*ta_p_, i);
+  }
 }
 
 // ============================================================================
@@ -298,7 +410,6 @@ DynamicAttribute::~DynamicAttribute ()
 
   //- removes attribute properties from the tango db
   //- !!!!!! this->cleanup_properties() !!!! THIS CAUSES A CRASH !!!!!!
-//  std::cout << "~DynamicAttribute " << this << std::endl;
   //((yat::String*)0)->append("a");
   //- release data (if any)
   delete da_;
@@ -442,7 +553,6 @@ void DynamicAttribute::read(Tango::Attribute& a)
   }
 
   check_device_state(dai_.read_allowed_states, Tango::READ_REQ);
-//  std::cout << "read request for " << dai_.dev << std::endl;
 
   DynamicAttributeReadCallbackData cbd;
   cbd.dev = this->dai_.dev;
@@ -1233,7 +1343,6 @@ DynamicAttribute * DynamicAttributeFactory::create_attribute (const yat4tango::D
                     "DynamicAttributeFactory::create_attribute");
   }
 
-//  std::cout << "Dynamic attribute created " << da << std::endl;
 	return da;
 }
 

@@ -49,6 +49,15 @@ namespace yat4tango
 // DynamicAttributeRepository
 // The dynamic attribute class repository.
 // This is an internal object class
+//
+// This class manage the relationship between device class, dynamic attributes and
+// device instance, it is necessary because when we ask tango to add a new
+// attribute it associates it with the device class rather than the device instance.
+// If we call DeviceImpl::add_attribute to add an attribute already added
+// for another device instance of the same class, Tango will silently delete
+// the Tango::Attr object!! :(
+// So the main goal of this manager is to avoid calling DeviceImple::add_attribute
+// for an attribute already added in a other device instance of the dserver.
 // ============================================================================
 class DynamicAttributeClassRepository : public yat::Singleton<DynamicAttributeClassRepository>
 {
@@ -59,9 +68,12 @@ public:
   typedef std::map<Tango::Attr*, yat::uint16> AttrNbDevs;
   typedef std::map<AttrDev, DynamicAttribute*> AttrMap;
 
-  static Tango::Attr* register_attribute(DynamicAttribute* da_p);
+  static void register_attribute(DynamicAttribute* da_p);
   static void unregister_attribute(Tango::Attr* attr_p, Tango::DeviceImpl* dev_p);
   static DynamicAttribute* get_dyn_attribute(Tango::Attr* ta_p, Tango::DeviceImpl* dev_p);
+  static Tango::Attr* get_tango_attribute(DynamicAttribute* da_p);
+
+  static yat::Mutex& get_mutex();
 
 private:
   MapClassAttrs class_attr_map_;

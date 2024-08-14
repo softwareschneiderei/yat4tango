@@ -412,7 +412,7 @@ protected:
 // ============================================================================
 class DynamicScalarAttr : public DynamicAttr, public Tango::Attr
 {
-  friend class DynamicAttributeClassRepository;
+  friend class DynamicAttribute;
 
 protected:
   void read(Tango::DeviceImpl* dev_p, Tango::Attribute& a)
@@ -434,7 +434,8 @@ private:
   DynamicScalarAttr(const DynamicAttributeInfo& dai)
   : Tango::Attr(dai.lan.c_str(), dai.tai.data_type,
                 dai.tai.disp_level, dai.tai.writable)
-  {}
+  {
+  }
 };
 
 // ============================================================================
@@ -442,7 +443,7 @@ private:
 // ============================================================================
 class DynamicSpectrumAttr : public DynamicAttr, public Tango::SpectrumAttr
 {
-  friend class DynamicAttributeClassRepository;
+  friend class DynamicAttribute;
 
 protected:
   void read(Tango::DeviceImpl* dev_p, Tango::Attribute& a)
@@ -472,7 +473,7 @@ private:
 // ============================================================================
 class DynamicImageAttr : public DynamicAttr, public Tango::ImageAttr
 {
-  friend class DynamicAttributeClassRepository;
+  friend class DynamicAttribute;
 
 protected:
   void read(Tango::DeviceImpl* dev_p, Tango::Attribute& a)

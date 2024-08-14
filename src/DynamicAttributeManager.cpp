@@ -34,6 +34,7 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
+#include <tango.h>
 #include <yat/threading/Mutex.h>
 #include <yat/utils/StringTokenizer.h>
 #include <yat4tango/DynamicAttributeManager.h>
@@ -79,113 +80,54 @@ bool DynamicAttr::req_is_allowed(Tango::Attr* ta_p, Tango::DeviceImpl* dev_p, Ta
   return false;
 }
 
-// ============================================================================
-// set_user_defined_properties
-// ============================================================================
-void set_user_defined_properties (Tango::Attr& a, const DynamicAttributeInfo& i)
-{
-  Tango::UserDefaultAttrProp  p;
-
-  if (i.tai.label.size())
-    p.set_label( i.tai.label.c_str() );
-
-  if (i.tai.description.size())
-    p.set_description( i.tai.description.c_str() );
-
-  if (i.tai.unit.size())
-    p.set_unit( i.tai.unit.c_str() );
-
-  if (i.tai.standard_unit.size())
-    p.set_standard_unit( i.tai.standard_unit.c_str() );
-
-  if (i.tai.display_unit.size())
-    p.set_display_unit( i.tai.display_unit.c_str() );
-
-  if (i.tai.format.size())
-    p.set_format( i.tai.format.c_str() );
-
-  if (i.tai.min_value.size())
-    p.set_min_value( i.tai.min_value.c_str() );
-
-  if (i.tai.max_value.size())
-    p.set_max_value( i.tai.max_value.c_str() );
-
-  if (i.tai.alarms.min_alarm.size())
-    p.set_min_alarm( i.tai.alarms.min_alarm.c_str() );
-
-  if (i.tai.alarms.max_alarm.size())
-    p.set_max_alarm( i.tai.alarms.max_alarm.c_str() );
-
-  if (i.tai.alarms.min_warning.size())
-    p.set_min_warning( i.tai.alarms.min_warning.c_str() );
-
-  if (i.tai.alarms.max_warning.size())
-    p.set_max_warning( i.tai.alarms.max_warning.c_str() );
-
-  if (i.tai.alarms.delta_t.size())
-    p.set_delta_t( i.tai.alarms.delta_t.c_str() );
-
-  if (i.tai.alarms.delta_val.size())
-    p.set_delta_val( i.tai.alarms.delta_val.c_str() );
-
-#if (TANGO_VERSION_MAJOR >= 8)
-  if (i.tai.events.per_event.period.size())
-    p.set_event_period(i.tai.events.per_event.period.c_str());
-
-  if (i.tai.events.ch_event.abs_change.size())
-    p.set_event_abs_change(i.tai.events.ch_event.abs_change.c_str());
-
-  if (i.tai.events.ch_event.rel_change.size())
-    p.set_event_rel_change(i.tai.events.ch_event.rel_change.c_str());
-
-  if (i.tai.events.arch_event.archive_period.size())
-    p.set_archive_event_period(i.tai.events.arch_event.archive_period.c_str());
-
-  if (i.tai.events.arch_event.archive_abs_change.size())
-    p.set_archive_event_abs_change(i.tai.events.arch_event.archive_abs_change.c_str());
-
-  if (i.tai.events.arch_event.archive_rel_change.size())
-    p.set_archive_event_rel_change(i.tai.events.arch_event.archive_rel_change.c_str());
-#endif
-
-#if (TANGO_VERSION_MAJOR >= 9)
-  if (!i.tai.enum_labels.empty())
-    p.set_enum_labels(const_cast<std::vector<std::string>&>(i.tai.enum_labels));
-#endif
-
-  a.set_default_properties(p);
-
-  if ( i.memorized )
-    a.set_memorized();
-
-  if ( i.write_memorized_value_at_init )
-    a.set_memorized_init(true);
-  else
-    a.set_memorized_init(false);
-
-  if ( i.polling_period_in_ms )
-    a.set_polling_period(i.polling_period_in_ms);
-
-  a.set_data_ready_event(i.data_ready_pushed_by_user_code);
-
-  a.set_change_event(i.change_evt_pushed_by_user_code, !i.change_evt_managed_by_user_code);
-
-  a.set_archive_event(i.archive_evt_pushed_by_user_code, !i.archive_evt_managed_by_user_code);
-
-}
 
 yat::Mutex DynamicAttributeClassRepository::s_mtx_;
 
 // ============================================================================
-// DynamicAttributeClassRepository::register_attribute
+// DynamicAttributeClassRepository::get_mutex
 // ============================================================================
-Tango::Attr* DynamicAttributeClassRepository::register_attribute(DynamicAttribute* da_p)
+yat::Mutex& DynamicAttributeClassRepository::get_mutex()
+{
+  return s_mtx_;
+}
+
+// ============================================================================
+// DynamicAttributeClassRepository::get_tango_attribute
+// ============================================================================
+Tango::Attr* DynamicAttributeClassRepository::get_tango_attribute(DynamicAttribute* da_p)
 {
   yat::AutoMutex<> _lock(s_mtx_);
-
   const DynamicAttributeInfo& dai = da_p->get_dai();
-  Tango::DeviceClass* class_p = dai.dev->get_device_class();
 
+  Tango::DeviceClass* class_p = dai.dev->get_device_class();
+  MapClassAttrs::iterator it = instance().class_attr_map_.find(class_p);
+  if( it != instance().class_attr_map_.end() )
+  {
+    const Attrs& attrs = it->second;
+    for( std::size_t i = 0; i < attrs.size(); ++i )
+    {
+      //- check if dai name match a Tango attribute already created and registered
+      if( yat::String(dai.lan).is_equal_no_case(attrs[i]->get_name()) )
+      {
+        if( instance().attr_nb_devs_map_.find(attrs[i]) != instance().attr_nb_devs_map_.end() )
+          return attrs[i];
+      }
+    }
+  }
+  return NULL;
+}
+
+// ============================================================================
+// DynamicAttributeClassRepository::register_attribute
+// ============================================================================
+void DynamicAttributeClassRepository::register_attribute(DynamicAttribute* da_p)
+{
+  yat::AutoMutex<> _lock(s_mtx_);
+  const DynamicAttributeInfo& dai = da_p->get_dai();
+// std::cout << "register attr " << dai.tai.name << std::endl;
+  Tango::Attr *ta_p = da_p->get_tango_attribute();
+
+  Tango::DeviceClass* class_p = dai.dev->get_device_class();
   MapClassAttrs::iterator it = instance().class_attr_map_.find(class_p);
   if( it != instance().class_attr_map_.end() )
   {
@@ -200,54 +142,14 @@ Tango::Attr* DynamicAttributeClassRepository::register_attribute(DynamicAttribut
           instance().attr_nb_devs_map_[attrs[i]] = 1;
 
         instance().attrs_map_[std::make_pair(attrs[i], dai.dev)] = da_p;
-        return attrs[i];
+        return;
       }
     }
   }
 
-  Tango::Attr *ta_p = 0;
-  switch( dai.tai.data_format )
-  {
-    case Tango::SCALAR:
-      ta_p = new DynamicScalarAttr(dai);
-      break;
-    case Tango::SPECTRUM:
-      ta_p = new DynamicSpectrumAttr(dai);
-      break;
-    case Tango::IMAGE:
-      ta_p = new DynamicImageAttr(dai);
-      break;
-    case Tango::FMT_UNKNOWN:
-      throw yat::Exception("ERROR", "Unknown data format", "DynamicAttributeClassRepository::register_attribute");
-  }
-
-  set_user_defined_properties(*ta_p, dai);
   instance().class_attr_map_[class_p].push_back(ta_p);
   instance().attr_nb_devs_map_[ta_p] = 1;
   instance().attrs_map_[std::make_pair(ta_p, dai.dev)] = da_p;
-
-   //- add the dynamic attribute to the device interface
-  try
-  {
-    dai.dev->add_attribute(ta_p);
-  }
-  catch (Tango::DevFailed& ex)
-  {
-    RETHROW_DEVFAILED(ex,
-                      "API_ERROR",
-                      yat::Format("couldn't add dynamic attribute <{}>"
-                                  " - Tango exception caught").arg(dai.lan).cget(),
-                      "DynamicAttributeManager::add_attribute");
-  }
-  catch (...)
-  {
-    THROW_DEVFAILED("API_ERROR",
-                    yat::Format("couldn't add dynamic attribute <{}>"
-                                " - Unknown exception caught").arg(dai.lan).cget(),
-                    "DynamicAttributeManager::add_attribute");
-  }
-
-  return ta_p;
 }
 
 // ============================================================================
@@ -264,9 +166,21 @@ void DynamicAttributeClassRepository::unregister_attribute(Tango::Attr* attr_p,
   {
     DynamicAttribute* dyn_attr_p = it1->second;
 
+    //- remove from class repository
     AttrNbDevs::iterator it2 = instance().attr_nb_devs_map_.find(attr_p);
     if( it2 != instance().attr_nb_devs_map_.end() )
     {
+      if( 1 == instance().attr_nb_devs_map_[attr_p] )
+      {
+        //- remove the Tango::Attr from the device's class interface, may throw
+    #if (TANGO_VERSION_MAJOR >= 8)
+        bool cdb = dyn_attr_p->get_dai().memorized ? false : dyn_attr_p->get_dai().cdb;
+        dev_p->remove_attribute(attr_p, true, cdb);
+    #else
+        dev_p->remove_attribute(attr_p, true);
+    #endif
+      }
+
       --instance().attr_nb_devs_map_[attr_p];
       if( 0 == instance().attr_nb_devs_map_[attr_p] )
       {
@@ -287,20 +201,14 @@ void DynamicAttributeClassRepository::unregister_attribute(Tango::Attr* attr_p,
             }
           }
           if( attrs.size() == 0 )
+          {
             //- remove the relation between Tango::DeviceClass and
             //  vector<Tango::Attr> which is now empty
             instance().class_attr_map_.erase(it3);
+          }
         }
         //- remove the devices counter for the Tango::Attr
         instance().attr_nb_devs_map_.erase(it2);
-
-        //- remove the Tango::Attr from the device's class interface
-    #if (TANGO_VERSION_MAJOR >= 8)
-        bool cdb = dyn_attr_p->get_dai().memorized ? false : dyn_attr_p->get_dai().cdb;
-        dev_p->remove_attribute(attr_p, true, cdb);
-    #else
-        dev_p->remove_attribute(attr_p, true);
-    #endif
       }
     }
 
@@ -447,6 +355,9 @@ void DynamicAttributeManager::add_attribute (const yat4tango::DynamicAttributeIn
                     "DynamicAttributeManager::add_attribute");
   }
 
+  //- protect the whole creation process
+  yat::AutoMutex<> _lock(DynamicAttributeClassRepository::get_mutex());
+
   //- instanciate the dynamic attribute (might throw an exception)
   DynamicAttribute * da = DynamicAttributeFactory::instance().create_attribute(dai);
 
@@ -506,6 +417,35 @@ void DynamicAttributeManager::add_attribute (yat4tango::DynamicAttribute * da)
                     oss.str().c_str(),
                     "DynamicAttributeManager::add_attribute");
   }
+
+  if( NULL == DynamicAttributeClassRepository::get_tango_attribute(da) )
+  { //- the attribute is new for the device's tango class
+    //- add it to the device class interface through the device interface
+    try
+    {
+      da->dai_.dev->add_attribute(ta);
+    }
+    catch (Tango::DevFailed& ex)
+    {
+      delete ta;
+      RETHROW_DEVFAILED(ex,
+                        "API_ERROR",
+                        yat::Format("couldn't add dynamic attribute <{}>"
+                                    " - Tango exception caught").arg(da->dai_.lan).cget(),
+                        "DynamicAttributeManager::add_attribute");
+    }
+    catch (...)
+    {
+      delete ta;
+      THROW_DEVFAILED("API_ERROR",
+                      yat::Format("couldn't add dynamic attribute <{}>"
+                                  " - Unknown exception caught").arg(da->dai_.lan).cget(),
+                      "DynamicAttributeManager::add_attribute");
+    }
+  }
+
+  //- register attribute in class repository
+  DynamicAttributeClassRepository::register_attribute(da);
 
   //- insert the attribute into the local repository
   std::pair<DynamicAttributeIterator, bool> insertion_result;
@@ -688,7 +628,7 @@ void DynamicAttributeManager::remove_attribute (const std::string& an)
                     "DynamicAttributeManager::remove_attribute");
   }
 
-  //- then... remove is from the local repository
+  //- then... remove it from the local repository
   this->rep_.erase(it);
 };
 
@@ -702,14 +642,21 @@ void DynamicAttributeManager::remove_attributes()
   if ( ! this->dev_ )
     return;
 
-  for (DynamicAttributeIterator it = this->rep_.begin(); it != this->rep_.end(); ++it)
+  for( DynamicAttributeIterator it = this->rep_.begin(); it != this->rep_.end(); )
   {
     //- remove attribute from the device interface
     try
     {
       DynamicAttribute* da = (*it).second;
+      DynamicAttributeIterator it_next = it;
+      ++it_next;
+      //- remove from device interface then from class repository if needed
       DynamicAttributeClassRepository::unregister_attribute(da->get_tango_attribute(), dev_);
       delete da;
+      //- then... remove it from the local repository
+      this->rep_.erase(it);
+      //- next element
+      it = it_next;
     }
     catch (Tango::DevFailed& ex)
     {
@@ -725,9 +672,6 @@ void DynamicAttributeManager::remove_attributes()
                       "DynamicAttributeManager::remove_attribute");
     }
   }
-
-  //- finally, clear the repository...
-  this->rep_.clear();
 }
 
 } // namespace

@@ -1,5 +1,12 @@
 YAT4Tango history file
 
+1.14.1 (2024/07/15)
+===================
+
+Fixes
+    Dynamic attributes creation/deletion may cause crash if managed outside
+    of init_delete/delete_device methods
+
 1.14.0 (2024/04/03)
 ===================
 

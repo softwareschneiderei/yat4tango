@@ -3,7 +3,7 @@ from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
 
 class yat4tangoRecipe(ConanFile):
     name = "yat4tango"
-    version = "1.14.0"
+    version = "1.14.1"
     package_type = "library"
     user = "soleil"
 
