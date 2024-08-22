@@ -12,7 +12,7 @@ find_package(cpptango CONFIG REQUIRED)
 find_package(yat CONFIG REQUIRED)
 
 add_compile_definitions(YAT4TANGO_PROJECT_NAME=${PROJECT_NAME})
-add_compile_definitions(YAT4TANGO_PROJECT_VERSION=${VERSION})
+add_compile_definitions(YAT4TANGO_PROJECT_VERSION=${PROJECT_VERSION})
 
 if (UNIX)
     add_definitions(-std=c++0x)

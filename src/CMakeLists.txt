@@ -27,7 +27,7 @@ target_include_directories(yat4tango PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(yat4tango ${yat_LIBRARIES} ${cpptango_LIBRARIES})
 
 if(MAJOR_VERSION)
-  set_target_properties (yat4tango PROPERTIES VERSION ${VERSION} SOVERSION ${MAJOR_VERSION})
+  set_target_properties (yat4tango PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION ${MAJOR_VERSION})
 endif()
 
 install (DIRECTORY ${CMAKE_SOURCE_DIR}/include/yat4tango DESTINATION include
