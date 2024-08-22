@@ -5,3 +5,7 @@ CMakeFiles
 pom_win.xml
 CMakeUserPresets.json
 build
+.settings
+.project
+.cdtproject
+.cproject
