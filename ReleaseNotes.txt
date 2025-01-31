@@ -1,5 +1,12 @@
 YAT4Tango history file
 
+1.14.2 (2025/01/31)
+===================
+
+Additions
+    New macros Y4T_LOG_DEBUG, Y4T_LOG_INFO,Y4T_LOG_WARNING,Y4T_LOG_ERROR
+    -> see <yat4tango/LogHelper.h>
+
 1.14.1 (2024/07/15)
 ===================
 
