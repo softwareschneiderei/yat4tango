@@ -205,6 +205,36 @@ private:
   log4tango::Logger* logger_;
 };
 
+//- Macros to ease the use of formatted log methods in class instance inherited
+//  from TangoLogAdapter
+//  usage:
+//  Y4T_LOG_INFO("msg with this value: {} and this one: {}", value1, value2);
+//  Y4T_LOG_INFO("msg with no argument");
+//  Thus the arguments values are now between parenthesis!
+#define Y4T_LOG_DEBUG(s, ...) \
+do \
+{ \
+  debug(s), ##__VA_ARGS__; \
+} while(0)
+
+#define Y4T_LOG_INFO(s, ...) \
+do \
+{ \
+  info(s), ##__VA_ARGS__; \
+} while(0)
+
+#define Y4T_LOG_WARNING(s, ...) \
+do \
+{ \
+  warn(s), ##__VA_ARGS__; \
+} while(0)
+
+#define Y4T_LOG_ERROR(s, ...) \
+do \
+{ \
+  error(s), ##__VA_ARGS__; \
+} while(0)
+
 #if defined (YAT4TANGO_ENABLE_TRACE)
 
 // ============================================================================
