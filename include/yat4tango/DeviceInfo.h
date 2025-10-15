@@ -37,7 +37,7 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
-#include <tango.h>
+#include <tango/tango.h>
 #include <deque>
 #include <yat/Version.h>
 #include <yat/utils/String.h>

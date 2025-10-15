@@ -51,6 +51,6 @@
 
 #include <yat/CommonHeader.h>
 #include <yat4tango/Export.h>
-#include <tango.h>
+#include <tango/tango.h>
 
 #endif

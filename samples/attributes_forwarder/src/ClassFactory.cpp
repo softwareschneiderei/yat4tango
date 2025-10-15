@@ -36,7 +36,7 @@ static const char *RcsId = "$Id:  $";
 //=============================================================================
 
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <AttributesForwarderClass.h>
 
 //	Add class header files if needed

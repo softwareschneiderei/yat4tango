@@ -29,6 +29,7 @@
 // ============================================================================
 #include <iostream>
 #include <limits>
+#include <string>
 #include <yat/threading/Mutex.h>
 
 namespace yat4tango
@@ -226,7 +227,7 @@ T PropertyHelper::get_property(Tango::DeviceImpl* dev_p, const std::string& prop
 template <class T>
 void PropertyHelper::create_property_if_empty(Tango::DeviceImpl* dev_p,
                                               Tango::DbData& dev_prop,
-                                              T value, string property_name)
+                                              T value, std::string property_name)
 {
   std::size_t iNbProperties = dev_prop.size();
   std::size_t i;

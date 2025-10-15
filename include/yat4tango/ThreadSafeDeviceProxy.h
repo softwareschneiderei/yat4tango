@@ -36,6 +36,8 @@
 
 #include <yat/threading/Mutex.h>
 #include <yat4tango/CommonHeader.h>
+#include <string>
+#include <vector>
 
 namespace yat4tango
 {
@@ -270,7 +272,7 @@ public:
   //! \param filters List of additional filtering reasons.
   //! \exception Tango::DevFailed Thrown if an error occurs during
   //! the operation.
-  int subscribe_event(const string &attr_name,
+  int subscribe_event(const std::string &attr_name,
                       Tango::EventType event,
                       Tango::CallBack *cb,
                       const std::vector<std::string> &filters);

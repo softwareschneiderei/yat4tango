@@ -278,7 +278,7 @@ YAT_INLINE int
 ThreadSafeDeviceProxy::subscribe_event(const std::string &attr_name, 
                                        Tango::EventType event, 
                                        Tango::CallBack *cb, 
-                                       const vector<string> &filters) 
+                                       const std::vector<std::string> &filters) 
 {
   yat::AutoMutex<> guard(this->lock_);
   return this->dp_.subscribe_event(attr_name, event, cb, filters);

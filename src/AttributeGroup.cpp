@@ -35,6 +35,7 @@
 // DEPENDENCIES
 // ============================================================================
 #include <yat4tango/AttributeGroup.h>
+#include <vector>
 
 namespace yat4tango
 {
@@ -530,7 +531,7 @@ AttributeGroupReplyList AttributeGroup::read ()
       Tango::DeviceProxy * dev_proxy = m_dev_proxy_map[dev_name];
 
       //- the attribute values
-      vector<Tango::DeviceAttribute> * values = 0;
+      std::vector<Tango::DeviceAttribute> * values = 0;
 
       try
       {

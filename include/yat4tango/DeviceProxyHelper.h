@@ -41,7 +41,7 @@
 #else
   #include <unistd.h>
 #endif
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat/memory/SharedPtr.h>
 #include <yat/threading/Thread.h>
 #include <yat/threading/Pulser.h>

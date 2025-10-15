@@ -171,27 +171,32 @@ public:
 
   ~LogFormat()
   {
-    switch( level_ )
-    {
-      case Tango::LOG_DEBUG:
-        logger_->debug(get());
-        break;
-      case Tango::LOG_INFO:
-        logger_->info(get());
-        break;
-      case Tango::LOG_WARN:
-        logger_->warn(get());
-        break;
-      case Tango::LOG_ERROR:
-        logger_->error(get());
-        break;
-      case Tango::LOG_FATAL:
-        logger_->fatal(get());
-        break;
-      default:
-        break;
-    }
+      if (logger_)
+      {
+          auto msg = get().c_str();  // conversion yat::String -> const char*
+          switch (level_)
+          {
+          case Tango::LOG_DEBUG:
+              logger_->debug(__FILE__, __LINE__, msg);
+              break;
+          case Tango::LOG_INFO:
+              logger_->info(__FILE__, __LINE__, msg);
+              break;
+          case Tango::LOG_WARN:
+              logger_->warn(__FILE__, __LINE__, msg);
+              break;
+          case Tango::LOG_ERROR:
+              logger_->error(__FILE__, __LINE__, msg);
+              break;
+          case Tango::LOG_FATAL:
+              logger_->fatal(__FILE__, __LINE__, msg);
+              break;
+          default:
+              break;
+          }
+      }
   }
+
 
 private:
   LogFormat(const std::string& s, int l, log4tango::Logger* p): yat::Format(s, false),

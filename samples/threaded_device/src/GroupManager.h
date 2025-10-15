@@ -42,7 +42,7 @@
 #ifndef _GroupManager_H
 #define _GroupManager_H
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat4tango/InnerAppender.h>
 //using namespace Tango;
 #include "GroupManagerTask.h"

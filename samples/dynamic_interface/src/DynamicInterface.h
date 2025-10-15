@@ -36,7 +36,7 @@
 #define DynamicInterface_H
 
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat4tango/DynamicInterfaceManager.h>
 
 /*----- PROTECTED REGION END -----*/

@@ -34,7 +34,7 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat/threading/Mutex.h>
 #include <yat/utils/StringTokenizer.h>
 #include <yat4tango/DynamicAttributeManager.h>

@@ -47,7 +47,7 @@
 #ifndef _GroupManagerCLASS_H
 #define _GroupManagerCLASS_H
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <GroupManager.h>
 
 

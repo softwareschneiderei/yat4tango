@@ -39,7 +39,7 @@
 // ============================================================================
 #include <deque>
 #include <map>
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat/threading/Mutex.h>
 #include <yat/utils/String.h>
 #include <yat/memory/SharedPtr.h>

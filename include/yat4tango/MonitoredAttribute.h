@@ -37,7 +37,7 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat4tango/ExceptionHelper.h>
 #include <yat/threading/Mutex.h>
 

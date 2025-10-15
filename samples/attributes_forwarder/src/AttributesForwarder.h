@@ -36,7 +36,7 @@
 #define ATTRIBUTESFORWARDER_H
 
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat4tango/DynamicAttributeManager.h>
 
 /*----- PROTECTED REGION END -----*/

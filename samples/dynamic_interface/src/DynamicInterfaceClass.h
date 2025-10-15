@@ -37,7 +37,7 @@
 #ifndef DynamicInterfaceCLASS_H
 #define DynamicInterfaceCLASS_H
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <DynamicInterface.h>
 
 /*----- PROTECTED REGION END -----*/

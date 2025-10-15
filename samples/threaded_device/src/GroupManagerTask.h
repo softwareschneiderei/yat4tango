@@ -24,7 +24,7 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
-#include <tango.h>
+#include <tango/tango.h>
 
 #include <yat/any/GenericContainer.h>
 #include <yat/memory/DataBuffer.h>

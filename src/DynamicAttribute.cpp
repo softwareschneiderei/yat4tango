@@ -41,7 +41,7 @@
 #endif
 #include "yat/utils/StringTokenizer.h"
 #include "yat4tango/DynamicAttributeManager.h"
-#include <devapi.h>
+#include <tango/devapi.h>
 
 namespace yat4tango
 {

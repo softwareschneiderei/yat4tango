@@ -42,7 +42,7 @@ static const char *RcsId = "$Header: /usr/local/CVS/Libraries/YAT4tango/samples/
 //=============================================================================
 
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <GroupManagerClass.h>
 
 /**

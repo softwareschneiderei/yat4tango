@@ -37,7 +37,7 @@
 //=============================================================================
 // DEPENDENCIES
 //=============================================================================
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat/utils/String.h>
 
 namespace yat // formatters have to be defined in the yat namespace

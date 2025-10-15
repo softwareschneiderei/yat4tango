@@ -39,7 +39,7 @@
 #ifndef ATTRIBUTESFORWARDERCLASS_H
 #define ATTRIBUTESFORWARDERCLASS_H
 
-#include <tango.h>
+#include <tango/tango.h>
 #include <AttributesForwarder.h>
 
 /*----- PROTECTED REGION END -----*/

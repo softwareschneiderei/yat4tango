@@ -1,10 +1,4 @@
 conan.create([
-    'el6-gcc44-x86_64-shared', 
-    'el6-gcc44-x86-shared', 
-    'el7-gcc48-x86_64-shared', 
-    'win7-msvc12-x86', 
-    'win7-msvc12-x86-shared', 
-    'win10-msvc12-x86_64-shared', 
-    'win10-msvc14-x86-shared', 
-    'win10-msvc14-x86_64-shared', 
-    ])
+    'el7-gcc11-x86_64-shared' 
+])
+

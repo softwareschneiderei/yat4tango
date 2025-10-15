@@ -21,7 +21,7 @@ class yat4tangoRecipe(ConanFile):
     exports_sources = "CMakeLists.txt", "src/**", "include/**"
     
     def requirements(self):
-        self.requires("cpptango/9.2.5@soleil/stable", transitive_headers=True, transitive_libs=True)
+        self.requires("cpptango/10.0.2@soleil/stable", transitive_headers=True, transitive_libs=True)
         self.requires("yat/[>=1.0]@soleil/stable", transitive_headers=True, transitive_libs=True)
 
     def package_info(self):

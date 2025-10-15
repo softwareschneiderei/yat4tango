@@ -715,8 +715,23 @@ int FileAppender::_append(const log4tango::LoggingEvent& event)
       const std::string sep(" | ");
 
       yat::Time tm_log;
-      tm_log.set_double_unix(event.timestamp.get_seconds());
-      tm_log.add_sec(double(event.timestamp.get_microseconds()) / MICROSEC_PER_SEC);
+
+#if defined(TANGO_VERSION_MAJOR) && TANGO_VERSION_MAJOR >= 10
+      // --- Tango 10 ---
+      auto micros_since_epoch = std::chrono::duration_cast<std::chrono::microseconds>(
+                                  event.timestamp.time_since_epoch()).count();
+
+      auto secs  = micros_since_epoch / 1'000'000;
+      auto usecs = micros_since_epoch % 1'000'000;
+#else
+      // --- Tango 9 ---
+      auto secs  = event.timestamp.get_seconds();
+      auto usecs = event.timestamp.get_microseconds();
+#endif
+
+      tm_log.set_double_unix(static_cast<double>(secs));
+      tm_log.add_sec(static_cast<double>(usecs) / MICROSEC_PER_SEC);
+
       tm_log.to_local();
 
       //- reformat the incomming LoggingEvent
