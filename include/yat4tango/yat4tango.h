@@ -85,6 +85,7 @@
 //!
 //!   - Misc:
 //!     - yat4tango::DeviceInfo
+//!     - yat4tango::DeviceStateManager
 //!
 //!   - The following classes are \b OBSOLETE:
 //!     - yat4tango::ThreadSafeDeviceProxy

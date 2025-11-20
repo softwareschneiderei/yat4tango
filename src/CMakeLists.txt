@@ -20,6 +20,7 @@ set (source_files
   Logging.cpp
   ArchEventPusher.cpp
   LogHelper.cpp
+  DeviceStateManager.cpp
 )
 
 add_library (yat4tango ${source_files})
