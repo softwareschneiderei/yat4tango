@@ -2,7 +2,7 @@ from conan import ConanFile
 
 class yat4tangoRecipe(ConanFile):
     name = "yat4tango"
-    version = "1.14.2"
+    version = "1.15.0"
     package_type = "library"
     user = "soleil"
     python_requires = "base/[>=1.0]@soleil/stable"
