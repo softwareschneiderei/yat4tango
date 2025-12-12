@@ -1609,6 +1609,34 @@ public:
   }
 
   //---------------------------------------------------------------------------
+  //  DeviceProxyHelper::get_property
+  //---------------------------------------------------------------------------
+  template <typename C>
+  C get_property (const std::string& property_name, bool throw_exception_on_error = true)
+  {
+    try
+    {
+      try
+      {
+        Tango::DbData dev_prop;
+        C prop_val;
+        dev_prop.push_back(Tango::DbDatum(property_name));
+        tango_proxy()->get_property(dev_prop);
+        dev_prop[0] >> prop_val;
+        return prop_val;
+      }
+      _HANDLE_TANGO_DEVICE_EXCEPTION("get_property", "yat4tango::DeviceProxyHelper::get_property");
+    }
+    catch (...)
+    {
+      if ( throw_exception_on_error )
+        throw;
+	  else
+        return prop_val;
+    }
+  }
+
+  //---------------------------------------------------------------------------
   //  AttributeHelper::restore_properties_snapshot
   //---------------------------------------------------------------------------
   void restore_properties_snapshot (Tango::DevState expected_post_init_state, std::size_t tmo_sec, bool throw_exception_on_error = true)
