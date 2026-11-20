@@ -149,7 +149,7 @@ public:
   //! \param tmo_msecs Timeout in ms.
   //! \exception INTERNAL_ERROR Thrown when message cannot be posted (msgQ error).
   //! \exception TIMEOUT_EXPIRED Thrown when timeout expires.
-  void post (yat::Message * msg, size_t tmo_msecs = kDEFAULT_POST_MSG_TMO);
+  int post (yat::Message * msg, size_t tmo_msecs = kDEFAULT_POST_MSG_TMO);
 
   //! \brief Posts the specified message type to the task asynchronously (i.e. does NOT wait for
   //! the message to be handled, but still waits for the message to be posted).
@@ -157,7 +157,7 @@ public:
   //! \param tmo_msecs Timeout in ms.
   //! \exception INTERNAL_ERROR Thrown when message cannot be posted (msgQ error).
   //! \exception TIMEOUT_EXPIRED Thrown when timeout expires.
-  void post (size_t msg_type, size_t tmo_msecs = kDEFAULT_MSG_TMO_MSECS);
+  int post (size_t msg_type, size_t tmo_msecs = kDEFAULT_MSG_TMO_MSECS);
 
   //! \brief Posts the specified message type with specified data to the task asynchronously
   //! (i.e. does NOT wait for the message to be handled, but still waits for the message to be posted).
