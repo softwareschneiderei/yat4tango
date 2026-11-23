@@ -17,7 +17,7 @@ add_compile_definitions(YAT4TANGO_PROJECT_NAME=${PROJECT_NAME})
 add_compile_definitions(YAT4TANGO_PROJECT_VERSION=${PROJECT_VERSION})
 
 if (UNIX)
-    add_definitions(-std=c++0x)
+    add_definitions(-std=c++14)
 endif()
 
 if (WIN32)
