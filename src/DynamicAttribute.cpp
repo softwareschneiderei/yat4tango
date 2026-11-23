@@ -41,8 +41,11 @@
 #endif
 #include "yat/utils/StringTokenizer.h"
 #include "yat4tango/DynamicAttributeManager.h"
+#if defined(TANGO_VERSION_MAJOR) && ((TANGO_VERSION_MAJOR >= 10) || (TANGO_VERSION_MAJOR >= 9 && TANGO_VERSION_MINOR >= 5))
+#include <tango/client/devapi.h>
+#else
 #include <tango/devapi.h>
-
+#endif
 namespace yat4tango
 {
 

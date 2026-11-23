@@ -663,7 +663,7 @@ int InnerAppender::_append (const log4tango::LoggingEvent& event)
     yat::Time tm_log;
 
 
-#if defined(TANGO_VERSION_MAJOR) && TANGO_VERSION_MAJOR >= 10
+#if defined(TANGO_VERSION_MAJOR) && ((TANGO_VERSION_MAJOR >= 10) || (TANGO_VERSION_MAJOR >= 9 && TANGO_VERSION_MINOR >= 5))
     // --- Tango 10 ---
     auto micros_since_epoch = std::chrono::duration_cast<std::chrono::microseconds>(
                                   event.timestamp.time_since_epoch()).count();
