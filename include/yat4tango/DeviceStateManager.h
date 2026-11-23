@@ -37,7 +37,7 @@
 // ============================================================================
 // DEPENDENCIES
 // ============================================================================
-#include <tango.h>
+#include <tango/tango.h>
 #include <yat/memory/SharedPtr.h>
 #include <yat/threading/Mutex.h>
 #include <yat4tango/CommonHeader.h>
