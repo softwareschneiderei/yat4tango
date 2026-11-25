@@ -35,17 +35,22 @@ endif()
 add_subdirectory (src)
 
 if (UNIX AND EXISTS ${CMAKE_SOURCE_DIR}/yat4tango.pc.in)
-  configure_file("${CMAKE_SOURCE_DIR}/yat4tango.pc.in"
-      "${CMAKE_BINARY_DIR}/yat4tango.pc" @ONLY IMMEDIATE)
-  install(FILES ${CMAKE_BINARY_DIR}/yat4tango.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
+    configure_file("${CMAKE_SOURCE_DIR}/yat4tango.pc.in" "${CMAKE_BINARY_DIR}/yat4tango.pc" @ONLY IMMEDIATE)
+    install(FILES ${CMAKE_BINARY_DIR}/yat4tango.pc DESTINATION ${LIB_INSTALL_DIR}/pkgconfig)
 endif()
+
+if (UBUNTU_VERSION VERSION_EQUAL 26.04)
+    set(DEBIAN_TANGO_DEPENDENCY_NAME "libtango95")
+else ()
+    set(DEBIAN_TANGO_DEPENDENCY_NAME "libtango9")
+endif ()
 
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_CONTACT "Mihael Koep <mihael.koep@softwareschneiderei.de>")
 set(CPACK_GENERATOR DEB)
 set(CPACK_DEBIAN_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
-set(CPACK_DEBIAN_PACKAGE_RELEASE 1ubuntu~${UBUNTU_VERSION})
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "yat, libtango9")
+set(CPACK_DEBIAN_PACKAGE_RELEASE 2ubuntu~${UBUNTU_VERSION})
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "yat, ${DEBIAN_TANGO_DEPENDENCY_NAME}")
 
 include(CPack)
